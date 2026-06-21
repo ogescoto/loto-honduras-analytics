@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: activo
-actualizado: 2026-06-20
+actualizado: 2026-06-21
 ---
 
 # C4 · Diagrama de Contexto
@@ -24,7 +24,7 @@ Nivel 1 del modelo C4: el sistema **Loto Honduras Analytics** y sus actores y si
 ## Sistemas externos
 - **Cloudflare (edge):** ejecuta frontend, API y cron en nodos perimetrales globales.
 - **Neon DB:** Postgres serverless de producción (vía `@neondatabase/serverless`).
-- **Stripe:** pagos en línea (vía pago `stripe`). *Integración prevista (módulo `payments/` protegido); aún no implementada en el andamiaje.*
+- **Stripe:** pagos en línea (vía pago `stripe`). Integración **implementada** vía API REST + webhook firmado en el módulo 🔒 [[04_Modulos/Pagos|Pagos]] (ver [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003]]).
 - **Fuente oficial de la Lotería de Honduras:** sitio del que se extraen los sorteos.
 - **Scrapoxy:** súper-proxy rotativo que intermedia las peticiones del scraper hacia la fuente para evitar bloqueos.
 
@@ -48,11 +48,12 @@ C4Context
   Rel(admin, fe, "Administra", "HTTPS")
   Rel(fe, be, "Llama API", "HTTPS/JSON")
   Rel(be, neon, "Lee/escribe", "SQL")
-  Rel(be, stripe, "Cobra (previsto)", "HTTPS")
+  Rel(be, stripe, "Cobra (REST + webhook)", "HTTPS")
   Rel(cron, proxy, "Solicita vía proxy", "HTTP")
   Rel(proxy, loto, "Scrapea", "HTTPS")
   Rel(cron, neon, "Persiste sorteos", "SQL")
 ```
 
 ## Historial de cambios
+- 2026-06-21: Stripe pasa de "previsto" a integración implementada (módulo Pagos, ADR-0003).
 - 2026-06-20: creación inicial.

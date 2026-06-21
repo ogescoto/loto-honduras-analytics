@@ -1,0 +1,27 @@
+---
+// Muestra una lista de números como "bolas" de lotería.
+interface Props {
+  numbers: number[];
+  highlight?: boolean;
+}
+const { numbers, highlight = false } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2">
+  {
+    numbers.length === 0 ? (
+      <span class="text-sm text-slate-400">Sin datos suficientes</span>
+    ) : (
+      numbers.map((n) => (
+        <span
+          class:list={[
+            "flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold shadow-sm",
+            highlight ? "bg-brand text-white" : "bg-white text-brand-dark ring-1 ring-brand/30",
+          ]}
+        >
+          {String(n).padStart(2, "0")}
+        </span>
+      ))
+    )
+  }
+</div>

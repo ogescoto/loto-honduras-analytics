@@ -32,3 +32,24 @@ export interface MetaPatternResult {
   targetNumbers: number[];
   confidenceScore: string;
 }
+
+/** POST /api/v1/auth/login */
+export interface LoginDto {
+  email: string;
+}
+
+export interface LoginResult {
+  token: string;
+  user: { id: string; email: string; role: import("./domain.js").UserRole };
+}
+
+/** POST /api/v1/payments/checkout — inicia checkout de suscripción online (Stripe). */
+export interface CreateCheckoutDto {
+  /** Meses de suscripción a comprar. */
+  validityMonths: number;
+}
+
+export interface CreateCheckoutResult {
+  /** URL de Stripe Checkout a la que redirigir al cliente. */
+  checkoutUrl: string;
+}

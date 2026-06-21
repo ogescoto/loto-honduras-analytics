@@ -1,7 +1,7 @@
 ---
 tipo: indice
 estado: activo
-actualizado: 2026-06-20
+actualizado: 2026-06-21
 ---
 
 # Mapa de Contenidos — Loto Honduras Analytics
@@ -22,6 +22,7 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
 - ADRs:
   - [[02_Arquitectura/adr/0001-adopcion-del-framework-de-gobernanza|ADR-0001 · Adopción del framework de gobernanza]]
   - [[02_Arquitectura/adr/0002-arquitectura-edge-cloudflare|ADR-0002 · Arquitectura edge en Cloudflare]]
+  - [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003 · Pagos con Stripe vía REST en el edge]]
 
 ## 03 · Técnico
 - [[03_Tecnico/Stack|Stack tecnológico y comandos canónicos]]
@@ -29,6 +30,7 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
 ## 04 · Módulos
 - [[04_Modulos/Patrones|Patrones (nivel 1 y meta-patrones)]]
 - [[04_Modulos/Suscripciones|Suscripciones híbridas]] 🔒
+- [[04_Modulos/Pagos|Pagos (Stripe)]] 🔒
 - [[04_Modulos/Admin_Cobros_Presenciales|Admin · Cobros presenciales]] 🔒
 - [[04_Modulos/Scraper_Ingestion|Scraper · Ingestión de sorteos]]
 - [[04_Modulos/Frontend|Frontend (Astro)]]
@@ -37,6 +39,7 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
 
 ## 05 · Procesos (flujos end-to-end)
 - [[05_Procesos/Flujo_Acceso_Premium|Acceso a meta-patrones premium]]
+- [[05_Procesos/Flujo_Pago_Online|Pago online (Stripe)]]
 - [[05_Procesos/Flujo_Cobro_Presencial|Cobro presencial en ventanilla]]
 - [[05_Procesos/Flujo_Ingestion_Scraping|Ingestión periódica vía scraping]]
 

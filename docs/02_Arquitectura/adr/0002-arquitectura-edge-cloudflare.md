@@ -40,5 +40,5 @@ Usaremos una **arquitectura edge sobre Cloudflare**:
 
 ## Seguimiento
 - [x] Andamiar `backend-hono`, `scraper-cron` y `client.ts` con driver Neon.
-- [ ] Implementar verificación JWT en el edge (hoy `userId` por query es andamiaje).
-- [ ] Configurar Scrapoxy y el trigger cron reales.
+- [x] Implementar verificación JWT en el edge (`requireAuth` con `hono/jwt`; identidad desde el JWT).
+- [x] Trigger cron real del scraper (22:00 UTC) con fetch + upsert idempotente. Scrapoxy queda a nivel de red/infra.

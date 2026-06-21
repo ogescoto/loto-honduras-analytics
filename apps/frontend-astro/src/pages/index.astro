@@ -1,19 +1,48 @@
 ---
-// Landing / Dashboard inicial. Andamiaje: la UI real se construye como tarea explícita.
-const title = "Loto Honduras Analytics";
+import Shell from "../layouts/Shell.astro";
+import NumberBalls from "../components/NumberBalls.astro";
+import { apiGet } from "../lib/api.ts";
+import type { GamePattern } from "@loto/shared-types";
+
+// Dashboard: patrones de nivel 1 (acceso público/freemium).
+const res = await apiGet<GamePattern[]>("/api/v1/patterns");
+const patterns = res.success ? res.data : [];
+const errorMsg = res.success ? null : res.error.message;
+
+function label(type: string) {
+  return (
+    {
+      frio_caliente: "Fríos y calientes",
+      numerologia_suenos: "Numerología de sueños",
+      par_impar: "Par / impar",
+      rachas_inversas: "Rachas inversas",
+    }[type] ?? type
+  );
+}
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Patrones estadísticos e imaginario popular para la lotería de Honduras.</p>
-    </main>
-  </body>
-</html>
+<Shell title="Dashboard" active="dashboard">
+  <p class="mb-6 text-slate-600">
+    Patrones estadísticos de los sorteos. Los <a href="/premium" class="font-semibold text-brand">meta-patrones premium</a> cruzan estadística con la guía de los sueños.
+  </p>
+
+  {errorMsg && <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>}
+
+  {
+    patterns.length === 0 && !errorMsg ? (
+      <p class="text-slate-500">Aún no hay patrones calculados.</p>
+    ) : (
+      <ul class="space-y-4">
+        {patterns.map((p) => (
+          <li class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="mb-2 flex items-center justify-between">
+              <h2 class="font-semibold">{label(p.patternType)}</h2>
+              <span class="text-xs uppercase tracking-wide text-slate-400">{p.game}</span>
+            </div>
+            <NumberBalls numbers={p.targetNumbers} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Shell>

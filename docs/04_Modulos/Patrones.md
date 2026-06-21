@@ -2,7 +2,7 @@
 tipo: modulo
 modulo: patrones
 estado: activo
-actualizado: 2026-06-20
+actualizado: 2026-06-21
 ---
 
 # Módulo: Patrones
@@ -22,7 +22,13 @@ Servir los patrones analíticos de la plataforma en dos niveles: **nivel 1** (da
 
 ## API pública
 - **Consultas:** `GET /api/v1/patterns` (nivel 1), `GET /api/v1/premium/meta-patterns` (nivel 2). Ver [[02_Arquitectura/API|API]].
-- Código: `apps/backend-hono/src/routes/patterns.ts`, `apps/backend-hono/src/routes/premium.ts`.
+- Código de rutas: `apps/backend-hono/src/routes/patterns.ts`, `apps/backend-hono/src/routes/premium.ts`.
+
+## Motor de patrones
+Lógica de cálculo en `apps/backend-hono/src/patterns/`:
+- **`engine.ts`** (lógica pura, sin I/O — testeable): `withinWindow` (filtra por ventana de N días), `frequency` (conteo de apariciones), `hotCold` (top calientes/fríos por ventana), `inverseStreaks` (rachas inversas: números más "atrasados"), `parity` (distribución par/impar), `crossMetaPatterns` (cruce psico-estadístico: calientes ∩ números de sueños/búsquedas en tendencia, con `confidenceScore`).
+- **`dream-guide.ts`**: `DREAM_GUIDE` (guía de los sueños hondureña: `fuego=24`, `dinero=8`, `agua=12`, …) y `numberForDream(symbol)`.
+- **`compute.ts`**: `computePatternsForGame(db, game, dreamNumbers, now)` — calcula patrones nivel 1 en ventanas **30/90/365** días (`frio_caliente` por ventana, `rachas_inversas`, `par_impar`) y meta-patrones (cruce de calientes de 30 d con `dreamNumbers`), y los **persiste** en `game_patterns` y `meta_patterns`. Dominio numérico `00–99`.
 
 ## Entidades principales
 - [[01_Dominio/Entidades#GamePattern|GamePattern]] — tipos `frio_caliente`, `numerologia_suenos`, `par_impar`, `rachas_inversas`.
@@ -36,13 +42,15 @@ Servir los patrones analíticos de la plataforma en dos niveles: **nivel 1** (da
 - Los datos base provienen de [[05_Procesos/Flujo_Ingestion_Scraping|la ingestión de sorteos]].
 
 ## Datos y seeds
-- Dependen del histórico `lottery_history`. Aún no hay seeds específicos de patrones.
+- Dependen del histórico `lottery_history`. Aún no hay seeds específicos de patrones (se generan al ejecutar el motor).
 
 ## Protección
-- Estado en `.aicodeprotect.yml`: **no protegido** (las rutas de patrones en sí). El acceso premium se apoya en el middleware 🔒 protegido `require-active-subscription` (ver [[04_Modulos/Suscripciones|Suscripciones]]).
+- Estado en `.aicodeprotect.yml`: **no protegido** (las rutas y el motor de patrones en sí). El acceso premium se apoya en el middleware 🔒 protegido `require-active-subscription` (ver [[04_Modulos/Suscripciones|Suscripciones]]).
 
 ## Pendiente / no documentado
-- El **cálculo** real de patrones (ventanas 30/90/365, rachas, cruces psico-estadísticos) y la **captura de tendencias de búsqueda** no están implementados en el andamiaje; falta definir dónde residirá ese motor.
+- La **captura automática de tendencias de búsqueda/sueños** (origen de `dreamNumbers`) aún no tiene fuente conectada; hoy se pasan como entrada al motor.
+- Falta el **disparador programado** que ejecute `computePatternsForGame` periódicamente (p. ej. tras la ingestión).
 
 ## Historial de cambios
+- 2026-06-21: documentado el motor de patrones implementado (`engine.ts`, `dream-guide.ts`, `compute.ts`): ventanas 30/90/365, rachas inversas, par/impar y meta-patrones psico-estadísticos persistidos. Resuelto el pendiente de cálculo.
 - 2026-06-20: creación inicial.

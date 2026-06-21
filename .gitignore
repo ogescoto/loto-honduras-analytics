@@ -21,6 +21,7 @@ dist/
 build/
 .output/
 .astro/
+**/src/env.d.ts      # autogenerado por Astro
 .wrangler/           # estado local de wrangler
 .turbo/              # caché de Turborepo
 

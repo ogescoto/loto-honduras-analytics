@@ -1,0 +1,53 @@
+---
+// PWA Shell: layout adaptativo móvil/web compartido por todas las vistas.
+import "../styles/global.css";
+interface Props {
+  title: string;
+  active?: "dashboard" | "premium" | "admin";
+}
+const { title, active } = Astro.props;
+const nav = [
+  { href: "/", label: "Dashboard", key: "dashboard" },
+  { href: "/premium", label: "Premium", key: "premium" },
+  { href: "/admin", label: "Admin", key: "admin" },
+];
+---
+
+<!doctype html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Patrones de lotería de Honduras." />
+    <title>{title} · Loto Honduras Analytics</title>
+  </head>
+  <body class="min-h-full bg-slate-50 text-slate-900 antialiased">
+    <header class="bg-brand-dark text-white">
+      <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+        <a href="/" class="font-bold tracking-tight">🎲 Loto HN</a>
+        <nav class="flex gap-1 text-sm">
+          {
+            nav.map((n) => (
+              <a
+                href={n.href}
+                class:list={[
+                  "rounded px-3 py-1.5 transition",
+                  active === n.key ? "bg-white/20 font-semibold" : "hover:bg-white/10",
+                ]}
+              >
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+    <main class="mx-auto max-w-3xl px-4 py-6">
+      <h1 class="mb-4 text-2xl font-bold">{title}</h1>
+      <slot />
+    </main>
+    <footer class="mx-auto max-w-3xl px-4 py-8 text-center text-xs text-slate-400">
+      Loto Honduras Analytics — análisis con fines informativos. Jugar es responsabilidad de cada persona.
+    </footer>
+  </body>
+</html>

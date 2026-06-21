@@ -24,8 +24,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,astro,json,md}\""
   },
   "devDependencies": {
+    "@eslint/js": "^9",
+    "eslint": "^9",
     "prettier": "^3.3.3",
     "turbo": "^2.1.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8"
   }
 }

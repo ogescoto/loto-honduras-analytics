@@ -1,0 +1,61 @@
+---
+import Shell from "../layouts/Shell.astro";
+import NumberBalls from "../components/NumberBalls.astro";
+import { apiGet } from "../lib/api.ts";
+import type { MetaPattern } from "@loto/shared-types";
+
+// Zona Premium: meta-patrones. Requiere token de suscriptor vigente.
+// El token se obtiene tras login; aquí se lee de una cookie de sesión.
+const token = Astro.cookies.get("loto_token")?.value;
+const checkout = Astro.url.searchParams.get("checkout");
+
+let metaPatterns: MetaPattern[] = [];
+let gateMessage: string | null = null;
+
+if (!token) {
+  gateMessage = "Inicia sesión y activa tu suscripción para ver los meta-patrones.";
+} else {
+  const res = await apiGet<{ metaPatterns: MetaPattern[] }>(
+    "/api/v1/premium/meta-patterns",
+    token,
+  );
+  if (res.success) metaPatterns = res.data.metaPatterns;
+  else gateMessage = res.error.message;
+}
+---
+
+<Shell title="Meta-patrones Premium" active="premium">
+  {
+    checkout === "success" && (
+      <p class="mb-4 rounded bg-emerald-50 p-3 text-sm text-emerald-800">
+        ¡Pago recibido! Tu acceso premium se activará en unos segundos.
+      </p>
+    )
+  }
+
+  {
+    gateMessage ? (
+      <div class="rounded-lg border border-brand/30 bg-white p-6 text-center">
+        <p class="mb-4 text-slate-600">{gateMessage}</p>
+        <a
+          href="/api/checkout"
+          class="inline-block rounded bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-dark"
+        >
+          Suscribirme
+        </a>
+      </div>
+    ) : (
+      <ul class="space-y-4">
+        {metaPatterns.map((m) => (
+          <li class="rounded-lg border border-brand/40 bg-white p-4 shadow-sm">
+            <p class="mb-3 text-sm text-slate-700">{m.description}</p>
+            <NumberBalls
+              numbers={(m.crossData as { targetNumbers?: number[] }).targetNumbers ?? []}
+              highlight
+            />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Shell>

@@ -1,7 +1,7 @@
 ---
 tipo: proceso
-estado: andamiaje
-actualizado: 2026-06-20
+estado: activo
+actualizado: 2026-06-21
 ---
 
 # Flujo: Ingestión periódica vía scraping
@@ -24,16 +24,19 @@ sequenceDiagram
   PX->>SRC: petición con IP residencial
   SRC-->>PX: HTML/JSON de sorteos
   PX-->>CR: respuesta
-  CR->>CR: parseDraws() -> ParsedDraw[]
-  CR->>DB: upsert idempotente (drawNumber único)
+  CR->>CR: parseDraws() -> ParsedDraw[] (JSON o fallback HTML)
+  CR->>DB: insert ... onConflictDoNothing(drawNumber) (upsert idempotente)
 ```
 
 ## Reglas
-- **Idempotencia:** `drawNumber` es único; reingestar el mismo sorteo no debe duplicar.
+- **Disparo:** cron **22:00 UTC** (`wrangler.toml`) → `scheduled` → `runScrape`.
+- **Parseo:** `parseDraws` admite JSON (claves EN/ES) y fallback HTML por atributos `data-*`; `normalizeGame` mapea alias a `GameType`. Solo se persisten sorteos con todos los campos válidos.
+- **Idempotencia:** `drawNumber` es único; el `onConflictDoNothing` evita duplicar al reingestar.
 - Tras la ingestión, los datos quedan disponibles para recalcular [[04_Modulos/Patrones|patrones]].
 
 ## Pendiente
-- **Andamiaje:** `parseDraws` y el `scheduled` no implementan fetch real, parseo ni upsert; falta definir la frecuencia del cron y el manejo de errores/reintentos. Ver [[04_Modulos/Scraper_Ingestion|módulo]].
+- Confirmar el **markup HTML real** de la fuente (el fallback `data-*` es provisional) y añadir reintentos/backoff. Ver [[04_Modulos/Scraper_Ingestion|módulo]].
 
 ## Historial de cambios
+- 2026-06-21: implementación real — fetch a `LOTERIA_SOURCE_URL`, parseo JSON/HTML y upsert idempotente; cron 22:00 UTC. Estado activo; resuelto el pendiente de andamiaje.
 - 2026-06-20: creación inicial (estado andamiaje).

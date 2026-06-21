@@ -3,6 +3,9 @@
  *
  * MÓDULO PROTEGIDO (.aicodeprotect.yml): maneja dinero real y auditoría con
  * recibos correlativos. Sensible a fraude. Cambios requieren APPROVED.
+ *
+ * Protegido por requireAuth + requireRole("admin","clerk") en index.ts.
+ * El administradorId se toma del JWT, NO del body (evita suplantación).
  */
 import { Hono } from "hono";
 import { eq } from "drizzle-orm";
@@ -15,10 +18,21 @@ export const adminRoutes = new Hono<{ Variables: { db: Database } }>();
 // POST /api/v1/admin/register-physical-payment
 adminRoutes.post("/register-physical-payment", async (c) => {
   const db = c.get("db");
-  // TODO(auth): exigir rol admin/clerk vía JWT antes de permitir esta acción.
-  const body = (await c.req.json()) as RegisterPhysicalPaymentDto & {
-    administratorId: string;
-  };
+  const auth = c.get("auth");
+  const body = (await c.req.json()) as RegisterPhysicalPaymentDto;
+
+  if (!body.clientEmail || !body.validityMonths || !body.paperReceiptNumber) {
+    return c.json(
+      { success: false, error: { code: "VALIDATION_ERROR", message: "clientEmail, validityMonths y paperReceiptNumber son obligatorios." } },
+      400,
+    );
+  }
+  if (Number(body.validityMonths) <= 0) {
+    return c.json(
+      { success: false, error: { code: "VALIDATION_ERROR", message: "validityMonths debe ser mayor que 0." } },
+      400,
+    );
+  }
 
   const [client] = await db
     .select()
@@ -43,7 +57,7 @@ adminRoutes.post("/register-physical-payment", async (c) => {
     paymentMethod: "cash_presencial",
     startDate: now,
     endDate,
-    registeredByAdminId: body.administratorId,
+    registeredByAdminId: auth.sub, // del JWT verificado
     receiptNumber: body.paperReceiptNumber,
   });
 
