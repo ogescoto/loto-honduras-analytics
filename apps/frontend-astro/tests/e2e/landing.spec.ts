@@ -4,5 +4,9 @@ import { test, expect } from "@playwright/test";
 test("la landing muestra el Dashboard y la navegación", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Dashboard");
-  await expect(page.getByRole("link", { name: "Premium" })).toBeVisible();
+  // El enlace de navegación "Premium" vive en el <header>; acotamos para evitar
+  // ambigüedad con la mención "meta-patrones premium" del cuerpo.
+  await expect(
+    page.locator("header").getByRole("link", { name: "Premium" }),
+  ).toBeVisible();
 });
