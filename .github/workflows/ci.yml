@@ -36,7 +36,7 @@ jobs:
       DATABASE_URL: postgres://dev_user:dev_password_ci@localhost:5432/loto_analytics_test
       APP_ENV: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v4
 
@@ -91,7 +91,7 @@ jobs:
       DATABASE_URL: postgres://dev_user:dev_password_ci@localhost:5432/loto_analytics_test
       APP_ENV: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v4
 
