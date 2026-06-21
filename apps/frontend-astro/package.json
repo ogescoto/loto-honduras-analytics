@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^11.0.0",
     "@loto/shared-types": "workspace:*",
-    "astro": "^4.15.0",
+    "astro": "^6.4.8",
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
