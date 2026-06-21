@@ -1,0 +1,23 @@
+# CODEOWNERS — copiar a .github/CODEOWNERS
+# Cada PR que toque estas rutas exige review del owner indicado.
+# Sintaxis: <patrón>  <@usuario | @org/equipo>
+#
+# REGLA DEL FRAMEWORK: todo módulo declarado en .aicodeprotect.yml
+# (ver 09_AI/Protected_Modules.md) DEBE tener owner aquí, para forzar
+# review humano antes del merge.
+
+# Owner por defecto de todo el repo (fallback).
+*                           @org/maintainers
+
+# --- Módulos protegidos (deben coincidir con .aicodeprotect.yml) ---
+# Ejemplos: ajusta rutas y owners a tu proyecto.
+/src/payments/**            @org/payments-owners
+/src/auth/**                @org/security-owners
+
+# --- Áreas sensibles ---
+/.github/**                 @org/maintainers
+/infra/**                   @org/devops
+/migrations/**              @org/data-owners
+
+# --- Documentación (la bóveda la mantiene /obsidian) ---
+/docs/**                    @org/maintainers

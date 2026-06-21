@@ -1,0 +1,54 @@
+# =====================================================================
+# .gitignore — Loto Honduras Analytics
+# Regla mandatory: ningún secreto en el repo.
+# ai-software-governance/08_DevOps/Secrets_Management.md
+# =====================================================================
+
+# --- Secretos y entorno ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.dev.vars            # secretos locales de wrangler
+
+# --- Dependencias ---
+node_modules/
+.pnpm-store/
+
+# --- Build / output ---
+dist/
+build/
+.output/
+.astro/
+.wrangler/           # estado local de wrangler
+.turbo/              # caché de Turborepo
+
+# --- Tests / cobertura ---
+coverage/
+playwright-report/
+test-results/
+.nyc_output/
+
+# --- Datos locales ---
+docker/scrapoxy/scrapoxy_config.json   # config generada con credenciales
+*.sqlite
+*.db
+pgdata_local/
+
+# --- Editor / SO ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# --- Obsidian: workspace local del vault (la config compartida SÍ se versiona) ---
+docs/.obsidian/workspace.json
+docs/.obsidian/workspace-mobile.json
+docs/.obsidian/cache

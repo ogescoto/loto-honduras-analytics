@@ -1,0 +1,72 @@
+# Plantilla de CI — copiar a .github/workflows/ci.yml
+# Alineada con los gates de 08_DevOps/CI_CD.md. Adapta comandos/versiones a tu stack.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Cancela ejecuciones previas de la misma rama/PR.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, types, tests, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint / format
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Tests + coverage
+        run: npm run test -- --coverage      # usa seed:test
+
+      - name: Build
+        run: npm run build
+
+      - name: Dependency audit
+        run: npx audit-ci --moderate
+
+  e2e:
+    name: End-to-end
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install + browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Seed test data
+        run: npm run seed:test
+
+      - name: Run E2E
+        run: npm run test:e2e
+
+# Nota: el secret scanning se activa a nivel de repositorio (GitHub Advanced Security /
+# push protection), no como step. Ver 08_DevOps/Secrets_Management.md.

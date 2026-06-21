@@ -1,0 +1,24 @@
+# CODEOWNERS — Loto Honduras Analytics
+# Cada PR que toque estas rutas exige review del owner indicado.
+#
+# REGLA DEL FRAMEWORK: todo módulo declarado en .aicodeprotect.yml
+# (ai-software-governance/09_AI/Protected_Modules.md) DEBE tener owner aquí,
+# para forzar review humano antes del merge.
+
+# Owner por defecto de todo el repo (fallback).
+*                                       @ogescoto
+
+# --- Módulos protegidos (deben coincidir con .aicodeprotect.yml) ---
+/apps/backend-hono/src/middlewares/**   @ogescoto
+/apps/backend-hono/src/routes/admin/**  @ogescoto
+/apps/backend-hono/src/payments/**      @ogescoto
+/apps/backend-hono/src/db/schema.ts     @ogescoto
+/packages/shared-types/**               @ogescoto
+
+# --- Áreas sensibles ---
+/.github/**                             @ogescoto
+/docker/**                              @ogescoto
+/apps/**/migrations/**                  @ogescoto
+
+# --- Documentación (la bóveda la mantiene SOLO /obsidian) ---
+/docs/**                                @ogescoto

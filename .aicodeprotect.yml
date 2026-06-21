@@ -1,0 +1,45 @@
+# =====================================================================
+# .aicodeprotect.yml — Loto Honduras Analytics
+# Zonas de código que la IA NO modifica sin aprobación humana explícita.
+# Política: ai-software-governance/09_AI/Protected_Modules.md
+# =====================================================================
+version: 1
+
+# Palabra clave de aprobación por defecto (configurable por entrada).
+approval_keyword: APPROVED
+
+protected_modules:
+  - path: apps/backend-hono/src/middlewares/**
+    reason: "Auth (JWT Edge), RBAC de suscripciones y control de acceso. Cualquier cambio compromete la seguridad y el modelo de cobro."
+    ask_approval: true
+    approval_process: "Crear un issue 'Propuesta de cambio protegido' y esperar APPROVED del Tech Lead."
+
+  - path: apps/backend-hono/src/routes/admin/**
+    reason: "Registro de cobros físicos presenciales (dinero real, auditoría con recibos correlativos). Sensible a fraude."
+    ask_approval: true
+    approval_process: "Análisis de impacto + APPROVED del Tech Lead."
+
+  - path: apps/backend-hono/src/payments/**
+    reason: "Integración de pagos (Stripe online + cash_presencial). Flujos de pago y suscripción; sensible a PCI y a la lógica de expiración temporal."
+    ask_approval: true
+
+  - path: packages/shared-types/**
+    reason: "Contratos de tipos compartidos (DTI) entre apps. Impacto transversal: un cambio rompe frontend, backend y scraper a la vez."
+    ask_approval: true
+    approval_process: "Análisis de impacto sobre las apps consumidoras + APPROVED del Tech Lead."
+
+  - path: apps/backend-hono/src/db/schema.ts
+    reason: "Esquema Drizzle: fuente del modelo de datos. Cambios requieren migración expand/contract revisada."
+    ask_approval: true
+
+  - path: apps/**/migrations/**
+    reason: "Migraciones aplicadas: no se editan; los cambios son nuevas migraciones."
+    ask_approval: true
+
+  - path: .github/workflows/**
+    reason: "Pipelines de CI/CD; cambios afectan a todos los despliegues a Cloudflare."
+    ask_approval: true
+
+  - path: docs/**
+    reason: "Bóveda de documentación: única fuente de verdad, escrita SOLO por el Experto Obsidian (/obsidian). Los demás agentes la leen, no la escriben."
+    ask_approval: false   # solo lectura para agentes de código

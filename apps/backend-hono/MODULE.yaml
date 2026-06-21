@@ -1,0 +1,24 @@
+# Manifiesto del backend Edge API.
+# Estándar: ai-software-governance/01_Architecture/Module_Organization.md
+name: backend-hono
+display_name: Edge API (Hono)
+description: API RESTful en Cloudflare Workers. Sirve patrones, meta-patrones premium y registro de cobros presenciales.
+responsible_team: equipo-backend
+bounded_context: analitica-loteria
+
+dependencies:
+  - shared-types
+
+external_services:
+  - neon-db
+  - stripe
+
+public_api:
+  queries:
+    - GetPatternsQuery
+    - GetMetaPatternsQuery
+  commands:
+    - RegisterPhysicalPaymentCommand
+
+protection:
+  inherited: true   # hereda de .aicodeprotect.yml (middlewares, admin, payments, schema)

@@ -1,0 +1,11 @@
+# Cloudflare Worker programado — ingestión periódica de sorteos.
+name = "loto-scraper-cron"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Dispara el scraping cada día a las 22:00 UTC (tras los sorteos nocturnos).
+[triggers]
+crons = ["0 22 * * *"]
+
+# Secretos: NEON_DATABASE_URL, SCRAPOXY_URL, SCRAPOXY_AUTH_* (wrangler secret put).

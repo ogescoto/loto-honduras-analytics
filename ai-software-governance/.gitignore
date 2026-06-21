@@ -1,0 +1,31 @@
+# =====================================================================
+# .gitignore del framework de gobernanza
+# Alineado con 08_DevOps/Secrets_Management.md
+# =====================================================================
+
+# Secretos y entorno (NUNCA versionar valores reales)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores / IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# Artefactos / temporales
+__pycache__/
+*.pyc
+.cache/
+node_modules/
+dist/
+build/

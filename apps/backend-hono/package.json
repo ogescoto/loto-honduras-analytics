@@ -1,0 +1,34 @@
+{
+  "name": "@loto/backend-hono",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc --noEmit && wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "migrate": "drizzle-kit migrate",
+    "migrate:generate": "drizzle-kit generate",
+    "seed:prod": "tsx src/db/seeds/seed.ts --env production",
+    "seed:dev": "tsx src/db/seeds/seed.ts --env development",
+    "seed:test": "tsx src/db/seeds/seed.ts --env test"
+  },
+  "dependencies": {
+    "@loto/shared-types": "workspace:*",
+    "@neondatabase/serverless": "^0.10.0",
+    "drizzle-orm": "^0.36.0",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241000.0",
+    "@faker-js/faker": "^9.0.0",
+    "drizzle-kit": "^0.28.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "wrangler": "^3.80.0"
+  }
+}

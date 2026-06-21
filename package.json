@@ -1,0 +1,31 @@
+{
+  "name": "loto-analytics-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Loto Honduras Analytics — sistema analítico de lotería edge-first (Cloudflare + Hono + Drizzle + Neon).",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "up": "docker compose -f docker/docker-compose.yml up -d",
+    "down": "docker compose -f docker/docker-compose.yml down",
+    "migrate": "turbo run migrate",
+    "seed:prod": "turbo run seed:prod",
+    "seed:dev": "turbo run seed:dev",
+    "seed:test": "turbo run seed:test",
+    "format": "prettier --write \"**/*.{ts,tsx,astro,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "turbo": "^2.1.0",
+    "typescript": "^5.6.0"
+  }
+}

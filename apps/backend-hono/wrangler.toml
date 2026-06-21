@@ -1,0 +1,16 @@
+# Cloudflare Worker — backend Hono (Edge API)
+# Secretos NO van aquí: usar `wrangler secret put <NAME>`.
+name = "loto-backend-hono"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Variables NO secretas por entorno.
+[vars]
+APP_ENV = "production"
+
+# Secretos requeridos (declarados aquí solo como documentación):
+#   NEON_DATABASE_URL   -> wrangler secret put NEON_DATABASE_URL
+#   JWT_SECRET          -> wrangler secret put JWT_SECRET
+#   STRIPE_API_KEY      -> wrangler secret put STRIPE_API_KEY
+#   STRIPE_WEBHOOK_SECRET -> wrangler secret put STRIPE_WEBHOOK_SECRET

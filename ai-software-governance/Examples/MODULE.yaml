@@ -1,0 +1,32 @@
+# =====================================================================
+# EJEMPLO de MODULE.yaml (manifiesto de módulo)
+# Vive en la raíz de cada módulo: src/<module>/MODULE.yaml
+# Plantilla: ../Templates/Module_Template.md
+# Estándar: ../01_Architecture/Module_Organization.md
+# =====================================================================
+name: modulo-pagos
+display_name: Módulo de Pagos
+description: Procesa pagos y gestiona suscripciones.
+responsible_team: equipo-backend
+bounded_context: pagos
+
+dependencies:
+  - modulo-usuarios
+  - modulo-notificaciones
+
+external_services:
+  - stripe
+
+public_api:
+  commands:
+    - CreatePaymentCommand
+    - RefundPaymentCommand
+  queries:
+    - GetPaymentStatusQuery
+    - ListPaymentsByUserQuery
+  events:
+    - PaymentCompletedEvent
+    - PaymentRefundedEvent
+
+protection:
+  inherited: true   # hereda de .aicodeprotect.yml; o sobrescribir aquí

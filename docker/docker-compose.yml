@@ -1,0 +1,37 @@
+# Entorno local aislado: Postgres (dev) + Scrapoxy (proxy rotativo).
+# Las credenciales se leen de variables de entorno (.env), NO se hardcodean.
+# Regla mandatory: ai-software-governance/08_DevOps/Secrets_Management.md
+services:
+  local-postgres:
+    image: postgres:15-alpine
+    container_name: loto_postgres_dev
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dev_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?define POSTGRES_PASSWORD en tu .env}
+      POSTGRES_DB: ${POSTGRES_DB:-loto_analytics_dev}
+    volumes:
+      - pgdata_local:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dev_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  scrapoxy:
+    image: fabienvauchelles/scrapoxy:latest
+    container_name: scrapoxy_master
+    ports:
+      - "8888:8888" # proxy de cara al Worker scraper
+      - "8890:8890" # consola web administrativa
+    volumes:
+      - ./scrapoxy:/cfg
+    environment:
+      AUTH_LOCAL_USERNAME: ${SCRAPOXY_AUTH_USERNAME:-scraper_admin}
+      AUTH_LOCAL_PASSWORD: ${SCRAPOXY_AUTH_PASSWORD:?define SCRAPOXY_AUTH_PASSWORD en tu .env}
+      STORAGE_FILE_FILENAME: /cfg/scrapoxy_config.json
+    restart: always
+
+volumes:
+  pgdata_local:

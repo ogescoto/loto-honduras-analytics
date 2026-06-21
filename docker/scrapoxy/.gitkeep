@@ -1,0 +1,2 @@
+# Carpeta de configuración de Scrapoxy.
+# El archivo scrapoxy_config.json se genera en runtime y NO se versiona (ver .gitignore).

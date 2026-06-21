@@ -1,0 +1,36 @@
+# =====================================================================
+# EJEMPLO de .aicodeprotect.yml
+# Copia este archivo a la RAÍZ de tu proyecto y ajústalo.
+# Define las zonas de código que la IA no puede modificar sin aprobación.
+# Documentación: ../09_AI/Protected_Modules.md
+# =====================================================================
+version: 1
+
+# Palabra clave de aprobación por defecto (configurable por entrada)
+approval_keyword: APPROVED
+
+protected_modules:
+  - path: src/core/authentication/**
+    reason: "Módulo crítico de seguridad. Cualquier cambio requiere revisión de arquitectura."
+    ask_approval: true
+    approval_process: "Crear un issue 'Propuesta de cambio protegido' y esperar aprobación del Tech Lead."
+
+  - path: src/global-utils/**
+    reason: "Utilidades globales, impacto transversal en todos los módulos."
+    ask_approval: true
+    approval_process: "Análisis de impacto + aprobación del Tech Lead."
+
+  - path: src/payments/stripe-integration/**
+    reason: "Integración con Stripe, sensible a cambios en flujos de pago y a PCI."
+    ask_approval: true
+
+  - path: db/migrations/**
+    reason: "Migraciones aplicadas: no se editan; los cambios son nuevas migraciones."
+    ask_approval: true
+
+  - path: docs/architecture/**
+    ask_approval: false   # solo lectura: leer sí, modificar requiere permiso
+
+  - path: .github/workflows/**
+    reason: "Pipelines de CI/CD; cambios afectan a todos los despliegues."
+    ask_approval: true

@@ -1,0 +1,31 @@
+# Dependabot — copiar a .github/dependabot.yml
+# Mantiene dependencias y workflows al día con PRs automáticos (que pasan por CI).
+# Adapta los "package-ecosystem" a tu stack (npm, pip, nuget, gomod, cargo, etc.).
+version: 2
+updates:
+  # Dependencias de la aplicación (ejemplo: npm).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"        # Conventional Commit
+    labels:
+      - "dependencies"
+    groups:
+      # Agrupa actualizaciones menores/patch para reducir ruido de PRs.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Mantiene actualizadas las GitHub Actions del propio CI.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci(deps)"
+    labels:
+      - "ci"
