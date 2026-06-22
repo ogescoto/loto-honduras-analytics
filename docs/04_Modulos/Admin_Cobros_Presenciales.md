@@ -2,7 +2,7 @@
 tipo: modulo
 modulo: admin-cobros-presenciales
 estado: activo
-actualizado: 2026-06-20
+actualizado: 2026-06-21
 ---
 
 # Módulo: Admin · Cobros presenciales
@@ -22,6 +22,9 @@ Permitir a un **admin o clerk** activar una suscripción tras cobrar **efectivo 
 ## API pública
 - **Comando:** `POST /api/v1/admin/register-physical-payment`. Ver [[02_Arquitectura/API#POST /api/v1/admin/register-physical-payment|API]].
 - Código: `apps/backend-hono/src/routes/admin/physical-payments.ts`.
+- **Acceso:** `requireAuth` + `requireRole("admin", "clerk")` (encadenado en `index.ts`).
+- **administradorId:** se toma del **JWT verificado** (`auth.sub`), ya no del body — impide suplantación del operador.
+- **Validación:** exige `clientEmail`, `validityMonths` y `paperReceiptNumber`, y `validityMonths > 0` (`400 VALIDATION_ERROR` si no).
 - Efecto: busca cliente por email → crea suscripción con `endDate = ahora + validityMonths`, `registeredByAdminId`, `receiptNumber`.
 
 ## Entidades principales
@@ -37,8 +40,8 @@ Permitir a un **admin o clerk** activar una suscripción tras cobrar **efectivo 
 - Estado en `.aicodeprotect.yml`: **🔒 protegido** — `apps/backend-hono/src/routes/admin/**`. Requiere análisis de impacto + `APPROVED` del Tech Lead.
 
 ## Pendiente / no documentado
-- El control de **rol admin/clerk vía JWT** está marcado como `TODO(auth)`: hoy el endpoint no verifica el rol del solicitante.
 - No hay validación de unicidad/correlatividad del `receiptNumber` ni control de duplicados de cobro.
 
 ## Historial de cambios
+- 2026-06-21: el endpoint ahora exige `requireAuth` + `requireRole("admin","clerk")` y toma el `administradorId` del JWT (no del body); añadida validación de campos. Resuelto el `TODO(auth)`.
 - 2026-06-20: creación inicial.

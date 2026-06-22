@@ -24,8 +24,33 @@
     "format": "prettier --write \"**/*.{ts,tsx,astro,json,md}\""
   },
   "devDependencies": {
+    "@eslint/js": "^9",
+    "@vitest/coverage-v8": "^3.2.6",
+    "eslint": "^9",
     "prettier": "^3.3.3",
     "turbo": "^2.1.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8",
+    "vitest": "^3.2.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "undici@>=7.0.0 <7.28.0": ">=7.28.0",
+      "ws@>=8.0.0 <8.21.0": ">=8.21.0",
+      "esbuild@<0.25.0": ">=0.25.0"
+    },
+    "auditConfig": {
+      "//": "Excepción documentada: vulnerabilidades del toolchain de Astro 4 (build/SSR) que solo se parchean en Astro 6, aún incompatible con @astrojs/cloudflare. No afectan al runtime del Worker. Revisar al migrar a Astro 6. Ver ai-software-governance/00_Governance/Exceptions_Process.md",
+      "ignoreGhsas": [
+        "GHSA-qpr4-c339-7vq8",
+        "GHSA-wrwg-2hg8-v723",
+        "GHSA-vrm6-8vpv-qv8q",
+        "GHSA-v9p9-hfj2-hcw8",
+        "GHSA-fx2h-pf6j-xcff",
+        "GHSA-8hv8-536x-4wqp",
+        "GHSA-2pvr-wf23-7pc7",
+        "GHSA-vxpw-j846-p89q"
+      ]
+    }
   }
 }
