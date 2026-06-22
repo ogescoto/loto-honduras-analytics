@@ -10,7 +10,9 @@
 !.env.example
 *.pem
 *.key
-.dev.vars            # secretos locales de wrangler
+# secretos locales de wrangler (en la raíz o en cualquier app)
+.dev.vars
+**/.dev.vars
 
 # --- Dependencias ---
 node_modules/
@@ -21,18 +23,25 @@ dist/
 build/
 .output/
 .astro/
-**/src/env.d.ts      # autogenerado por Astro
-.wrangler/           # estado local de wrangler
-.turbo/              # caché de Turborepo
+# tipos autogenerados por Astro
+**/src/env.d.ts
+# estado local de wrangler (en cualquier app)
+.wrangler/
+**/.wrangler/
+# caché de Turborepo (en cualquier nivel)
+.turbo/
+**/.turbo/
 
 # --- Tests / cobertura ---
 coverage/
+**/coverage/
 playwright-report/
 test-results/
 .nyc_output/
 
 # --- Datos locales ---
-docker/scrapoxy/scrapoxy_config.json   # config generada con credenciales
+# config generada de Scrapoxy (con credenciales)
+docker/scrapoxy/scrapoxy_config.json
 *.sqlite
 *.db
 pgdata_local/
@@ -48,6 +57,9 @@ Thumbs.db
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# --- Claude Code (estado local) ---
+.claude/scheduled_tasks.lock
 
 # --- Obsidian: workspace local del vault (la config compartida SÍ se versiona) ---
 docs/.obsidian/workspace.json

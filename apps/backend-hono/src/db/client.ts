@@ -1,12 +1,22 @@
 /**
- * Cliente de BD para el runtime edge (Cloudflare Worker): Neon serverless.
- * Para seeds/migraciones en Node, ver `seeds/seed-db.ts` (postgres-js).
+ * Cliente de BD con selección de driver según el entorno:
+ * - Desarrollo (Postgres en Docker): driver postgres-js (TCP).
+ * - Producción (Neon serverless): driver Neon HTTP.
+ *
+ * La selección es por la cadena de conexión: si apunta a Neon, usa Neon;
+ * en cualquier otro caso, Postgres estándar.
  */
 import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle as drizzleNeon } from "drizzle-orm/neon-http";
+import { drizzle as drizzlePg } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import * as schema from "./schema.js";
 
-export type Database = ReturnType<typeof drizzle<typeof schema>>;
+export type Database = ReturnType<typeof drizzleNeon<typeof schema>>;
+
+function isNeon(url: string): boolean {
+  return url.includes("neon.tech") || url.includes("neon.database");
+}
 
 export function createDb(connectionString: string): Database {
   if (!connectionString) {
@@ -15,6 +25,13 @@ export function createDb(connectionString: string): Database {
       "Falta la cadena de conexión a la base de datos (NEON_DATABASE_URL / DATABASE_URL).",
     );
   }
-  const sql = neon(connectionString);
-  return drizzle(sql, { schema });
+
+  if (isNeon(connectionString)) {
+    const sql = neon(connectionString);
+    return drizzleNeon(sql, { schema });
+  }
+
+  // Desarrollo local: Postgres en Docker vía TCP.
+  const client = postgres(connectionString, { max: 1 });
+  return drizzlePg(client, { schema }) as unknown as Database;
 }
