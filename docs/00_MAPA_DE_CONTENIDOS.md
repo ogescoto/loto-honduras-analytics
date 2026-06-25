@@ -1,7 +1,7 @@
 ---
 tipo: indice
 estado: activo
-actualizado: 2026-06-21
+actualizado: 2026-06-23
 ---
 
 # Mapa de Contenidos — Loto Honduras Analytics
@@ -23,6 +23,7 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
   - [[02_Arquitectura/adr/0001-adopcion-del-framework-de-gobernanza|ADR-0001 · Adopción del framework de gobernanza]]
   - [[02_Arquitectura/adr/0002-arquitectura-edge-cloudflare|ADR-0002 · Arquitectura edge en Cloudflare]]
   - [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003 · Pagos con Stripe vía REST en el edge]]
+  - [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004 · Proxy de scraping vía Decodo (gateway gestionado)]]
 
 ## 03 · Técnico
 - [[03_Tecnico/Stack|Stack tecnológico y comandos canónicos]]

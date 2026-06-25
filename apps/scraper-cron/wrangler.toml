@@ -8,4 +8,13 @@ compatibility_flags = ["nodejs_compat"]
 [triggers]
 crons = ["0 22 * * *"]
 
-# Secretos: NEON_DATABASE_URL, SCRAPOXY_URL, SCRAPOXY_AUTH_* (wrangler secret put).
+# Variables NO secretas.
+[vars]
+LOTERIA_SOURCE_URL = "https://www.example-loto-honduras.hn"
+
+# Secretos requeridos (wrangler secret put <NAME>):
+#   NEON_DATABASE_URL
+#   DECODO_PROXY_HOST
+#   DECODO_PROXY_PORT
+#   DECODO_PROXY_USERNAME
+#   DECODO_PROXY_PASSWORD

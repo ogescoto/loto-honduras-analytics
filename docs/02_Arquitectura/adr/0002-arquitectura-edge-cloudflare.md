@@ -1,7 +1,7 @@
 ---
 tipo: adr
 estado: aceptado
-actualizado: 2026-06-20
+actualizado: 2026-06-23
 ---
 
 # ADR-0002: Arquitectura edge en Cloudflare
@@ -34,11 +34,12 @@ Usaremos una **arquitectura edge sobre Cloudflare**:
 - (+) Un solo ecosistema (Pages + Workers + cron) reduce la complejidad de despliegue.
 - (−) Restricciones del runtime edge: sin APIs Node completas; las librerías deben ser compatibles con Workers.
 - (−) Acceso a BD vía driver serverless (HTTP/WebSocket), no conexiones TCP persistentes tradicionales.
-- (−) El scraping requiere infraestructura adicional (Scrapoxy) para evitar bloqueos por reputación de IP.
+- (−) El scraping requiere un proxy rotativo para evitar bloqueos por reputación de IP. *(La elección concreta de proxy —inicialmente Scrapoxy en Docker— quedó **superada** por [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]]: gateway gestionado Decodo.)*
 - **Impacto en:** todos los módulos backend, el scraper y la capa de datos.
 - **Reversibilidad:** media — migrar a un backend tradicional exigiría reescribir adaptadores de runtime y la capa de conexión a BD.
 
 ## Seguimiento
 - [x] Andamiar `backend-hono`, `scraper-cron` y `client.ts` con driver Neon.
 - [x] Implementar verificación JWT en el edge (`requireAuth` con `hono/jwt`; identidad desde el JWT).
-- [x] Trigger cron real del scraper (22:00 UTC) con fetch + upsert idempotente. Scrapoxy queda a nivel de red/infra.
+- [x] Trigger cron real del scraper (22:00 UTC) con fetch + upsert idempotente.
+- [x] Proxy del scraper definido vía gateway gestionado (Decodo) — ver [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]] (supersede la mención a Scrapoxy de este ADR).

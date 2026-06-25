@@ -40,8 +40,6 @@ test-results/
 .nyc_output/
 
 # --- Datos locales ---
-# config generada de Scrapoxy (con credenciales)
-docker/scrapoxy/scrapoxy_config.json
 *.sqlite
 *.db
 pgdata_local/

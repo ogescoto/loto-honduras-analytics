@@ -1,7 +1,7 @@
 ---
 tipo: dominio
 estado: activo
-actualizado: 2026-06-21
+actualizado: 2026-06-23
 ---
 
 # Casos de uso
@@ -57,10 +57,11 @@ Casos de uso principales del sistema. Cada uno enlaza a su módulo, flujo y endp
 - **Actor:** sistema (Cloudflare Scheduled Worker `scraper-cron`).
 - **Objetivo:** mantener al día el histórico de sorteos.
 - **Disparador:** evento cron programado.
-- **Proceso:** descarga vía Scrapoxy → parseo → *upsert* idempotente en [[01_Dominio/Entidades#LotteryDraw|lottery_history]] → habilita recálculo de patrones.
+- **Proceso:** descarga vía gateway de Decodo → parseo → *upsert* idempotente en [[01_Dominio/Entidades#LotteryDraw|lottery_history]] → habilita recálculo de patrones.
 - **Resultado:** nuevos sorteos persistidos sin duplicar (`drawNumber` único).
 - Ver: [[05_Procesos/Flujo_Ingestion_Scraping|Flujo de ingestión]], [[04_Modulos/Scraper_Ingestion|Módulo scraper]].
 
 ## Historial de cambios
+- 2026-06-23: CU-04 actualizado — la descarga sale por el gateway de **Decodo** (antes Scrapoxy).
 - 2026-06-21: añadidos CU-05 (pago online Stripe) y CU-06 (cálculo de patrones); actualizados accesos de CU-02 y CU-03 a auth JWT + RBAC.
 - 2026-06-20: creación inicial.
