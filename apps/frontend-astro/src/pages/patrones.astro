@@ -392,19 +392,26 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
 
       if (d.hits.length === 0) { hitsEmpty?.classList.remove("hidden"); return; }
 
-      const now = Date.now();
-      const sorted = [...d.hits].sort((a, b) => new Date(b.drawDate).getTime() - new Date(a.drawDate).getTime());
+      // drawDate llega como "YYYY-MM-DDT10:00:00.000Z" (marcador del día civil en
+      // Honduras, GMT-6). Mostramos SOLO la fecha del día civil actual: parseamos
+      // la parte de fecha y la formateamos en tiempo hondureño, evitando que el
+      // timezone del navegador desplace el día.
+      const HN_TZ = "America/Tegucigalpa";
+      const mondayOf = (iso: string) => {
+        const datePart = iso.substring(0, 10); // "YYYY-MM-DD"
+        return new Date(`${datePart}T12:00:00Z`); // mediodía UTC para formatear en HN sin cruzar día
+      };
+      const sorted = [...d.hits].sort((a, b) => mondayOf(b.drawDate).getTime() - mondayOf(a.drawDate).getTime());
       for (const h of sorted) {
         const row = document.createElement("div");
         row.className = "flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm flex-wrap";
-        const date = new Date(h.drawDate);
-        const ms = now - date.getTime();
-        const days = Math.max(0, Math.floor(ms / 86400000));
-        const fecha = date.toLocaleDateString("es-HN", { day: "2-digit", month: "2-digit", year: "numeric" });
-        const hora = date.toLocaleTimeString("es-HN", { hour: "2-digit", minute: "2-digit" });
+        const d0 = mondayOf(h.drawDate);
+        const midnightUtc = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate(), 4, 0, 0); // 22:00 HN día previo ≈ día civil
+        const diffDays = Math.max(0, Math.floor((Date.now() - midnightUtc) / 86400000));
+        const fecha = d0.toLocaleDateString("es-HN", { timeZone: HN_TZ, day: "2-digit", month: "2-digit", year: "numeric", weekday: "short" });
         const meta = document.createElement("div");
         meta.className = "min-w-[12rem] text-xs text-slate-500";
-        meta.innerHTML = `<div class="font-medium text-slate-700">${fecha} · ${hora}</div><div class="text-teal-700">hace ~${days} días</div>`;
+        meta.innerHTML = `<div class="font-medium text-slate-700">${fecha}</div><div class="text-teal-700">hace ~${diffDays} días</div>`;
         row.appendChild(meta);
         for (const n of h.matchedNumbers) row.appendChild(numberBall(n, "bg-teal-600"));
         hitsList!.appendChild(row);

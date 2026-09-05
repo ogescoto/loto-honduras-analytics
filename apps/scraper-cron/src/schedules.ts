@@ -22,6 +22,15 @@ export interface GameSchedule {
 
 export const HN_UTC_OFFSET = -6;
 
+/**
+ * Convierte el marcador de la fuente (04:00Z del día civil) al marcador canónico
+ * del proyecto (10:00Z = 04:00 HN, mismo día). Suma 6 h (|offset HN|); nunca cruza
+ * la medianoche civil, así el sorteo queda en su día calendario hondureño.
+ */
+export function sourceMarkerToCanonicalIso(sourceIso: string): string {
+  return new Date(Date.parse(sourceIso) - HN_UTC_OFFSET * 3_600_000).toISOString();
+}
+
 const LOTO_HN_BASE: Omit<GameSchedule, "game" | "drawHour" | "drawMinute" | "days"> = {
   lottery: "loto_hn",
   availableAfterMin: 30,

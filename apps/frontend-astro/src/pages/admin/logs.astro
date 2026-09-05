@@ -57,6 +57,43 @@ const LEVEL_OPTIONS = [
   { value: "warn", label: "Advertencias" },
   { value: "error", label: "Errores" },
 ];
+
+const CRON_INFO = [
+  {
+    slot: "11:00 AM",
+    cron: "15 17 * * *",
+    utc: "17:15 UTC",
+    label: "Sorteos 11 AM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (11 AM)",
+    desc: "A las 11:15 HN (17:15 UTC) intenta obtener los resultados de los 4 juegos de la franja 11 AM. Reintenta cada 5 min hasta ~1 h si aún no publican.",
+  },
+  {
+    slot: "3:00 PM",
+    cron: "15 21 * * *",
+    utc: "21:15 UTC",
+    label: "Sorteos 3 PM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (3 PM)",
+    desc: "A las 3:15 HN (21:15 UTC) intenta obtener los resultados de la franja 3 PM. Reintenta cada 5 min hasta ~1 h.",
+  },
+  {
+    slot: "9:00 PM",
+    cron: "15 3 * * *",
+    utc: "03:15 UTC",
+    label: "Sorteos 9 PM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (9 PM) + Super Premio (domingo)",
+    desc: "A las 9:15 HN (03:15 UTC del día siguiente) intenta obtener los resultados de la franja 9 PM y del Super Premio dominical. Reintenta cada 5 min hasta ~1 h.",
+  },
+];
+
+// Último evento exitoso por franja (derivado de los logs ya cargados).
+const lastBySlot = new Map<string, string>();
+for (const row of logs) {
+  const m = /Franja (\d+):00 HN completada/.exec(row.message);
+  if (!m) continue;
+  const hour = Number(m[1]);
+  const label = hour === 11 ? "Sorteos 11 AM" : hour === 15 ? "Sorteos 3 PM" : hour === 21 ? "Sorteos 9 PM" : null;
+  if (label && !lastBySlot.has(label)) lastBySlot.set(label, new Date(row.createdAt).toLocaleString("es-HN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }));
+}
 ---
 
 <Shell title="Logs — Administración" active="admin">
@@ -67,6 +104,38 @@ const LEVEL_OPTIONS = [
       <a href="/admin/fuentes" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes</a>
       <a href="/admin/logs" class="rounded-lg bg-brand px-3 py-1.5 font-semibold text-white">Logs</a>
     </nav>
+
+    <section>
+      <h2 class="mb-1 text-lg font-bold text-slate-700">Tareas programadas (cron)</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        El Worker <code class="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs">loto-scraper-cron</code>
+        se dispara automáticamente 3 veces al día, en la hora de Honduras (GMT-6). Cada franja
+        inserta los sorteos oficiales, recalcula patrones y registra eventos aquí.
+      </p>
+      <div class="grid gap-3 lg:grid-cols-3">
+        {CRON_INFO.map((c) => {
+          const last = lastBySlot.get(c.label);
+          return (
+            <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+              <div class="mb-2 flex items-center justify-between gap-2">
+                <span class="font-semibold text-slate-800">{c.label}</span>
+                <span class="rounded-full bg-slate-100 px-2 py-0.5 font-mono text-xs text-slate-500">{c.cron}</span>
+              </div>
+              <p class="mb-1 text-xs text-slate-500">{c.slot} HN · {c.utc}</p>
+              <p class="mb-2 text-xs font-medium text-slate-700">{c.games}</p>
+              <p class="mb-3 text-xs leading-relaxed text-slate-500">{c.desc}</p>
+              <p class="text-xs">
+                {last ? (
+                  <span class="rounded-full bg-emerald-100 px-2 py-0.5 font-medium text-emerald-700">Última corrida: {last}</span>
+                ) : (
+                  <span class="rounded-full bg-slate-100 px-2 py-0.5 text-slate-500">Sin ejecución reciente registrada</span>
+                )}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
 
     <section>
       <h2 class="mb-1 text-lg font-bold text-slate-700">Logs de ingestión</h2>

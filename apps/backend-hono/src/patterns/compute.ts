@@ -12,6 +12,7 @@ import {
   crossMetaPatterns,
   type DrawRecord,
 } from "./engine.js";
+import { DREAM_GUIDE } from "./dream-guide.js";
 
 const MAX_NUMBER = 99; // dominio de la lotería diaria (00–99)
 const WINDOWS = [30, 90, 365];
@@ -81,8 +82,11 @@ export async function computePatternsForGame(
 
   // Meta-patrones: limpiar y recalcular (acoplados al juego por parentPatternIds en el futuro;
   // por ahora se limpian globalmente si no hay suscriptores activos con meta-patrones vigentes).
+  // Salvo que se provea una lista explícita, usa la guía de los sueños (imaginario popular)
+  // como numerología de referencia para el cruce calientes ∩ sueños.
+  const dreamRef = dreamNumbers.length > 0 ? dreamNumbers : Object.values(DREAM_GUIDE);
   const hot30 = hotCold(draws, 30, 10, now).hot;
-  const candidates = crossMetaPatterns(hot30, dreamNumbers);
+  const candidates = crossMetaPatterns(hot30, dreamRef);
   let metaPatternsCreated = 0;
   if (candidates.length) {
     const created = await db

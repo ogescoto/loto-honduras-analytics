@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { sourceMarkerToCanonicalIso } from "./schedules.js";
 import {
   gameFromSiteId,
   gameFromTitle,
@@ -182,5 +183,22 @@ describe("findDrawForSlot", () => {
     const target = Date.parse("2026-09-04T04:00:00.000Z");
     expect(findDrawForSlot(draws, target)?.sessionId).toBe("s-b");
     expect(findDrawForSlot(draws, Date.parse("2026-09-05T04:00:00.000Z"))).toBeUndefined();
+  });
+});
+
+describe("sourceMarkerToCanonicalIso — zona horaria Honduras (GMT-6)", () => {
+  it("convierte el marcador 04:00Z de la fuente al 10:00Z canónico sin cruzar de día", () => {
+    // 11 AM del 5 sep HN: la fuente lo reporta como 04:00Z. Debe quedar en el MISMO
+    // día civil (10:00Z = 04:00 HN), no desplazado al día anterior.
+    const out = sourceMarkerToCanonicalIso("2026-09-05T04:00:00.000Z");
+    expect(out).toBe("2026-09-05T10:00:00.000Z");
+    expect(new Date(out).getUTCDate()).toBe(5); // mismo día calendario
+  });
+
+  it("cruzar la medianoche civil (22:00Z del día previo) queda dentro del día correcto", () => {
+    // Caso límite: marcador del día 1 → no debe quedar en el día 0.
+    const out = sourceMarkerToCanonicalIso("2026-09-01T04:00:00.000Z");
+    expect(out).toBe("2026-09-01T10:00:00.000Z");
+    expect(new Date(out).getUTCDate()).toBe(1);
   });
 });

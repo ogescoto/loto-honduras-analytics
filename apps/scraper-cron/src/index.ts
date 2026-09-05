@@ -26,7 +26,7 @@ import {
   SITE_GAME_IDS,
   type ParsedDraw,
 } from "./parser.js";
-import { LOTO_HN_SCHEDULES, type GameSchedule, HN_UTC_OFFSET } from "./schedules.js";
+import { LOTO_HN_SCHEDULES, HN_UTC_OFFSET, sourceMarkerToCanonicalIso, type GameSchedule } from "./schedules.js";
 import type { GameType } from "@loto/shared-types";
 
 export interface Env {
@@ -336,8 +336,9 @@ async function runSlot(env: Env, slot: SlotInfo): Promise<void> {
           sessionId,
           numbers: draw.numbers,
           signs: draw.signs,
-          // Normaliza el marcador de la fuente (04:00Z) al día civil canónico (10:00Z = 04:00 HN).
-          drawDate: new Date(Date.parse(draw.drawDate) + HN_UTC_OFFSET * 3_600_000).toISOString(),
+          // Normaliza el marcador de la fuente (04:00Z) al día civil canónico
+          // (10:00Z = 04:00 HN) sumando 6 h; no cruza la medianoche civil.
+          drawDate: sourceMarkerToCanonicalIso(draw.drawDate),
           verified,
           ...(primary?.source.id ? { sourceUrlId: primary.source.id } : {}),
         });
