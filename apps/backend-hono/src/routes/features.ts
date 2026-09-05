@@ -6,7 +6,7 @@
  *   POST /api/v1/features/:game/refresh — (uso interno/cron) recalcula y persiste en number_states
  */
 import { Hono } from "hono";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, desc, asc, inArray } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import { lotteryHistory, numberStates, featureCompliance } from "../db/schema.js";
 import type { GameType } from "@loto/shared-types";
@@ -18,6 +18,7 @@ import {
   filterByFeatures,
   type FeatureCode,
 } from "../patterns/features-engine.js";
+import { computeWinnerCompliance, type Draw } from "../patterns/compliance.js";
 
 const SLOT_GAMES: Record<string, string[]> = {
   diaria_11am: ["diaria_11am"],
@@ -36,6 +37,14 @@ const SLOT_GAMES: Record<string, string[]> = {
 };
 
 const ALL_GAME_TYPES = new Set(Object.keys(SLOT_GAMES));
+
+// Familia de un juego: mismo tipo en las distintas jornadas (diaria_11am → todas las diaria).
+function familyOf(game: GameType): GameType[] {
+  const prefix = game.replace(/_(\d+am|\d+pm)$/, "");
+  return Object.keys(SLOT_GAMES).filter(
+    (g) => g.startsWith(`${prefix}_`) || g === prefix,
+  ) as GameType[];
+}
 
 type Variables = { db: Database };
 
@@ -142,6 +151,61 @@ featuresRoutes.post("/:game/filter", async (c) => {
   });
 });
 
+// POST /api/v1/features/:game/hits — historial de aciertos por sorteo (juego seleccionado).
+// Para cada sorteo histórico del juego (orden cronológico), reconstruye el estado latente
+// justo ANTES de ese sorteo y reporta si el/los ganadores cumplían TODAS las features.
+// Implementación optimizada: solo evalúa ganadores con búsquedas binarias (compliance.ts),
+// evita el loop de los 100 números por sorteo que excedía la CPU del Worker.
+featuresRoutes.post("/:game/hits", async (c) => {
+  const game = c.req.param("game") as GameType;
+  if (!ALL_GAME_TYPES.has(game))
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
+
+  const body = (await c.req.json().catch(() => null)) as { features?: string[] } | null;
+  if (!body?.features || !Array.isArray(body.features) || body.features.length === 0)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Se requiere al menos una característica." } }, 400);
+
+  const invalid = body.features.filter((f) => !ALL_FEATURES.includes(f as FeatureCode));
+  if (invalid.length > 0)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Características inválidas: ${invalid.join(", ")}.` } }, 400);
+
+  if (body.features.length > 7)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Máximo 7 características por combinación." } }, 400);
+
+  const db = c.get("db");
+  const requested = body.features as FeatureCode[];
+  const family = familyOf(game);
+
+  // Todos los sorteos de la familia, ascendentes (cronólogico).
+  const familyRows = await db
+    .select({ game: lotteryHistory.game, sessionId: lotteryHistory.sessionId, numbers: lotteryHistory.numbers, drawDate: lotteryHistory.drawDate })
+    .from(lotteryHistory)
+    .where(inArray(lotteryHistory.game, family))
+    .orderBy(asc(lotteryHistory.drawDate));
+
+  const slotRows = familyRows.filter((r) => r.game === game);
+  const toDraw = (rows: typeof familyRows): Draw[] =>
+    rows.map((r) => ({
+      game: r.game,
+      sessionId: r.sessionId,
+      numbers: r.numbers,
+      drawDate: new Date(r.drawDate).getTime(),
+    }));
+
+  const hits = computeWinnerCompliance(requested, toDraw(familyRows), toDraw(slotRows));
+
+  // Últimos 30 sorteos cronológicos (los más recientes primero).
+  return c.json({
+    success: true,
+    data: {
+      game,
+      requestedFeatures: requested.map((f) => ({ code: f, label: FEATURE_LABELS[f] })),
+      totalHits: hits.length,
+      hits: hits.slice().reverse(),
+    },
+  });
+});
+
 // POST /api/v1/features/:game/refresh — recalcula y persiste (llamado por ingest)
 featuresRoutes.post("/:game/refresh", async (c) => {
   const game = c.req.param("game") as GameType;
@@ -156,16 +220,25 @@ featuresRoutes.post("/:game/refresh", async (c) => {
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 async function _computeForGame(db: Database, game: GameType) {
-  const allDraws = await db
+  // Familia completa (todas las jornadas del mismo tipo) para patrones inter-jornada.
+  const family = familyOf(game);
+  const familyRows = await db
+    .select({ numbers: lotteryHistory.numbers, drawDate: lotteryHistory.drawDate })
+    .from(lotteryHistory)
+    .where(inArray(lotteryHistory.game, family))
+    .orderBy(desc(lotteryHistory.drawDate));
+
+  // Jornada objetivo (solo la jornada específica del juego).
+  const slotRows = await db
     .select({ numbers: lotteryHistory.numbers, drawDate: lotteryHistory.drawDate })
     .from(lotteryHistory)
     .where(eq(lotteryHistory.game, game))
     .orderBy(desc(lotteryHistory.drawDate));
 
-  return computeNumberStates(
-    allDraws.map((d) => ({ numbers: d.numbers, drawDate: new Date(d.drawDate) })),
-    allDraws.map((d) => ({ numbers: d.numbers, drawDate: new Date(d.drawDate) })),
-  );
+  const toDraw = (rows: typeof familyRows) =>
+    rows.map((d) => ({ numbers: d.numbers, drawDate: new Date(d.drawDate) }));
+
+  return computeNumberStates(toDraw(familyRows), toDraw(slotRows), toDraw(familyRows));
 }
 
 export async function computeAndPersistFeatures(db: Database, game: GameType): Promise<number> {

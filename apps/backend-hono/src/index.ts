@@ -4,6 +4,7 @@
  */
 import { Hono } from "hono";
 import { createDb, type Database } from "./db/client.js";
+import { corsMiddleware } from "./middlewares/cors.js";
 import { dbInjection } from "./middlewares/db-injection.js";
 import { requireAuth, requireRole } from "./middlewares/auth.js";
 import { requireActiveSubscription } from "./middlewares/require-active-subscription.js";
@@ -37,6 +38,8 @@ export type Env = {
   GOOGLE_CLIENT_SECRET: string;
   /** Emails (csv) promovidos a rol admin al autenticarse con Google. */
   GOOGLE_ADMIN_EMAILS?: string;
+  /** Orígenes adicionales permitidos por CORS (csv). Se suman a la allowlist por defecto. */
+  CORS_ALLOWED_ORIGINS?: string;
 };
 
 export type Variables = {
@@ -45,6 +48,8 @@ export type Variables = {
 
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
+// CORS primero: responde el preflight (OPTIONS) antes de tocar la BD.
+app.use("*", corsMiddleware);
 app.use("*", dbInjection(createDb));
 
 app.get("/health", (c) => c.json({ success: true, data: { status: "ok" } }));

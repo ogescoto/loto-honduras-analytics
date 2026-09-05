@@ -150,6 +150,13 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
             Buscar candidatos
           </button>
           <button
+            id="btn-hits"
+            class="rounded-lg border border-teal-300 bg-white px-4 py-2 text-sm font-semibold text-teal-700 disabled:opacity-50 hover:bg-teal-50"
+            title="Revisa los últimos sorteos de este juego y muestra las fechas en que el ganador cumplió TODOS los patrones seleccionados."
+          >
+            Ver aciertos en sorteos
+          </button>
+          <button
             id="btn-clear-filter"
             class="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50"
           >
@@ -170,6 +177,20 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
             <div id="filter-partial-numbers" class="flex flex-wrap gap-2"></div>
           </div>
           <p id="filter-empty" class="hidden text-sm text-slate-500">No se encontraron candidatos.</p>
+        </div>
+
+        <!-- Historial de aciertos por sorteo (juego seleccionado) -->
+        <div id="hits-results" class="mt-6 hidden">
+          <h3 class="mb-1 font-semibold text-teal-700">
+            Aciertos en sorteos — <span id="hits-game-label" class="font-mono"></span>
+          </h3>
+          <p id="hits-summary" class="mb-3 text-xs text-slate-500"></p>
+          <div id="hits-list" class="flex flex-col gap-2">
+            <!-- Se rellena con JS -->
+          </div>
+          <p id="hits-empty" class="hidden text-sm text-slate-500">
+            Ningún sorteo reciente del juego seleccionado tuvo un ganador que cumpliera todos los patrones.
+          </p>
         </div>
       </div>
 
@@ -241,12 +262,18 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
   const tabPanels      = document.querySelectorAll(".tab-panel");
   const featureCatalog = document.getElementById("feature-catalog");
   const btnFilter      = document.getElementById("btn-filter");
+  const btnHits        = document.getElementById("btn-hits");
   const btnClear       = document.getElementById("btn-clear-filter");
   const filterCount    = document.getElementById("filter-count");
   const filterResults  = document.getElementById("filter-results");
   const filterExact    = document.getElementById("filter-exact");
   const filterPartial  = document.getElementById("filter-partial");
   const filterEmpty    = document.getElementById("filter-empty");
+  const hitsResults    = document.getElementById("hits-results");
+  const hitsList       = document.getElementById("hits-list");
+  const hitsGameLabel  = document.getElementById("hits-game-label");
+  const hitsSummary    = document.getElementById("hits-summary");
+  const hitsEmpty      = document.getElementById("hits-empty");
   const numberInput    = document.getElementById("number-input");
   const btnLookup      = document.getElementById("btn-lookup");
   const numberResults  = document.getElementById("number-results");
@@ -370,6 +397,7 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
     const n = selectedFeatures.size;
     if (filterCount) filterCount.textContent = `${n} característica${n === 1 ? "" : "s"} seleccionada${n === 1 ? "" : "s"}`;
     if (btnFilter) btnFilter.disabled = n === 0;
+    if (btnHits) btnHits.disabled = n === 0;
   }
 
   // ── ejecución del filtro ───────────────────────────────────────────────────
@@ -414,6 +442,61 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
       for (const n of partial) container.appendChild(numberBall(n, "bg-amber-500 hover:bg-amber-600"));
     } else {
       filterEmpty.classList.remove("hidden");
+    }
+  }
+
+  // ── historial de aciertos por sorteo (juego seleccionado) ───────────────
+  async function runHits() {
+    if (selectedFeatures.size === 0) return;
+    if (btnHits) btnHits.textContent = "Consultando…";
+    const tok = getToken();
+    const headers = { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) };
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/features/${currentGame}/hits`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ features: [...selectedFeatures] }),
+      });
+      const data = await res.json();
+      if (!data.success) { alert(data.error?.message ?? "Error al consultar aciertos."); return; }
+      showHits(data.data);
+    } catch { alert("Error de conexión."); }
+    finally { if (btnHits) btnHits.textContent = "Ver aciertos en sorteos"; }
+  }
+
+  function showHits(data) {
+    if (!hitsResults) return;
+    hitsResults.classList.remove("hidden");
+    hitsList.innerHTML = "";
+    hitsEmpty.classList.add("hidden");
+
+    if (hitsGameLabel) hitsGameLabel.textContent = currentGame;
+    if (hitsSummary) hitsSummary.textContent =
+      `${data.totalHits} sorteos (últimos ${data.hits.length}) tuvieron al menos un ganador que cumple ${data.requestedFeatures.length} de ${data.requestedFeatures.length} patrones. Orden cronológico.`;
+
+    if (data.hits.length === 0) {
+      hitsEmpty.classList.remove("hidden");
+      return;
+    }
+
+    for (const h of data.hits) {
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm";
+      const date = new Date(h.drawDate);
+      const fecha = date.toLocaleDateString("es-HN", { day: "2-digit", month: "2-digit", year: "numeric" });
+      const hora  = date.toLocaleTimeString("es-HN", { hour: "2-digit", minute: "2-digit" });
+      const hitBalls = h.matchedNumbers.map(n => {
+        const f = document.createElement("span");
+        f.className = "inline-flex h-7 w-7 items-center justify-center rounded-full bg-teal-600 font-mono text-xs font-bold text-white";
+        f.textContent = String(n).padStart(2, "0");
+        return f;
+      });
+      const meta = document.createElement("div");
+      meta.className = "w-32 flex-shrink-0 text-xs text-slate-500";
+      meta.innerHTML = `<div class="font-medium text-slate-700">${fecha}</div><div>${hora}</div>`;
+      row.appendChild(meta);
+      for (const ball of hitBalls) row.appendChild(ball);
+      hitsList.appendChild(row);
     }
   }
 
@@ -501,9 +584,12 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
 
   btnFilter && btnFilter.addEventListener("click", runFilter);
 
+  btnHits && btnHits.addEventListener("click", runHits);
+
   btnClear && btnClear.addEventListener("click", () => {
     selectedFeatures.clear();
     filterResults && filterResults.classList.add("hidden");
+    hitsResults && hitsResults.classList.add("hidden");
     renderCatalog();
   });
 

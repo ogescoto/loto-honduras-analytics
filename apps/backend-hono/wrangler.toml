@@ -10,6 +10,7 @@ compatibility_flags = ["nodejs_compat"]
 APP_ENV = "production"
 APP_BASE_URL = "https://api.pronosticos-hn.oged-solutions.com"
 APP_FRONTEND_URL = "https://pronosticos-hn.oged-solutions.com"
+CORS_ALLOWED_ORIGINS = "https://pronosticos-hn.oged-solutions.com,https://staging.pronosticos-hn.pages.dev,https://chariot-drowsily-lure.ngrok-free.dev"
 
 # Dominio personalizado del worker de producción.
 # Cloudflare crea el CNAME y el certificado automáticamente.
@@ -20,7 +21,7 @@ custom_domain = true
 # Entorno de pruebas directamente en Cloudflare.
 # Uso: `wrangler deploy --env staging` y `wrangler secret put <NAME> --env staging`.
 [env.staging]
-vars = { APP_ENV = "staging", APP_BASE_URL = "https://api-staging.pronosticos-hn.oged-solutions.com", APP_FRONTEND_URL = "https://staging.pronosticos-hn.pages.dev" }
+vars = { APP_ENV = "staging", APP_BASE_URL = "https://api-staging.pronosticos-hn.oged-solutions.com", APP_FRONTEND_URL = "https://staging.pronosticos-hn.pages.dev", CORS_ALLOWED_ORIGINS = "https://staging.pronosticos-hn.pages.dev" }
 
 [[env.staging.routes]]
 pattern = "api-staging.pronosticos-hn.oged-solutions.com"

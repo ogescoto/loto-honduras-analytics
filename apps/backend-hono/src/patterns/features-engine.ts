@@ -1,16 +1,20 @@
 /**
- * Motor de las 15 características analíticas — CareceteristicasPatrones.md
+ * Motor de características analíticas — CareceteristicasPatrones.md (ampliado)
  *
  * Para cada número (00-99) calcula un estado booleano/numérico basado en el
  * historial de sorteos de un juego. El resultado se guarda en number_states
- * y se recalcula tras cada sorteo.
+ * y se recalcula tras cada sorteo (o en vivo).
  *
- * Características por bloque:
- *  A: Recencia      — 1.FrioAbsoluto, 2.FrioHorario, 3.DespertarPromedio, 4.LatenciaReciente
- *  B: Frecuencia    — 5.CalienteCortoplazo, 6.EcoConsecutivo, 7.EcoHorario
- *  C: Anatomía      — 8.DigitosGemelos, 9.ClusterDecenaActiva, 10.TerminacionCaliente
- *  D: Aritmética    — 11.InversionDirecta, 12.MultiploBaseCinco,
- *                     13.MultiploGeneracional, 14.ProductoInterno, 15.SumaConsecutiva
+ * Catálogo por bloque:
+ *  A: Recencia     — frio_absoluto, frio_horario, despertar_promedio, latencia_reciente
+ *  B: Frecuencia   — caliente_cortoplazo, eco_consecutivo, eco_horario
+ *  C: Anatomía     — digitos_gemelos, cluster_decena_activa, terminacion_caliente
+ *  D: Aritmética   — inversion_directa, multiplo_base_cinco, multiplo_generacional,
+ *                    producto_interno, suma_consecutiva
+ *  E: Recencia+    — presencia_corta, sobredemora
+ *  F: Complemento  — pareja_100, complemento_99, vecino_ganador, raiz_digitos_ganador
+ *  G: Estructura   — docena_activa, decena_activa_jornada, favorito_jornada_anterior,
+ *                    terminacion_fria
  */
 
 export type FeatureCode =
@@ -28,7 +32,17 @@ export type FeatureCode =
   | "multiplo_base_cinco"
   | "multiplo_generacional"
   | "producto_interno"
-  | "suma_consecutiva";
+  | "suma_consecutiva"
+  | "presencia_corta"
+  | "sobredemora"
+  | "pareja_100"
+  | "complemento_99"
+  | "vecino_ganador"
+  | "raiz_digitos_ganador"
+  | "docena_activa"
+  | "decena_activa_jornada"
+  | "favorito_jornada_anterior"
+  | "terminacion_fria";
 
 export const ALL_FEATURES: FeatureCode[] = [
   "frio_absoluto", "frio_horario", "despertar_promedio", "latencia_reciente",
@@ -36,6 +50,10 @@ export const ALL_FEATURES: FeatureCode[] = [
   "digitos_gemelos", "cluster_decena_activa", "terminacion_caliente",
   "inversion_directa", "multiplo_base_cinco", "multiplo_generacional",
   "producto_interno", "suma_consecutiva",
+  "presencia_corta", "sobredemora",
+  "pareja_100", "complemento_99", "vecino_ganador", "raiz_digitos_ganador",
+  "docena_activa", "decena_activa_jornada", "favorito_jornada_anterior",
+  "terminacion_fria",
 ];
 
 export const FEATURE_LABELS: Record<FeatureCode, string> = {
@@ -54,6 +72,16 @@ export const FEATURE_LABELS: Record<FeatureCode, string> = {
   multiplo_generacional:"Múltiplo Generacional",
   producto_interno:     "Producto Interno",
   suma_consecutiva:     "Suma Consecutiva Móvil",
+  presencia_corta:      "Presencia Corta",
+  sobredemora:          "Sobredemora",
+  pareja_100:           "Pareja 100",
+  complemento_99:       "Complemento 99",
+  vecino_ganador:       "Vecino del Ganador",
+  raiz_digitos_ganador: "Raíz de Dígitos del Ganador",
+  docena_activa:        "Docena Activa",
+  decena_activa_jornada:"Decena Activa de la Jornada",
+  favorito_jornada_anterior: "Favorito de la Jornada Anterior",
+  terminacion_fria:     "Terminación Fría",
 };
 
 export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
@@ -72,6 +100,16 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
   multiplo_generacional:"Es múltiplo o divisor del número que acaba de caer.",
   producto_interno:     "Igual al producto de los dígitos del último resultado (3×4=12).",
   suma_consecutiva:     "Igual a la suma de los dos últimos ganadores globales (mod 100).",
+  presencia_corta:      "Salió en los últimos 5 días (recencia muy reciente).",
+  sobredemora:          "Lleva más días sin salir que su promedio histórico entre apariciones.",
+  pareja_100:           "Suma 100 con el último número ganador (73 → 27).",
+  complemento_99:       "Suma 99 con el último número ganador (52 → 47).",
+  vecino_ganador:       "Adyacente al último ganador (52 → 51 o 53).",
+  raiz_digitos_ganador: "Coincide con la suma de dígitos del último ganador (45 → 09).",
+  docena_activa:        "Pertenece a la docena (bloque de 12) con más salidas recientes.",
+  decena_activa_jornada:"Pertenece a la decena con más jugadas en esta misma jornada (últimos 10 sorteos).",
+  favorito_jornada_anterior: "Pertenece a la decena que jugó el sorteo inmediatamente anterior de esta jornada.",
+  terminacion_fria:     "Su dígito final es la terminación menos frecuente de las últimas 15 jugadas.",
 };
 
 export type NumberFeatures = Record<FeatureCode, boolean>;
@@ -107,43 +145,70 @@ function daysDiff(a: Date, b: Date): number {
   return Math.floor((b.getTime() - a.getTime()) / 86_400_000);
 }
 
+/** Docena (bloque de 12 números): 0-11, 12-23, …, 84-99. */
+function dozenOf(num: number): number {
+  return Math.min(Math.floor(num / 12), 7);
+}
+
+/** Decena (bloque de 10): 0-9, 10-19, …, 90-99. */
+function decadeOf(num: number): number {
+  return Math.floor(num / 10);
+}
+
+/** Promedio histórico en días entre apariciones globales consecutivas de un número. */
+function avgIntervalDays(entries: DrawEntry[], number: number): number {
+  const dates = entries
+    .filter((e) => e.number === number)
+    .map((e) => e.drawDate.getTime())
+    .sort((a, b) => b - a); // más reciente primero
+  if (dates.length < 2) return Number.POSITIVE_INFINITY;
+  let total = 0;
+  for (let i = 0; i < dates.length - 1; i++) {
+    total += (dates[i]! - dates[i + 1]!) / 86_400_000;
+  }
+  return total / (dates.length - 1);
+}
+
 /**
- * Calcula el estado de las 15 características para los 100 números (0-99)
- * dado el historial de sorteos de un juego específico.
+ * Calcula el estado de todas las características para los 100 números (0-99).
  *
- * @param allDraws   Historial completo del juego (cualquier jornada)
- * @param slotDraws  Solo los sorteos de la jornada objetivo (11AM, 3PM, 9PM)
- * @param now        Punto de referencia temporal (default: ahora)
+ * @param allDraws     Historial completo de la FAMILIA (todas las jornadas),
+ *                     orden no importa (se ordena internamente).
+ * @param slotDraws    Solo los sorteos de la jornada objetivo (11AM/3PM/9PM).
+ * @param familyDraws  Idéntico a allDraws; se mantiene por claridad semántica.
+ * @param now          Punto de referencia temporal (default: ahora).
  */
 export function computeNumberStates(
   allDraws: Array<{ numbers: string[]; drawDate: Date }>,
   slotDraws: Array<{ numbers: string[]; drawDate: Date }>,
+  familyDraws?: Array<{ numbers: string[]; drawDate: Date }>,
   now: Date = new Date(),
 ): NumberState[] {
-  const allEntries = toEntries(allDraws).sort((a, b) => b.drawDate.getTime() - a.drawDate.getTime());
+  const fam = familyDraws ?? allDraws;
+  const allEntries = toEntries(fam).sort((a, b) => b.drawDate.getTime() - a.drawDate.getTime());
   const slotEntries = toEntries(slotDraws).sort((a, b) => b.drawDate.getTime() - a.drawDate.getTime());
 
-  // Último ganador global y el anterior (para características D)
+  // Último ganador global y el anterior (para características D y F).
   const lastGlobalWinner = allEntries[0]?.number ?? -1;
   const prevGlobalWinner = allEntries[1]?.number ?? -1;
 
-  // Último ganador de la jornada de ayer
+  // Último ganador de la jornada de ayer.
   const yesterday = new Date(now.getTime() - 86_400_000);
   const yesterdaySlotWinner = slotEntries.find(
     (e) => Math.abs(daysDiff(e.drawDate, yesterday)) <= 1,
   )?.number ?? -1;
 
-  // Clúster de decena activa: decena con más salidas en últimos 3 días
+  // Clúster de decena activa: decena con más salidas en últimos 3 días (familia).
   const threeDaysAgo = new Date(now.getTime() - 3 * 86_400_000);
   const recentEntries3d = allEntries.filter((e) => e.drawDate >= threeDaysAgo);
   const decenaCounts = new Array(10).fill(0);
-  for (const e of recentEntries3d) decenaCounts[Math.floor(e.number / 10)]!++;
+  for (const e of recentEntries3d) decenaCounts[decadeOf(e.number)]!++;
   const maxDecenaCount = Math.max(...decenaCounts);
   const activeDecenas = new Set(
     decenaCounts.map((c, i) => (c === maxDecenaCount && c > 0 ? i : -1)).filter((i) => i >= 0),
   );
 
-  // Terminación caliente: dígito final más frecuente en últimas 15 jugadas
+  // Terminación caliente/fría: dígito final más y menos frecuente en últimas 15 jugadas.
   const last15 = allEntries.slice(0, 15);
   const termCounts = new Array(10).fill(0);
   for (const e of last15) termCounts[e.number % 10]!++;
@@ -151,31 +216,62 @@ export function computeNumberStates(
   const hotTerminations = new Set(
     termCounts.map((c, i) => (c === maxTerm && c > 0 ? i : -1)).filter((i) => i >= 0),
   );
+  const minTerm = Math.min(...termCounts.filter((c) => c > 0));
+  const coldTerminations = new Set(
+    termCounts.map((c, i) => (c === minTerm && c > 0 ? i : -1)).filter((i) => i >= 0),
+  );
 
-  // Ventanas de tiempo
+  // Docena activa: docena con más salidas en los últimos 10 sorteos (familia).
+  const last10Draws = allEntries.slice(0, 10 * 3); // ~10 sorteos considerando ~1-3 números por sorteo
+  const dozenCounts = new Array(8).fill(0);
+  for (const e of last10Draws.slice(0, 30)) dozenCounts[dozenOf(e.number)]!++;
+  const maxDozen = Math.max(...dozenCounts);
+  const activeDozen = new Set(
+    dozenCounts.map((c, i) => (c === maxDozen && c > 0 ? i : -1)).filter((i) => i >= 0),
+  );
+
+  // Decena activa de la jornada: decena con más jugadas en la jornada (últimos 10 sorteos de la jornada).
+  const slotLast10 = slotEntries.slice(0, 30);
+  const slotDecenaCounts = new Array(10).fill(0);
+  for (const e of slotLast10.slice(0, 20)) slotDecenaCounts[decadeOf(e.number)]!++;
+  const maxSlotDecena = Math.max(...slotDecenaCounts);
+  const activeSlotDecenas = new Set(
+    slotDecenaCounts.map((c, i) => (c === maxSlotDecena && c > 0 ? i : -1)).filter((i) => i >= 0),
+  );
+
+  // Jornada anterior inmediata: decena del último sorteo distinto a `now` de esta jornada.
+  const prevSlotDraw = slotEntries.find((e) => e.drawDate.getTime() < now.getTime());
+  const prevSlotDecade = prevSlotDraw ? decadeOf(prevSlotDraw.number) : -1;
+
+  // Ventanas de tiempo.
   const tenDaysAgo  = new Date(now.getTime() - 10 * 86_400_000);
+  const fiveDaysAgo = new Date(now.getTime() - 5 * 86_400_000);
   const states: NumberState[] = [];
 
   for (let num = 0; num <= 99; num++) {
-    // Último día que apareció globalmente
+    // Último día que apareció globalmente (familia).
     const lastGlobal = allEntries.find((e) => e.number === num)?.drawDate;
     const daysSinceGlobal = lastGlobal ? daysDiff(lastGlobal, now) : 999;
 
-    // Último día que apareció en la jornada específica
+    // Último día que apareció en la jornada específica.
     const lastSlot = slotEntries.find((e) => e.number === num)?.drawDate;
     const daysSinceSlot = lastSlot ? daysDiff(lastSlot, now) : 999;
 
-    // Conteo en los últimos 10 días
+    // Conteo en los últimos 10 días (familia).
     const countLast10 = allEntries.filter(
       (e) => e.number === num && e.drawDate >= tenDaysAgo,
     ).length;
 
-    // Producto de dígitos del último ganador global
+    // Sobredemora: días desde última aparición > promedio histórico del número.
+    const avgInterval = avgIntervalDays(allEntries, num);
+    const sobredemora = Number.isFinite(avgInterval) && daysSinceGlobal > avgInterval;
+
+    // Producto de dígitos del último ganador global.
     const d1 = Math.floor(lastGlobalWinner / 10);
     const d2 = lastGlobalWinner % 10;
     const productoInterno = (d1 * d2) % 100;
 
-    // Suma de los dos últimos ganadores (mod 100)
+    // Suma de los dos últimos ganadores (mod 100).
     const sumaConsecutiva = (lastGlobalWinner + prevGlobalWinner) % 100;
 
     const features: NumberFeatures = {
@@ -190,7 +286,7 @@ export function computeNumberStates(
       eco_horario:          num === yesterdaySlotWinner,
       // Bloque C
       digitos_gemelos:      Math.floor(num / 10) === num % 10,
-      cluster_decena_activa:activeDecenas.has(Math.floor(num / 10)),
+      cluster_decena_activa:activeDecenas.has(decadeOf(num)),
       terminacion_caliente: hotTerminations.has(num % 10),
       // Bloque D
       inversion_directa:    lastGlobalWinner >= 0 && num === ((lastGlobalWinner % 10) * 10 + Math.floor(lastGlobalWinner / 10)),
@@ -198,6 +294,19 @@ export function computeNumberStates(
       multiplo_generacional:lastGlobalWinner > 0 && (num % lastGlobalWinner === 0 || (num > 0 && lastGlobalWinner % num === 0)),
       producto_interno:     lastGlobalWinner >= 0 && num === productoInterno,
       suma_consecutiva:     lastGlobalWinner >= 0 && prevGlobalWinner >= 0 && num === sumaConsecutiva,
+      // Bloque E — Recencia+
+      presencia_corta:      lastGlobal ? lastGlobal >= fiveDaysAgo : false,
+      sobredemora:          sobredemora,
+      // Bloque F — Complemento aritmético
+      pareja_100:           lastGlobalWinner >= 0 && num === (100 - lastGlobalWinner) % 100,
+      complemento_99:       lastGlobalWinner >= 0 && num === (99 - lastGlobalWinner) % 100,
+      vecino_ganador:       lastGlobalWinner >= 0 && Math.abs(num - lastGlobalWinner) === 1,
+      raiz_digitos_ganador: lastGlobalWinner >= 0 && num === (d1 + d2) % 100,
+      // Bloque G — Estructura por sorteo/jornada
+      docena_activa:        activeDozen.has(dozenOf(num)),
+      decena_activa_jornada:activeSlotDecenas.has(decadeOf(num)),
+      favorito_jornada_anterior: prevSlotDecade >= 0 && decadeOf(num) === prevSlotDecade,
+      terminacion_fria:     coldTerminations.has(num % 10),
     };
 
     states.push({ number: num, features, daysSinceLastGlobal: daysSinceGlobal, daysSinceLastInSlot: daysSinceSlot, countLast10Days: countLast10 });
@@ -224,7 +333,7 @@ export function filterByFeatures(
   const exact = scores.filter((s) => s.count === requested.length).map((s) => s.number);
   if (exact.length > 0) return { exact, partial: [], matchCount: requested.length };
 
-  // Aproximación: los que cumplen más características
+  // Aproximación: los que cumplen más características.
   const maxCount = Math.max(...scores.map((s) => s.count));
   const partial = scores.filter((s) => s.count === maxCount).map((s) => s.number);
   return { exact: [], partial, matchCount: maxCount };
