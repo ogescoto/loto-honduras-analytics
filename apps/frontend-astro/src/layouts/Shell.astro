@@ -101,17 +101,13 @@ const metaUrl = Astro.url.href;
         </button>
       </div>
 
-      <!-- Menú mobile desplegable -->
+      <!-- Menú mobile desplegable (enlaces secundarios; el principal está en la barra inferior) -->
       <nav
         id="mobile-nav"
         class="hidden border-t border-white/10 md:hidden"
         aria-label="Menú móvil"
       >
-        <div class="flex flex-col px-4 pb-3 pt-2 text-sm">
-          <a href="/" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "dashboard" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Dashboard</a>
-          <a href="/history" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "history" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Historial</a>
-          <a href="/patrones" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "patrones" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Análisis</a>
-          <a href="/premium" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "premium" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Premium</a>
+        <div class="flex flex-col px-4 pb-6 pt-2 text-sm">
           {isAdmin && (
             <a href="/admin" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "admin" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Admin</a>
           )}
@@ -123,6 +119,38 @@ const metaUrl = Astro.url.href;
         </div>
       </nav>
     </header>
+
+    <!-- ── Barra de navegación inferior (solo móvil) ────────────────────────
+         Primarias: Inicio · Historial · Análisis · Premium. Siempre visibles, al
+         alcance del pulgar. Admin y Salir/Entrar se quedan en la hamburguesa.
+         Se oculta en desktop (md:hidden). Incluye safe-area para notches. ── -->
+    <nav
+      class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-brand-dark text-white shadow-[0_-2px_8px_rgba(0,0,0,0.15)] md:hidden"
+      aria-label="Navegación inferior"
+    >
+      <div class="flex items-stretch justify-around px-1 pb-[env(safe-area-inset-bottom)]">
+        {[
+          { href: "/", key: "dashboard", label: "Inicio", icon: "M3 10.5L12 3l9 7.5M5 9.5V21h5v-6h4v6h5V9.5" },
+          { href: "/history", key: "history", label: "Historial", icon: "M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z" },
+          { href: "/patrones", key: "patrones", label: "Análisis", icon: "M3 12h4l2-6 4 12 2-6h4" },
+          { href: "/premium", key: "premium", label: "Premium", icon: "M12 3l2.35 4.76 5.26.77-3.8 3.7.9 5.24L12 16.25 7.29 17.47l.9-5.24-3.8-3.7 5.26-.77z" },
+        ].map(({ href, key, label, icon }) => (
+          <a
+            href={href}
+            aria-current={active === key ? "page" : undefined}
+            class:list={[
+              "flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[11px] leading-none transition",
+              active === key ? "bg-white/15 font-semibold" : "opacity-80 hover:opacity-100",
+            ]}
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d={icon} />
+            </svg>
+            <span>{label}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
 
     <!-- ── Barra publicitaria sticky (sub-header) ──────────────────────────
          Visible permanentemente al hacer scroll. Solo usuarios no-premium.
@@ -181,7 +209,7 @@ const metaUrl = Astro.url.href;
       </div>
     )}
 
-    <main class="mx-auto max-w-5xl px-4 py-6">
+    <main class="mx-auto max-w-5xl px-4 pb-24 pt-6 md:pb-6">
       <h1 class="mb-4 text-2xl font-bold">{title}</h1>
       <slot />
     </main>
@@ -220,6 +248,15 @@ const metaUrl = Astro.url.href;
           btn.setAttribute('aria-expanded', String(!open));
           iconMenu.classList.toggle('hidden', !open);
           iconClose.classList.toggle('hidden', open);
+        });
+        // Cerrar el menú al navegar (mejor UX en móvil)
+        nav.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => {
+            nav.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            iconMenu.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+          });
         });
       }
     </script>

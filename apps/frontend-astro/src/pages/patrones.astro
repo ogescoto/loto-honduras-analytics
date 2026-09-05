@@ -111,8 +111,9 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
         )}
       </section>
 
-      <!-- Tabs internos -->
-      <div class="mb-5 flex flex-wrap gap-1 rounded-lg bg-slate-100 p-1">
+      <!-- Tabs internos — móvil: scroll horizontal con snap; desktop: pestañas en línea -->
+      <div class="scrollbar-thin mb-5 flex gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1 snap-x md:overflow-visible"
+        style="-webkit-overflow-scrolling: touch; scroll-snap-type: x proximity;">
         {[
           { key: "candidatos", label: "🎯 Candidatos" },
           { key: "historial",  label: "📜 Historial" },
@@ -121,7 +122,7 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
         ].map(tab => (
           <button
             class:list={[
-              "tab-btn flex-1 rounded-md px-3 py-2 text-xs font-medium transition sm:text-sm whitespace-nowrap",
+              "tab-btn snap-start flex-1 whitespace-nowrap rounded-md px-3 py-2 text-xs font-medium transition sm:text-sm",
               selectedTab === tab.key ? "bg-white shadow text-teal-700 font-semibold" : "text-slate-600 hover:bg-white/60",
             ]}
             data-tab={tab.key}

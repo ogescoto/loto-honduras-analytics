@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Navegación de píldoras (admin y afines): en móvil deja un scroll horizontal
+   con snap; en desktop vuelve a envolver en varias líneas. */
+.nav-pills {
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 767px) {
+  .nav-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}
+@media (min-width: 768px) {
+  .nav-pills {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}
+.nav-pills > * {
+  scroll-snap-align: start;
+  white-space: nowrap;
+}
+
+/* Scrollbar delgada para listas horizontales en móvil */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgb(148 163 184 / 0.5);
+}

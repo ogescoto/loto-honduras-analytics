@@ -48,10 +48,10 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
 
 <Shell title="Administración" active="admin">
   <div class="space-y-8">
-    <nav class="flex flex-wrap gap-2 text-sm">
-      <a href="/admin/resultados" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Resultados manuales</a>
-      <a href="/admin/fuentes" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes de datos</a>
-      <a href="/admin/logs" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Logs</a>
+    <nav class="nav-pills flex gap-2 text-sm">
+      <a href="/admin/resultados" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Resultados manuales</a>
+      <a href="/admin/fuentes" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes de datos</a>
+      <a href="/admin/logs" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Logs</a>
     </nav>
 
     <!-- Sección: suscripciones activas -->
