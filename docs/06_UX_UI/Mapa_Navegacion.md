@@ -16,6 +16,11 @@ Vistas del [[04_Modulos/Frontend|frontend Astro]] (móvil-first), montadas sobre
 - **Análisis de patrones** (`src/pages/patrones.astro`): 4 tabs (**Candidatos** para el próximo sorteo, **Historial** de aciertos con días atrás, **Guía** de los 25 patrones y **Guardados**). Requiere sesión; sin sesión muestra gate con CTA a `/login` y `/premium#planes`. Ver [[04_Modulos/Patrones|Patrones]].
 - **Admin** (`src/pages/admin.astro`): gestión de usuarios (cambio de rol y asignación de plan), listado de suscripciones y formulario de registro de [[05_Procesos/Flujo_Cobro_Presencial|cobro presencial]]. Acceso restringido por rol.
 
+## Diseño mixto móvil / desktop (2026-09-05)
+Navegación **adaptativa por dispositivo**, implementada en `src/layouts/Shell.astro`:
+- **Móvil (< md):** **barra inferior fija** con las primarias **Inicio · Historial · Análisis · Premium** (iconos + etiqueta, `aria-current`, safe-area). La hamburguesa superior ofrece secundarios (Admin si rol, Salir/Entrar). Tabs de `/patrones` y píldoras de admin son **scroll horizontal con snap**.
+- **Desktop (≥ md):** barra superior con nav horizontal completo; pestañas/píldoras en línea.
+
 ## Diagrama
 ```mermaid
 graph LR
@@ -38,6 +43,7 @@ graph LR
 - Design system formal (tokens, componentes reutilizables) y wireframes de alta fidelidad; falta una pantalla de **login** propia.
 
 ## Historial de cambios
+- 2026-09-05: **diseño mixto móvil/desktop** — barra inferior fija (Inicio · Historial · Análisis · Premium), hamburguesa solo secundaria, tabs/píldoras scrollables en móvil.
 - 2026-09-05: añadida la vista **Análisis de patrones** (4 tabs), actualizadas Zona Premium (planes visibles deslogueado) y Admin (roles/planes por usuario).
 - 2026-06-21: documentadas las 3 páginas reales (Dashboard, Premium, Admin), el Shell, `NumberBalls` y Tailwind. Estado activo; resuelto el pendiente de andamiaje.
 - 2026-06-20: creación inicial.

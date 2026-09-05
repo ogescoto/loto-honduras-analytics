@@ -31,6 +31,13 @@ Interfaz móvil-first que presenta patrones de nivel 1 (público), el área prem
 ## Nota sobre scripts Astro
 `define:vars` implica `is:inline` (sin procesar). En páginas con lógica de cliente compleja (`patrones.astro`, `admin.astro`) se prefiere un `<script>` procesado que resuelve `import.meta.env` en build-time y recibe estado inicial vía atributos `data-*`, evitando la combinación `is:inline` + `define:vars` que impedía resolver la base de API en el navegador.
 
+## Navegación mixta móvil / desktop (2026-09-05)
+`src/layouts/Shell.astro` implementa **dos patrones de navegación** según el dispositivo:
+- **Desktop (≥ `md`):** barra superior con nav horizontal (Dashboard · Historial · Análisis · Premium · Admin) + hamburguesa oculta.
+- **Móvil (< `md`):** **barra inferior fija** (`fixed bottom-0`, `md:hidden`) con las 4 rutas principales — Inicio · Historial · Análisis · Premium — con iconos SVG, `aria-current` para la activa y `padding-bottom: env(safe-area-inset-bottom)` para notches. La **hamburguesa superior** queda solo para enlaces secundarios (Admin si aplica, Salir/Entrar) y se cierra al navegar.
+- El `<main>` lleva `pb-24 md:pb-6` para que el contenido no quede tapado por la barra inferior.
+- **Pestañas/píldoras scrollables:** en `/patrones` los 4 tabs pasan a **scroll horizontal con snap** en móvil (en línea en desktop); en las páginas de admin las píldoras de navegación usan la utilidad `.nav-pills` de `src/styles/global.css` (horizontal-scroll en móvil, wrap en desktop) + scrollbar delgada `.scrollbar-thin`.
+
 ## Zona horaria (GMT-6)
 Todas las fechas de sorteos se muestran en **hora de Honduras** (`America/Tegucigalpa`, GMT-6): en `patrones.astro` los aciertos del historial se formatean con `timeZone: America/Tegucigalpa` y el "hace N días" se calcula contra el día civil HN (el marcador canónico `10:00Z`); en `history.astro` el día se preserva parseando solo `YYYY-MM-DD`. Ver la convención en [[04_Modulos/Scraper_Ingestion|Ingestión]].
 
@@ -53,6 +60,7 @@ Todas las fechas de sorteos se muestran en **hora de Honduras** (`America/Teguci
 - Tests E2E con Playwright (`tests/e2e/landing.spec.ts`); falta cobertura E2E de las páginas Premium, Admin y de búsqueda.
 
 ## Historial de cambios
+- 2026-09-05: **navegación mixta** — barra inferior móvil (4 rutas), hamburguesa solo secundaria, tabs de `/patrones` y píldoras admin a scroll horizontal en móvil (`.nav-pills`, safe-area).
 - 2026-09-05: fechas de sorteos en **GMT-6** (`America/Tegucigalpa`) en `patrones.astro`; sección **Tareas programadas** en `admin/logs.astro` con última corrida por franja.
 - 2026-09-05: rediseñadas `patrones.astro` (tabs de análisis), `premium.astro` (planes visibles deslogueado) y `admin.astro` (cambio de rol y asignación de planes); nota sobre scripts Astro (`define:vars` = inline).
 - 2026-09-05: añadidas páginas `history.astro` (filtro de juego), `patrones.astro` (patrones automáticos públicos), auth (login/register/reset) y admin (`resultados`, `fuentes`, `logs`). Actualizada la estructura de páginas.
