@@ -1,7 +1,7 @@
 ---
 tipo: dominio
 estado: activo
-actualizado: 2026-06-25
+actualizado: 2026-09-05
 ---
 
 # Entidades del modelo de datos
@@ -76,13 +76,47 @@ Usuario global del sistema.
 | `meta` | jsonb? | detalle estructurado (insertados, juegos…) |
 | `createdAt` | timestamp | def. ahora; índice para ordenar/filtrar |
 
+## UserFavorite (`user_favorites`)
+[[01_Dominio/Glosario|Número marcado]] por el usuario para un juego. Reordenable por drag & drop.
+
+| Campo | Tipo | Notas |
+|---|---|---|
+| `id` | uuid | PK |
+| `userId` | uuid | FK → User (ON DELETE cascade) |
+| `game` | enum | juego |
+| `number` | text | número (1-2 dígitos, ej. `"07"`) |
+| `note` | text? | nota opcional (máx. 500) |
+| `position` | integer | def. 0; orden del usuario (**migración `0006`**) |
+| `createdAt` | timestamp | def. ahora |
+
+- Restricción `UNIQUE(userId, game, number)`; límite de 100 favoritos por usuario.
+- `GET /api/v1/favorites` ordena por `position`; `PATCH /favorites/reorder` actualiza posiciones.
+
+## UserSavedPattern (`user_saved_patterns`)
+Combinación de patrones del [[04_Modulos/Patrones|constructor personal]] guardada por el usuario (migración `0006`).
+
+| Campo | Tipo | Notas |
+|---|---|---|
+| `id` | uuid | PK |
+| `userId` | uuid | FK → User (ON DELETE cascade) |
+| `name` | text | nombre legible (2-60) |
+| `game` | enum | juego objetivo |
+| `features` | text[] | `FeatureCode` del motor interactivo (1-7) |
+| `isDefault` | boolean | def. false; una predeterminada por usuario |
+| `createdAt` | timestamp | def. ahora |
+
+- Restricción `UNIQUE(userId, name)`.
+- CRUD en `/api/v1/saved-patterns` (requiere auth).
+
 ## Mapa de relaciones (resumen)
 - `User 1—N Subscription` (titular) y `User 1—N Subscription` (registrador presencial).
 - `LotteryDraw` alimenta el cálculo de `GamePattern` (no hay FK formal: el cálculo es analítico).
 - `MetaPattern N—M GamePattern` vía `parentPatternIds`.
 - `IngestionEvent N—1 DrawSource` (opcional, `sourceId`).
+- `User 1—N UserFavorite` (números guardados) y `User 1—N UserSavedPattern` (combinaciones del constructor).
 
 ## Historial de cambios
+- 2026-09-05: añadidos `UserFavorite.position` y `UserSavedPattern` (migración `0006_overrated_peter_parker`).
 - 2026-09-05: añadidos `payment_method.trial`, entidades `DrawSource` e `IngestionEvent` (migración `0005_ingestion_events`).
 - 2026-06-25: **modelo rediseñado a los datos reales.** `game_type` pasa de 4 a 13 juegos. `LotteryDraw`/`lottery_history`: fuera `drawNumber`/`winningNumbers`/`drawTimestamp`; entran `sessionId` (único, idempotencia), `numbers` (text[]), `signs` (text[]), `drawDate`. Migración `0001_redesign_lottery_history`. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
 - 2026-06-20: creación inicial reflejando `schema.ts` y `shared-types/domain.ts`.
@@ -129,12 +163,3 @@ Histórico crudo de sorteos oficiales; objetivo de la [[04_Modulos/Scraper_Inges
 | `description` | text | descripción legible del cruce |
 | `crossData` | jsonb | estructura del patrón de segundo orden |
 | `updatedAt` | timestamp | def. ahora |
-
-## Mapa de relaciones (resumen)
-- `User 1—N Subscription` (titular) y `User 1—N Subscription` (registrador presencial).
-- `LotteryDraw` alimenta el cálculo de `GamePattern` (no hay FK formal: el cálculo es analítico).
-- `MetaPattern N—M GamePattern` vía `parentPatternIds`.
-
-## Historial de cambios
-- 2026-06-25: **modelo rediseñado a los datos reales.** `game_type` pasa de 4 a 13 juegos. `LotteryDraw`/`lottery_history`: fuera `drawNumber`/`winningNumbers`/`drawTimestamp`; entran `sessionId` (único, idempotencia), `numbers` (text[]), `signs` (text[]), `drawDate`. Migración `0001_redesign_lottery_history`. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
-- 2026-06-20: creación inicial reflejando `schema.ts` y `shared-types/domain.ts`.

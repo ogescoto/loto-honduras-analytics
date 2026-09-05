@@ -123,7 +123,52 @@ Lista eventos de ingestión para el panel admin. Ver [[04_Modulos/Admin_Logs|mó
 - **Respuesta `200`:** `{ "success": true, "data": [{ "id", "level", "message", "game", "meta", "createdAt", "sourceId", "sourceName" }] }` ordenado por `createdAt` desc.
 - **Errores:** `401 UNAUTHENTICATED`, `403 FORBIDDEN`.
 
+## GET /api/v1/history
+Historial de sorteos. Ver [[04_Modulos/Frontend|Frontend]]. Código: `apps/backend-hono/src/routes/history.ts`.
+- **Acceso:** público.
+- **Query params:** `game` (un juego o familia `all_*`), `days` (1-90, def. 10), `order` (`asc`|`desc`).
+- **Respuesta `200`:** `{ "success": true, "data": LotteryDraw[] }`.
+
+## GET /api/v1/favorites
+Lista favoritos del usuario (reordenables). Código: `apps/backend-hono/src/routes/favorites.ts`.
+- **Acceso:** `requireAuth`.
+- **Respuesta `200`:** `{ "success": true, "data": UserFavorite[] }` ordenado por `position`.
+
+## POST /api/v1/favorites
+Guarda un número como favorito.
+- **Acceso:** `requireAuth`. **Body:** `{ "game", "number", "note?" }`. `number` = 1-2 dígitos.
+- **Respuestas:** `201` con el `UserFavorite`; `409 ALREADY_EXISTS` (ya guardado); `400 VALIDATION_ERROR`; `400 LIMIT_EXCEEDED` (>100).
+
+## PATCH /api/v1/favorites/reorder
+Reordena favoritos por drag & drop.
+- **Acceso:** `requireAuth`. **Body:** `{ "ids": ["uuid", ...] }` (orden final de los favoritos; todos deben pertenecer al usuario).
+- **Respuestas:** `200`; `400 VALIDATION_ERROR`; `403 FORBIDDEN` si algún id no es del usuario.
+
+## DELETE /api/v1/favorites/:id
+Elimina un favorito del usuario autenticado.
+- **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
+
+## GET /api/v1/saved-patterns
+Lista combinaciones de patrones guardadas por el usuario (constructor personal). Código: `apps/backend-hono/src/routes/saved-patterns.ts`.
+- **Acceso:** `requireAuth`.
+- **Respuesta `200`:** `{ "success": true, "data": UserSavedPattern[] }`.
+
+## POST /api/v1/saved-patterns
+Guarda una combinación de patrones. Ver [[04_Modulos/Patrones|Patrones]].
+- **Acceso:** `requireAuth`. **Body:** `{ "name": "2-60 chars", "game": GameType, "features": FeatureCode[1-7] }`.
+- **Respuestas:** `201` con la combinación; `400 VALIDATION_ERROR`.
+
+## PATCH /api/v1/saved-patterns/:id
+Actualiza nombre, `features` o marca `isDefault` (al marcarla, las demás quedan `false`).
+- **Acceso:** `requireAuth`. **Body:** parcial `{ "name?", "features?", "isDefault?" }`.
+- **Respuestas:** `200`; `404 NOT_FOUND`; `400 VALIDATION_ERROR`.
+
+## DELETE /api/v1/saved-patterns/:id
+Elimina la combinación del usuario.
+- **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
+
 ## Historial de cambios
+- 2026-09-05: documentados `GET/POST /favorites`, `PATCH /favorites/reorder`, `DELETE /favorites/:id` y CRUD `/saved-patterns`; `MAX_DAYS` de historial sube a 90.
 - 2026-09-05: añadidos `PATCH /api/v1/admin/users/:id/role` y `PATCH /api/v1/admin/users/:id/subscription` (gestión de roles y planes desde admin); documentados `POST /api/v1/ingest/events` y `GET /api/v1/admin/logs`.
 - 2026-06-21: documentado auth Bearer JWT + RBAC; añadidos `POST /auth/login`, `POST /payments/checkout` y `POST /payments/webhook`; `premium/meta-patterns` y `admin/register-physical-payment` ahora toman la identidad del JWT (eliminado `userId` por query y `administratorId` del body); añadidos códigos de error.
 - 2026-06-20: documentación inicial de `/health`, `patterns`, `premium/meta-patterns` y `admin/register-physical-payment`.

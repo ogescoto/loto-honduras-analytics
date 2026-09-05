@@ -27,10 +27,10 @@ Servir los patrones analíticos de la plataforma en dos niveles: **nivel 1** (da
 
 ## Pantalla de análisis (`/patrones`)
 Rediseñada (2026-09-05) con 4 tabs internos y datos cargados client-side:
-1. **🎯 Candidatos** — combina hasta 7 de los 25 patrones; llama a `/filter` y muestra los números que cumplen todos (o la mejor aproximación).
+1. **🎯 Candidatos** — combina hasta 7 de los 25 patrones; llama a `/filter` y muestra los números que cumplen todos (o la mejor aproximación). Incluye el **constructor personal**: chips arrastrables (reordenan la combinación) y guardado/carga/borrado de combinaciones vía `/saved-patterns` (`user_saved_patterns`).
 2. **📜 Historial** — llama a `/hits` y muestra, ordenado del más reciente al más antiguo, los sorteos del juego donde el ganador cumplía toda la combinación (con "hace ~N días").
 3. **📚 Guía** — catálogo completo de los 25 patrones con su descripción.
-4. **⭐ Guardados** — favoritos del usuario por juego (`localStorage`).
+4. **⭐ Guardados** — favoritos del usuario (localStorage + API `/favorites` cuando hay sesión).
 Deslogueado muestra CTA que enlaza a `/login` y `/premium#planes`. Script procesado (no `is:inline` + `define:vars`); estado inicial vía `data-*` y la base de API resuelta en build-time.
 
 ## Motor de patrones
@@ -63,6 +63,7 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
-- 2026-09-05: `computePatternsForGame` usa `DREAM_GUIDE` como numerología por defecto cuando no llegan `dreamNumbers` → premium con 32 meta-patrones (antes vacío). Actualizada la pantalla `/patrones` (tabs Candidatos/Historial/Guía/Guardados) y documentado el motor interactivo (catalog, filter, hits con `compliance.ts`).
+- 2026-09-05: **constructor personal** en `/patrones` — chips arrastrables y combinaciones guardadas por usuario (`user_saved_patterns`, migración `0006`); el clic en resultados guarda el favorito en la cuenta. `computePatternsForGame` usa `DREAM_GUIDE` como numerología por defecto → premium con 32 meta-patrones.
+- 2026-09-05: rediseñada la pantalla `/patrones` (tabs Candidatos/Historial/Guía/Guardados) y documentado el motor interactivo (catalog, filter, hits con `compliance.ts`).
 - 2026-06-21: documentado el motor de patrones implementado (`engine.ts`, `dream-guide.ts`, `compute.ts`): ventanas 30/90/365, rachas inversas, par/impar y meta-patrones psico-estadísticos persistidos. Resuelto el pendiente de cálculo.
 - 2026-06-20: creación inicial.
