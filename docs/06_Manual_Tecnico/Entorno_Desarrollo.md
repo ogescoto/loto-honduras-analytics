@@ -56,6 +56,14 @@ PUBLIC_ADSENSE_SLOT_1=
 PUBLIC_ADSENSE_SLOT_2=
 ```
 
+## Pipeline de migraciones en producción (Neon)
+
+`drizzle-kit migrate` registra lo aplicado en la tabla **`drizzle.__drizzle_migrations`** (schema `drizzle`): columnas `id`, `hash` (SHA-256 del archivo `.sql`) y `created_at` (= el `when` del `_journal.json`, en ms). Drizzle **solo aplica migraciones cuyo `when` sea mayor que el `created_at` de la última fila**, sin validar el hash al saltar.
+
+- **Estado alineado (2026-09-05):** `drizzle.__drizzle_migrations` contiene las 7 migraciones (`0000`…`0006`, incluida `0006_overrated_peter_parker`). `pnpm migrate` contra Neon ahora es **idempotente y no ejecuta nada nuevo**.
+- ⚠️ No marcar manualmente una migración como aplicada hasta verificar que su DDL ya está en la BD: `drizzle-kit migrate` saltará las marcadas. Para re-marcar el baseline se insertó la fila con `created_at = when` de la última migración real.
+- En local (Docker) el flujo sigue siendo `pnpm up && pnpm migrate` (la tabla se crea desde cero y aplica 0000 → última).
+
 ## Comandos útiles
 
 | Comando | Descripción |
