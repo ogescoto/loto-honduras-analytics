@@ -38,6 +38,8 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - **`engine.ts`** (lógica pura, sin I/O — testeable): `withinWindow` (filtra por ventana de N días), `frequency` (conteo de apariciones), `hotCold` (top calientes/fríos por ventana), `inverseStreaks` (rachas inversas: números más "atrasados"), `parity` (distribución par/impar), `crossMetaPatterns` (cruce psico-estadístico: calientes ∩ números de sueños/búsquedas en tendencia, con `confidenceScore`).
 - **`dream-guide.ts`**: `DREAM_GUIDE` (guía de los sueños hondureña: `fuego=24`, `dinero=8`, `agua=12`, …) y `numberForDream(symbol)`.
 - **`compute.ts`**: `computePatternsForGame(db, game, dreamNumbers, now)` — calcula patrones nivel 1 en ventanas **30/90/365** días (`frio_caliente` por ventana, `rachas_inversas`, `par_impar`) y meta-patrones (cruce de calientes de 30 d con `dreamNumbers`), y los **persiste** en `game_patterns` y `meta_patterns`. Dominio numérico `00–99`.
+- **Numerología por defecto (2026-09-05):** si se invoca sin `dreamNumbers`, usa `Object.values(DREAM_GUIDE)` como referencia del imaginario popular, de modo que el cruce `calientes ∩ sueños` siempre pueda generar meta-patrones. Antes, `ingest.ts` llamaba con `[]` → `meta_patterns` quedaba vacío (la pantalla premium parecía "vacía"). Tras `seed:prod` hay **65 patrones + 32 meta-patrones**.
+- Se recalcula en background tras cada ingestión (`ingest.ts` → `ctx.waitUntil(computePatternsForGame(...))`).
 
 ## Entidades principales
 - [[01_Dominio/Entidades#GamePattern|GamePattern]] — tipos `frio_caliente`, `numerologia_suenos`, `par_impar`, `rachas_inversas`.
@@ -57,10 +59,10 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Estado en `.aicodeprotect.yml`: **no protegido** (las rutas y el motor de patrones en sí). El acceso premium se apoya en el middleware 🔒 protegido `require-active-subscription` (ver [[04_Modulos/Suscripciones|Suscripciones]]).
 
 ## Pendiente / no documentado
-- La **captura automática de tendencias de búsqueda/sueños** (origen de `dreamNumbers`) aún no tiene fuente conectada; hoy se pasan como entrada al motor.
-- Falta el **disparador programado** que ejecute `computePatternsForGame` periódicamente (p. ej. tras la ingestión).
+- La **captura automática de tendencias de búsqueda/sueños** (origen de `dreamNumbers`) aún no tiene fuente conectada; hoy se usa la guía fija `DREAM_GUIDE` como numerología por defecto.
+- Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
-- 2026-09-05: rediseñada la pantalla `/patrones` (tabs Candidatos/Historial/Guía/Guardados) y documentado el motor interactivo (catalog, filter, hits con `compliance.ts`).
+- 2026-09-05: `computePatternsForGame` usa `DREAM_GUIDE` como numerología por defecto cuando no llegan `dreamNumbers` → premium con 32 meta-patrones (antes vacío). Actualizada la pantalla `/patrones` (tabs Candidatos/Historial/Guía/Guardados) y documentado el motor interactivo (catalog, filter, hits con `compliance.ts`).
 - 2026-06-21: documentado el motor de patrones implementado (`engine.ts`, `dream-guide.ts`, `compute.ts`): ventanas 30/90/365, rachas inversas, par/impar y meta-patrones psico-estadísticos persistidos. Resuelto el pendiente de cálculo.
 - 2026-06-20: creación inicial.

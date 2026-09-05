@@ -33,7 +33,12 @@ Mantener actualizado el histórico de sorteos consumiendo la **API JSON** oficia
 ## Vía respaldo — Worker `scraper-cron`
 - `apps/scraper-cron/src/index.ts`: `scheduled()` → `computeSlot()` (franja activa por hora HN: 11/15/21) → `runSlot()` con **reintentos cada 5 min** (hasta 12 intentos ≈ 60 min) y **auto-recuperación**: re-ingiere lo que falte de los **últimos 6 días** (`CATCH_UP_DAYS`, `eligibleMarkers()`), idempotente por `sessionId`. Persistencia vía `POST /api/v1/ingest`; **fallback a inserción directa en Neon** si el backend no responde. Crons `15 3,17,21 * * *` (UTC).
 - `apps/scraper-cron/src/parser.ts`: parser compartido (`SITE_GAME_IDS`, `gameFromSiteId`, `gameFromTitle`, `parseRawRecords`, `parseFeed`, `parseSiteGameSessions`).
-- `apps/scraper-cron/src/schedules.ts`: `LOTO_HN_SCHEDULES` (franjas/días), `HN_UTC_OFFSET`.
+- `apps/scraper-cron/src/schedules.ts`: `LOTO_HN_SCHEDULES` (franjas/días), `HN_UTC_OFFSET`, y **`sourceMarkerToCanonicalIso()`**.
+
+### Zona horaria (GMT-6 = Honduras) — convención canónica
+- La **fuente** marca cada sorteo con `YYYY-MM-DDT04:00:00Z` como *marcador del día civil* (un punto fijo, no la hora real del sorteo).
+- El proyecto guarda `draw_date` con el **marcador canónico `10:00Z` = 04:00 HN** del MISMO día calendario hondureño. `sourceMarkerToCanonicalIso` suma `|HN_UTC_OFFSET| = 6 h` al marcador de la fuente, por lo que **nunca cruza la medianoche civil** (un sorteo del día D queda en D, no en D-1).
+- ⚠️ Errores históricos corregidos: antes el Worker restaba 6 h (`+ HN_UTC_OFFSET`) → el sorteo del día D se guardaba como `22:00Z` del día D-1; además el backfill inicial dejó ~7.500 filas con el marcador crudo `04:00Z`. El 2026-09-05 se ejecutó un `UPDATE` en Neon normalizando **toda** `lottery_history` a `10:00Z` (7515 filas), y el Worker quedó arreglado para los insertos nuevos.
 
 ## Eventos de log (panel admin)
 El Worker emite eventos best-effort a `POST /api/v1/ingest/events` (`emitLogEvent()`): éxito/error de cada chequeo de fuente, aviso si `POST /api/v1/ingest` falla y cae a Neon directo, y resumen al cerrar cada franja (insertados o agotamiento de intentos). Ver [[04_Modulos/Admin_Logs|Admin · Logs]]. *La vía GitHub Actions aún no emite eventos.*
@@ -59,6 +64,7 @@ El Worker emite eventos best-effort a `POST /api/v1/ingest/events` (`emitLogEven
 - Reintentos/backoff ante fallos de la API o del proxy.
 
 ## Historial de cambios
+- 2026-09-05: **corregida la zona horaria GMT-6** — normalización canónica a `10:00Z` (`sourceMarkerToCanonicalIso`), UPDATE global en Neon (7515 filas) y tests (+2). El sorteo del día ya aparece en su día calendario HN.
 - 2026-09-05: Worker reescrito con **franjas por hora HN + reintentos + auto-recuperación de 6 días** (define el objetivo; resuelve el sorteo 9PM tarde). El Worker emite **eventos de log** a `POST /api/v1/ingest/events` ([[04_Modulos/Admin_Logs|Admin · Logs]]). Primer verificado en backfill manual; fallback vía `POST /api/v1/ingest` con *–data directa Neon*.
 - 2026-06-25: **rediseño completo.** Fuente = API JSON real (`/feed/game-stats`); identidad por `siteGameId`. Ingestión principal en **GitHub Actions** (proxy **WebShare** vía `undici`) → endpoint `POST /api/v1/ingest` (auth de servicio); Worker = **respaldo** (API directa). Carga histórica real en seed dev. Decodo anulado. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
 - 2026-06-23: (anulado) proxy Scrapoxy→Decodo.

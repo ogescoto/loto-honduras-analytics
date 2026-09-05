@@ -32,7 +32,7 @@ Mostrar al **admin** (o clerk) el historial cronológico de actividad de la **in
 - Código: `apps/backend-hono/src/routes/ingest-events.ts`, `apps/backend-hono/src/routes/admin/logs.ts`. Montadas en `apps/backend-hono/src/index.ts`.
 
 ## UI
-- `/admin/logs` (`apps/frontend-astro/src/pages/admin/logs.astro`): tabla con Fecha (HN), Nivel (badge de color), Fuente, Juego, Mensaje y Detalle (meta en `<details>`). Formulario de filtros por nivel y juego. Enlace añadido en el nav de `admin.astro`, `admin/resultados.astro` y `admin/fuentes.astro`.
+- `/admin/logs` (`apps/frontend-astro/src/pages/admin/logs.astro`): sección **"Tareas programadas (cron)"** que describe los 3 disparos del Worker (franja HN, cron UTC, juegos y última corrida por franja), seguida de la tabla con Fecha (HN), Nivel (badge de color), Fuente, Juego, Mensaje y Detalle (meta en `<details>`). Formulario de filtros por nivel y juego. Enlace añadido en el nav de `admin.astro`, `admin/resultados.astro` y `admin/fuentes.astro`.
 
 ## Entidades principales
 - [[01_Dominio/Entidades#IngestionEvent|IngestionEvent / ingestion_events]].
@@ -48,4 +48,5 @@ Mostrar al **admin** (o clerk) el historial cronológico de actividad de la **in
 - No hay retención/purga automática: la tabla crece sin límite (≈6 eventos/día a día de hoy).
 
 ## Historial de cambios
+- 2026-09-05: añadida la sección **Tareas programadas** en `/admin/logs` (crons 11:15/15:15/21:15 HN + última corrida por franja).
 - 2026-09-05: creación. Tabla `ingestion_events` (migración `0005_ingestion_events`), endpoints de write (service token) y read (admin), emisión de eventos desde el scraper y página `/admin/logs`.
