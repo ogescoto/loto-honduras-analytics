@@ -1,0 +1,527 @@
+---
+/**
+ * Pantalla de Análisis de Patrones — 3 tabs:
+ *   1. Constructor de filtros (por característica → candidatos)
+ *   2. Buscar por número (qué características tiene ese número)
+ *   3. Mis favoritos
+ *
+ * Requiere suscripción activa (trial o pago). Si no: gate con CTA.
+ * Los datos de características se cargan client-side para evitar tiempo de
+ * espera en SSR (calcular estados de 100 números puede tardar 2-3s en Neon).
+ */
+import Shell from "../layouts/Shell.astro";
+import { getValidPayload } from "../lib/auth.ts";
+import PatternCard from "../components/PatternCard.astro";
+import { apiGetSSR } from "../lib/api.ts";
+import { GAME_LABELS } from "../lib/gameLabels.ts";
+import type { GamePattern } from "@loto/shared-types";
+
+const payload    = getValidPayload(Astro.cookies);
+const token      = Astro.cookies.get("loto_token")?.value ?? null;
+const loggedIn   = !!payload;
+const apiBasePub = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+
+const GAMES = [
+  { value: "pega3_9pm",   label: "Pega 3 · 9 PM" },
+  { value: "pega3_3pm",   label: "Pega 3 · 3 PM" },
+  { value: "pega3_11am",  label: "Pega 3 · 11 AM" },
+  { value: "premia2_9pm", label: "Premia 2 · 9 PM" },
+  { value: "premia2_3pm", label: "Premia 2 · 3 PM" },
+  { value: "premia2_11am",label: "Premia 2 · 11 AM" },
+  { value: "juga3_9pm",   label: "Jugá 3 · 9 PM" },
+  { value: "juga3_3pm",   label: "Jugá 3 · 3 PM" },
+  { value: "juga3_11am",  label: "Jugá 3 · 11 AM" },
+  { value: "diaria_9pm",  label: "La Diaria · 9 PM" },
+  { value: "diaria_3pm",  label: "La Diaria · 3 PM" },
+  { value: "diaria_11am", label: "La Diaria · 11 AM" },
+  { value: "super_premio",label: "Super Premio" },
+];
+
+const selectedGame = Astro.url.searchParams.get("game") ?? "pega3_9pm";
+const selectedTab  = Astro.url.searchParams.get("tab")  ?? "filtro";
+
+// Patrones automáticos (públicos): frío/caliente, rachas y par/impar del juego,
+// recalculados tras cada ingestión. No requieren iniciar sesión.
+let autoPatterns: GamePattern[] = [];
+const patternsRes = await apiGetSSR<GamePattern[]>(
+  `/api/v1/patterns?game=${selectedGame}`,
+  Astro.locals,
+);
+if (patternsRes.success) autoPatterns = patternsRes.data;
+---
+
+<Shell title="Análisis de Patrones" active="patrones" ogTitle="Análisis — Loto Honduras">
+  {!loggedIn ? (
+    <!-- Gate: usuario no autenticado -->
+    <div class="mx-auto max-w-lg rounded-xl border border-teal-200 bg-teal-50 p-8 text-center">
+      <p class="mb-2 text-4xl">🔍</p>
+      <h2 class="mb-2 text-xl font-bold text-teal-800">Análisis de Patrones</h2>
+      <p class="mb-6 text-sm text-teal-700">
+        Accede a los 15 indicadores analíticos de los 100 números.<br />
+        <strong>3 meses gratis</strong> con solo registrarte.
+      </p>
+      <div class="flex justify-center gap-3">
+        <a href="/register" class="rounded-lg bg-teal-600 px-5 py-2 text-sm font-semibold text-white hover:bg-teal-700">
+          Registrarse gratis
+        </a>
+        <a href="/login" class="rounded-lg border border-teal-300 px-5 py-2 text-sm font-semibold text-teal-700 hover:bg-teal-100">
+          Ya tengo cuenta
+        </a>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <!-- Selector de juego -->
+      <div class="mb-5 flex flex-wrap items-center gap-3">
+        <label class="text-sm font-medium text-slate-700" for="game-select">Juego:</label>
+        <select
+          id="game-select"
+          class="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-200"
+          onchange={`location.href='/patrones?game='+this.value+'&tab='+(new URLSearchParams(location.search).get('tab')||'filtro')`}
+        >
+          {GAMES.map(g => (
+            <option value={g.value} selected={g.value === selectedGame}>{g.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <!-- ── Patrones automáticos (públicos) ─────────────────────────────── -->
+      <section class="mb-8">
+        <h2 class="mb-1 text-lg font-bold text-slate-800">
+          Patrones automáticos — {GAME_LABELS[selectedGame as keyof typeof GAME_LABELS] ?? selectedGame}
+        </h2>
+        <p class="mb-4 text-xs text-slate-500">
+          Recalculados tras cada ingestión oficial. Patriaxial: fríos/calientes (30, 90 y 365 días), rachas inversas y paridad.
+        </p>
+        {autoPatterns.length === 0 ? (
+          <div class="rounded-lg border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+            Aún no hay patrones calculados para este juego. Se generan automáticamente con los datos de cada sorteo.
+          </div>
+        ) : (
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {autoPatterns.map((p) => <PatternCard pattern={p} />)}
+          </div>
+        )}
+      </section>
+
+      <!-- Tabs -->
+      <div class="mb-5 flex gap-1 rounded-lg bg-slate-100 p-1">
+        {[
+          { key: "filtro",    label: "🔧 Constructor de filtros" },
+          { key: "numero",    label: "🔢 Por número" },
+          { key: "favoritos", label: "⭐ Mis favoritos" },
+        ].map(tab => (
+          <button
+            class:list={[
+              "tab-btn flex-1 rounded-md px-3 py-2 text-xs font-medium transition sm:text-sm",
+              selectedTab === tab.key ? "bg-white shadow text-teal-700 font-semibold" : "text-slate-600 hover:bg-white/60",
+            ]}
+            data-tab={tab.key}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Cargando estado inicial -->
+      <div id="features-loading" class="py-8 text-center text-sm text-slate-500">
+        Calculando estado de los 100 números…
+      </div>
+
+      <!-- ── Tab 1: Constructor de filtros ──────────────────────────────── -->
+      <div id="tab-filtro" class="tab-panel hidden">
+        <div class="mb-4 rounded-lg border border-teal-100 bg-teal-50 p-4">
+          <p class="text-sm text-teal-700">
+            Selecciona hasta <strong>7 características</strong> para filtrar los números candidatos.
+            El sistema devuelve los números que cumplen <em>todas</em> las condiciones elegidas
+            (o los más cercanos si ninguno cumple todas).
+          </p>
+        </div>
+
+        <div id="feature-catalog" class="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Se rellena con JS -->
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            id="btn-filter"
+            class="rounded-lg bg-teal-600 px-5 py-2 text-sm font-semibold text-white disabled:opacity-50 hover:bg-teal-700"
+          >
+            Buscar candidatos
+          </button>
+          <button
+            id="btn-clear-filter"
+            class="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50"
+          >
+            Limpiar
+          </button>
+          <span id="filter-count" class="text-xs text-slate-500">0 características seleccionadas</span>
+        </div>
+
+        <!-- Resultados del filtro -->
+        <div id="filter-results" class="mt-6 hidden">
+          <div id="filter-exact" class="hidden">
+            <h3 class="mb-2 font-semibold text-teal-700">Candidatos exactos ✓</h3>
+            <div id="filter-exact-numbers" class="flex flex-wrap gap-2"></div>
+          </div>
+          <div id="filter-partial" class="hidden">
+            <h3 class="mb-2 font-semibold text-amber-600">Aproximación (mejor coincidencia)</h3>
+            <p id="filter-partial-desc" class="mb-2 text-xs text-slate-500"></p>
+            <div id="filter-partial-numbers" class="flex flex-wrap gap-2"></div>
+          </div>
+          <p id="filter-empty" class="hidden text-sm text-slate-500">No se encontraron candidatos.</p>
+        </div>
+      </div>
+
+      <!-- ── Tab 2: Por número ───────────────────────────────────────────── -->
+      <div id="tab-numero" class="tab-panel hidden">
+        <div class="mb-5 flex items-center gap-3">
+          <label class="text-sm font-medium text-slate-700" for="number-input">Número (00–99):</label>
+          <input
+            id="number-input"
+            type="number" min="0" max="99"
+            class="w-24 rounded-lg border border-slate-300 px-3 py-2 text-center text-sm shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-200"
+            placeholder="00"
+          />
+          <button
+            id="btn-lookup"
+            class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+          >
+            Ver características
+          </button>
+        </div>
+
+        <div id="number-results" class="hidden">
+          <h3 class="mb-3 text-lg font-bold text-slate-800">
+            Número <span id="number-display" class="font-mono text-teal-700"></span>
+          </h3>
+          <div class="mb-3">
+            <span class="text-sm font-medium text-slate-600">Días sin salir (global):</span>
+            <span id="days-global" class="ml-2 font-semibold"></span>
+            <span class="ml-4 text-sm font-medium text-slate-600">Días sin salir (jornada):</span>
+            <span id="days-slot" class="ml-2 font-semibold"></span>
+          </div>
+          <div id="feature-list" class="grid gap-2 sm:grid-cols-2">
+            <!-- Se rellena con JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Tab 3: Favoritos ────────────────────────────────────────────── -->
+      <div id="tab-favoritos" class="tab-panel hidden">
+        <div class="mb-4 text-sm text-slate-600">
+          Tus favoritos guardados para este juego. Haz clic en un número en cualquier tab para agregarlo.
+        </div>
+        <div id="favorites-list" class="flex flex-wrap gap-2">
+          <!-- Se rellena con JS -->
+        </div>
+        <p id="favorites-empty" class="hidden text-sm text-slate-500">
+          No tienes favoritos para este juego. Guarda números desde el tab "Por número".
+        </p>
+      </div>
+    </div>
+  )}
+</Shell>
+
+<script is:inline define:vars={{ token, selectedGame, selectedTab, apiBasePub }}>
+  // ── constantes ─────────────────────────────────────────────────────────────
+  const API_BASE = apiBasePub;
+
+  // ── estado local ───────────────────────────────────────────────────────────
+  let currentGame     = selectedGame;
+  let currentTab      = selectedTab;
+  let catalog         = [];   // [{ code, label, description }]
+  let numberStates    = {};   // { [number]: { features, daysSinceLastGlobal, ... } }
+  let selectedFeatures = new Set();
+  let cacheByGame     = {};   // caché in-memory por juego
+
+  // ── elementos DOM ──────────────────────────────────────────────────────────
+  const loadingEl      = document.getElementById("features-loading");
+  const tabBtns        = document.querySelectorAll(".tab-btn");
+  const tabPanels      = document.querySelectorAll(".tab-panel");
+  const featureCatalog = document.getElementById("feature-catalog");
+  const btnFilter      = document.getElementById("btn-filter");
+  const btnClear       = document.getElementById("btn-clear-filter");
+  const filterCount    = document.getElementById("filter-count");
+  const filterResults  = document.getElementById("filter-results");
+  const filterExact    = document.getElementById("filter-exact");
+  const filterPartial  = document.getElementById("filter-partial");
+  const filterEmpty    = document.getElementById("filter-empty");
+  const numberInput    = document.getElementById("number-input");
+  const btnLookup      = document.getElementById("btn-lookup");
+  const numberResults  = document.getElementById("number-results");
+  const favoritesList  = document.getElementById("favorites-list");
+  const favoritesEmpty = document.getElementById("favorites-empty");
+
+  // ── helpers ────────────────────────────────────────────────────────────────
+  function fmtNum(n) { return String(n).padStart(2, "0"); }
+
+  function getToken() { return token || null; }
+
+  function getFavoriteKey(game) { return `loto_favs_${game}`; }
+
+  function loadFavorites(game) {
+    try { return JSON.parse(localStorage.getItem(getFavoriteKey(game)) || "[]"); }
+    catch { return []; }
+  }
+
+  function toggleFavorite(game, number) {
+    const favs = loadFavorites(game);
+    const idx  = favs.indexOf(number);
+    if (idx >= 0) favs.splice(idx, 1); else favs.push(number);
+    localStorage.setItem(getFavoriteKey(game), JSON.stringify(favs));
+  }
+
+  function numberBall(n, extraClass = "") {
+    const s = fmtNum(n);
+    const btn = document.createElement("button");
+    btn.textContent = s;
+    btn.className = `number-ball h-10 w-10 rounded-full font-mono font-bold text-sm shadow transition
+      bg-teal-600 text-white hover:bg-teal-700 ${extraClass}`;
+    btn.dataset.number = String(n);
+    btn.addEventListener("click", () => onNumberClick(n));
+    return btn;
+  }
+
+  function onNumberClick(n) {
+    // Ir a tab "por número" con este número seleccionado
+    currentTab = "numero";
+    switchTab("numero");
+    if (numberInput) {
+      numberInput.value = String(n);
+      lookupNumber(n);
+    }
+  }
+
+  // ── carga del catálogo ─────────────────────────────────────────────────────
+  async function loadCatalog() {
+    const tok = getToken();
+    const headers = tok ? { Authorization: `Bearer ${tok}` } : {};
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/features/catalog`, { headers });
+      const data = await res.json();
+      if (data.success) catalog = data.data;
+    } catch {}
+  }
+
+  // ── carga del estado de números ────────────────────────────────────────────
+  async function loadNumberStates(game) {
+    if (cacheByGame[game]) { numberStates = cacheByGame[game]; return; }
+    loadingEl && (loadingEl.style.display = "block");
+    const tok = getToken();
+    const headers = tok ? { Authorization: `Bearer ${tok}` } : {};
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/features/${game}`, { headers });
+      const data = await res.json();
+      if (data.success) {
+        const map = {};
+        for (const row of data.data.numbers) map[row.number] = row.features;
+        cacheByGame[game] = map;
+        numberStates = map;
+      }
+    } catch {}
+    loadingEl && (loadingEl.style.display = "none");
+  }
+
+  // ── tab switch ─────────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    tabBtns.forEach(b => {
+      const isActive = b.dataset.tab === tab;
+      b.classList.toggle("bg-white", isActive);
+      b.classList.toggle("shadow", isActive);
+      b.classList.toggle("text-teal-700", isActive);
+      b.classList.toggle("font-semibold", isActive);
+      b.classList.toggle("text-slate-600", !isActive);
+    });
+    tabPanels.forEach(p => p.classList.toggle("hidden", !p.id.endsWith(tab)));
+    if (tab === "favoritos") renderFavorites();
+  }
+
+  // ── renderizado del catálogo de características ────────────────────────────
+  function renderCatalog() {
+    if (!featureCatalog) return;
+    featureCatalog.innerHTML = "";
+    for (const feat of catalog) {
+      const card = document.createElement("div");
+      const active = selectedFeatures.has(feat.code);
+      card.className = `feature-card cursor-pointer rounded-lg border p-3 text-sm transition select-none
+        ${active ? "border-teal-500 bg-teal-50 ring-2 ring-teal-300" : "border-slate-200 bg-white hover:border-teal-300"}`;
+      card.dataset.code = feat.code;
+      card.innerHTML = `
+        <div class="mb-1 flex items-center gap-2">
+          <span class="h-4 w-4 flex-shrink-0 rounded-full border-2 ${active ? "border-teal-500 bg-teal-500" : "border-slate-300"}"></span>
+          <span class="font-semibold ${active ? "text-teal-700" : "text-slate-800"}">${feat.label}</span>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed">${feat.description}</p>
+      `;
+      card.addEventListener("click", () => toggleFeature(feat.code));
+      featureCatalog.appendChild(card);
+    }
+    updateFilterCount();
+  }
+
+  function toggleFeature(code) {
+    if (selectedFeatures.has(code)) selectedFeatures.delete(code);
+    else if (selectedFeatures.size < 7) selectedFeatures.add(code);
+    renderCatalog();
+  }
+
+  function updateFilterCount() {
+    const n = selectedFeatures.size;
+    if (filterCount) filterCount.textContent = `${n} característica${n === 1 ? "" : "s"} seleccionada${n === 1 ? "" : "s"}`;
+    if (btnFilter) btnFilter.disabled = n === 0;
+  }
+
+  // ── ejecución del filtro ───────────────────────────────────────────────────
+  async function runFilter() {
+    if (selectedFeatures.size === 0) return;
+    if (btnFilter) btnFilter.textContent = "Buscando…";
+    const tok = getToken();
+    const headers = { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) };
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/features/${currentGame}/filter`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ features: [...selectedFeatures] }),
+      });
+      const data = await res.json();
+      if (!data.success) { alert(data.error?.message ?? "Error al filtrar."); return; }
+      showFilterResults(data.data);
+    } catch { alert("Error de conexión."); }
+    finally { if (btnFilter) btnFilter.textContent = "Buscar candidatos"; }
+  }
+
+  function showFilterResults(result) {
+    if (!filterResults) return;
+    filterResults.classList.remove("hidden");
+    filterExact.classList.add("hidden");
+    filterPartial.classList.add("hidden");
+    filterEmpty.classList.add("hidden");
+
+    const { exact, partial, matchCount, totalRequested, isExact } = result;
+
+    if (isExact && exact.length > 0) {
+      filterExact.classList.remove("hidden");
+      const container = document.getElementById("filter-exact-numbers");
+      container.innerHTML = "";
+      for (const n of exact) container.appendChild(numberBall(n));
+    } else if (partial.length > 0) {
+      filterPartial.classList.remove("hidden");
+      const desc = document.getElementById("filter-partial-desc");
+      desc.textContent = `Ningún número cumple las ${totalRequested} condiciones. Los siguientes cumplen ${matchCount} de ${totalRequested}:`;
+      const container = document.getElementById("filter-partial-numbers");
+      container.innerHTML = "";
+      for (const n of partial) container.appendChild(numberBall(n, "bg-amber-500 hover:bg-amber-600"));
+    } else {
+      filterEmpty.classList.remove("hidden");
+    }
+  }
+
+  // ── búsqueda por número ────────────────────────────────────────────────────
+  function lookupNumber(n) {
+    const features = numberStates[n];
+    if (!features || !numberResults) return;
+    numberResults.classList.remove("hidden");
+    document.getElementById("number-display").textContent = fmtNum(n);
+
+    const featureList = document.getElementById("feature-list");
+    featureList.innerHTML = "";
+
+    for (const feat of catalog) {
+      const active = !!features[feat.code];
+      const row = document.createElement("div");
+      row.className = `flex items-start gap-2 rounded-lg border p-3 text-sm
+        ${active ? "border-teal-200 bg-teal-50" : "border-slate-100 bg-white opacity-60"}`;
+      row.innerHTML = `
+        <span class="mt-0.5 text-base">${active ? "✅" : "❌"}</span>
+        <div>
+          <div class="font-semibold ${active ? "text-teal-700" : "text-slate-500"}">${feat.label}</div>
+          <div class="text-xs text-slate-500">${feat.description}</div>
+        </div>
+      `;
+      featureList.appendChild(row);
+    }
+
+    // Botón de favorito
+    const existing = featureList.querySelector("[data-is-fav]");
+    if (existing) existing.remove();
+    const favBtn = document.createElement("div");
+    favBtn.className = "col-span-full mt-2 flex items-center gap-3";
+    const isFav = loadFavorites(currentGame).includes(n);
+    favBtn.innerHTML = `
+      <button id="fav-toggle" class="rounded-lg border px-4 py-2 text-sm font-medium transition
+        ${isFav ? "border-yellow-400 bg-yellow-50 text-yellow-700 hover:bg-yellow-100" : "border-slate-300 text-slate-600 hover:bg-slate-50"}">
+        ${isFav ? "★ En favoritos" : "☆ Agregar a favoritos"}
+      </button>
+    `;
+    favBtn.querySelector("#fav-toggle").addEventListener("click", () => {
+      toggleFavorite(currentGame, n);
+      lookupNumber(n);
+    });
+    featureList.appendChild(favBtn);
+  }
+
+  // ── favoritos ──────────────────────────────────────────────────────────────
+  function renderFavorites() {
+    if (!favoritesList) return;
+    const favs = loadFavorites(currentGame);
+    favoritesList.innerHTML = "";
+    if (favs.length === 0) {
+      favoritesEmpty && favoritesEmpty.classList.remove("hidden");
+      return;
+    }
+    favoritesEmpty && favoritesEmpty.classList.add("hidden");
+    for (const n of favs) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "relative";
+      wrapper.appendChild(numberBall(n, "bg-yellow-500 hover:bg-yellow-600"));
+      const del = document.createElement("button");
+      del.className = "absolute -right-1 -top-1 h-4 w-4 rounded-full bg-red-500 text-white text-xs leading-none flex items-center justify-center";
+      del.textContent = "×";
+      del.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFavorite(currentGame, n);
+        renderFavorites();
+      });
+      wrapper.appendChild(del);
+      favoritesList.appendChild(wrapper);
+    }
+  }
+
+  // ── eventos ────────────────────────────────────────────────────────────────
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentTab = btn.dataset.tab;
+      switchTab(currentTab);
+    });
+  });
+
+  // El cambio de juego navega a /patrones?game=... (los patrones automáticos y
+  // el estado de características se regeneran en SSR/CSR al recargar la página).
+
+  btnFilter && btnFilter.addEventListener("click", runFilter);
+
+  btnClear && btnClear.addEventListener("click", () => {
+    selectedFeatures.clear();
+    filterResults && filterResults.classList.add("hidden");
+    renderCatalog();
+  });
+
+  btnLookup && btnLookup.addEventListener("click", () => {
+    const v = parseInt(numberInput?.value ?? "", 10);
+    if (isNaN(v) || v < 0 || v > 99) { alert("Ingresa un número entre 00 y 99."); return; }
+    lookupNumber(v);
+  });
+
+  numberInput && numberInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") btnLookup?.click();
+  });
+
+  // ── inicio ─────────────────────────────────────────────────────────────────
+  (async () => {
+    await Promise.all([loadCatalog(), loadNumberStates(currentGame)]);
+    loadingEl && (loadingEl.style.display = "none");
+    renderCatalog();
+    switchTab(currentTab);
+  })();
+</script>

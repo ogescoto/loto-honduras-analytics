@@ -14,10 +14,10 @@ El framework existe porque, cuando gran parte del código lo genera la IA, el cu
 
 ## Principios fundamentales
 
-1. **Código no se escribe sin tarea.** Un agente nunca genera código "por iniciativa propia". Ver [`09_AI/Forbidden_Actions.md`](09_AI/Forbidden_Actions.md).
-2. **Todo cambio relevante se documenta en Obsidian.** La bóveda es la verdad; el código es su materialización. Ver [`07_Documentation/Obsidian_Vault_Standard.md`](07_Documentation/Obsidian_Vault_Standard.md).
-3. **Semillas para producción, desarrollo y test son obligatorias.** Cada entorno recibe exactamente los datos que necesita. Ver [`03_Database/Seeds_Strategy.md`](03_Database/Seeds_Strategy.md).
-4. **Los módulos protegidos requieren aprobación humana.** Hay zonas críticas (auth, pagos, utilidades globales) que la IA no toca sola. Ver [`09_AI/Protected_Modules.md`](09_AI/Protected_Modules.md).
+1. **Código no se escribe sin tarea.** Un agente nunca genera código "por iniciativa propia". Ver [`gobernanza/Forbidden_Actions.md`](gobernanza/Forbidden_Actions.md).
+2. **Todo cambio relevante se documenta en Obsidian.** La bóveda es la verdad; el código es su materialización. Ver [`gobernanza/Obsidian_Vault_Standard.md`](gobernanza/Obsidian_Vault_Standard.md).
+3. **Semillas para producción, desarrollo y test son obligatorias.** Cada entorno recibe exactamente los datos que necesita. Ver [`practicas/Seeds_Strategy.md`](practicas/Seeds_Strategy.md).
+4. **Los módulos protegidos requieren aprobación humana.** Hay zonas críticas (auth, pagos, utilidades globales) que la IA no toca sola. Ver [`gobernanza/Protected_Modules.md`](gobernanza/Protected_Modules.md).
 5. **La documentación y el manual de usuario son artefactos vivos, no opcionales.** Se generan y mantienen como parte del Definition of Done.
 6. **Explícito sobre implícito.** Las dependencias, las APIs públicas y los niveles de obligatoriedad se declaran; no se asumen.
 7. **Reproducibilidad.** Cualquiera (humano o agente) debe poder reconstruir un entorno desde cero con los comandos documentados.
@@ -45,8 +45,9 @@ Las excepciones a reglas `standard` se registran como ADR (ver abajo).
 |---|---|
 | **Tech Lead / Arquitecto** | Aprueba cambios a políticas `mandatory`/`standard` y a módulos protegidos. |
 | **Desarrollador humano** | Define tareas, revisa PRs generados por IA, aprueba o rechaza. |
-| **Agente de IA** | Ejecuta tareas dentro de los límites del framework. No es autónomo sobre las reglas. |
-| **Custodio de documentación** | Vela por que la bóveda y el manual estén actualizados (puede ser un agente con tarea específica). |
+| **Agente de IA** | Ejecuta tareas dentro de los límites del framework. No es autónomo sobre las reglas. Actúa como **coordinador delgado** y delega en los **6 subagentes** del catálogo (`doc-mapper`, `doc-reader`, `dev-backend`, `dev-frontend`, `tester`, `activity-manager`) declarados en su contrato — ver [`gobernanza/Subagents.md`](gobernanza/Subagents.md) y [`gobernanza/Agent_Workflow.md`](gobernanza/Agent_Workflow.md). |
+| **Usuario / dueño del producto** | Aprueba visión, alcance y contexto en la asistencia inicial antes de que se escriba código, y **declara lograda cada meta**. Ninguna se cierra sin él. |
+| **Custodio de documentación** | Vela por que la bóveda y el manual estén actualizados (lo materializa el subagente `doc-mapper`). |
 
 ---
 
@@ -54,7 +55,7 @@ Las excepciones a reglas `standard` se registran como ADR (ver abajo).
 
 Este framework se gobierna a sí mismo. Cualquier modificación de políticas debe:
 
-1. Proponerse como **ADR** en [`07_Documentation/ADR.md`](07_Documentation/ADR.md) (usar [`Templates/ADR_Template.md`](Templates/ADR_Template.md)).
+1. Proponerse como **ADR** en [`gobernanza/ADR.md`](gobernanza/ADR.md) (usar [`Templates/ADR_Template.md`](Templates/ADR_Template.md)).
 2. Indicar: contexto, decisión, alternativas, consecuencias.
 3. Ser revisada y aprobada por el Tech Lead.
 4. Registrarse en [`CHANGELOG.md`](CHANGELOG.md) con su versión.

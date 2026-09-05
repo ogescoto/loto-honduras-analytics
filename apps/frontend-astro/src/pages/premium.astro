@@ -1,61 +1,146 @@
 ---
 import Shell from "../layouts/Shell.astro";
-import NumberBalls from "../components/NumberBalls.astro";
-import { apiGet } from "../lib/api.ts";
+import MetaPatternCard from "../components/MetaPatternCard.astro";
+import { apiGetSSR } from "../lib/api.ts";
+import { getToken, getValidPayload } from "../lib/auth.ts";
 import type { MetaPattern } from "@loto/shared-types";
 
-// Zona Premium: meta-patrones. Requiere token de suscriptor vigente.
-// El token se obtiene tras login; aquí se lee de una cookie de sesión.
-const token = Astro.cookies.get("loto_token")?.value;
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
 const checkout = Astro.url.searchParams.get("checkout");
 
 let metaPatterns: MetaPattern[] = [];
-let gateMessage: string | null = null;
+let hasSubscription = false;
+let errorMsg: string | null = null;
 
-if (!token) {
-  gateMessage = "Inicia sesión y activa tu suscripción para ver los meta-patrones.";
-} else {
-  const res = await apiGet<{ metaPatterns: MetaPattern[] }>(
+if (token && payload) {
+  const res = await apiGetSSR<{ metaPatterns: MetaPattern[] }>(
     "/api/v1/premium/meta-patterns",
+    Astro.locals,
     token,
   );
-  if (res.success) metaPatterns = res.data.metaPatterns;
-  else gateMessage = res.error.message;
+  if (res.success) {
+    metaPatterns = res.data.metaPatterns;
+    hasSubscription = true;
+  } else if (res.error.code === "SUBSCRIPTION_REQUIRED" || res.error.code === "FORBIDDEN") {
+    hasSubscription = false;
+  } else {
+    errorMsg = res.error.message;
+  }
 }
 ---
 
-<Shell title="Meta-patrones Premium" active="premium">
-  {
-    checkout === "success" && (
-      <p class="mb-4 rounded bg-emerald-50 p-3 text-sm text-emerald-800">
-        ¡Pago recibido! Tu acceso premium se activará en unos segundos.
-      </p>
-    )
-  }
+<Shell
+  title="Meta-patrones Premium"
+  active="premium"
+  ogTitle="Meta-patrones Premium"
+  ogDescription="Cruce de estadística y guía de sueños para los sorteos de Honduras."
+  isPremium={hasSubscription}
+>
+  {checkout === "success" && (
+    <p class="mb-4 rounded bg-emerald-50 p-3 text-sm text-emerald-800">
+      ¡Pago recibido! Tu acceso premium se activará en unos segundos. Recarga la página si no ves los patrones.
+    </p>
+  )}
 
-  {
-    gateMessage ? (
-      <div class="rounded-lg border border-brand/30 bg-white p-6 text-center">
-        <p class="mb-4 text-slate-600">{gateMessage}</p>
-        <a
-          href="/api/checkout"
-          class="inline-block rounded bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-dark"
-        >
-          Suscribirme
+  {errorMsg && (
+    <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>
+  )}
+
+  {!token && (
+    <div class="rounded-lg border border-brand/30 bg-white p-6 text-center">
+      <p class="mb-2 text-slate-700 font-semibold">Acceso exclusivo para suscriptores</p>
+      <p class="mb-5 text-sm text-slate-500">Los meta-patrones cruzan calientes estadísticos con la guía popular de los sueños.</p>
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a href="/login" class="flex min-h-[44px] items-center justify-center rounded-lg bg-brand px-6 font-semibold text-white hover:bg-brand-dark">
+          Iniciar sesión
+        </a>
+        <a href="#planes" class="flex min-h-[44px] items-center justify-center rounded-lg border border-brand px-6 font-semibold text-brand hover:bg-brand/5">
+          Ver planes
         </a>
       </div>
-    ) : (
-      <ul class="space-y-4">
-        {metaPatterns.map((m) => (
-          <li class="rounded-lg border border-brand/40 bg-white p-4 shadow-sm">
-            <p class="mb-3 text-sm text-slate-700">{m.description}</p>
-            <NumberBalls
-              numbers={(m.crossData as { targetNumbers?: number[] }).targetNumbers ?? []}
-              highlight
-            />
-          </li>
-        ))}
-      </ul>
-    )
-  }
+    </div>
+  )}
+
+  {token && !hasSubscription && (
+    <div>
+      <!-- Preview blur de meta-patrones (CTA visual) -->
+      <div class="relative mb-6">
+        <div class="space-y-3 opacity-80">
+          <div class="rounded-lg border border-brand/30 bg-white p-4 shadow-sm blur-sm select-none pointer-events-none">
+            <p class="mb-2 text-sm text-slate-700">El número 07 lleva 12 sorteos sin salir y coincide con "Pescado" en la guía de sueños…</p>
+            <div class="h-2 w-3/4 rounded-full bg-emerald-200 mb-3" />
+            <div class="flex gap-2">
+              {[7, 23, 41].map((n) => (
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-white text-xs font-bold shadow-sm">
+                  {String(n).padStart(2, "0")}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="rounded-full bg-brand/90 px-4 py-1.5 text-xs font-bold text-white shadow">
+            Solo para suscriptores
+          </span>
+        </div>
+      </div>
+
+      <!-- Planes de suscripción -->
+      <div id="planes" class="rounded-lg border border-slate-200 bg-white p-6">
+        <h2 class="mb-4 text-lg font-bold">Activar Premium</h2>
+        <div class="mb-5 grid gap-3 sm:grid-cols-2">
+          {[
+            { months: 1, label: "1 mes", price: "USD 5.00" },
+            { months: 3, label: "3 meses", price: "USD 13.00" },
+          ].map(({ months, label, price }) => (
+            <button
+              data-months={months}
+              class="checkout-btn rounded-lg border-2 border-brand/30 p-4 text-left transition hover:border-brand hover:bg-brand/5 focus:outline-none focus:ring-2 focus:ring-brand"
+            >
+              <p class="font-semibold text-slate-800">{label}</p>
+              <p class="text-sm text-slate-500">{price}</p>
+            </button>
+          ))}
+        </div>
+        <p class="text-xs text-slate-400 text-center">Pago seguro vía Stripe. Cancela cuando quieras.</p>
+      </div>
+    </div>
+  )}
+
+  {hasSubscription && metaPatterns.length === 0 && (
+    <p class="rounded-lg border border-slate-200 bg-white p-6 text-center text-slate-500">
+      Aún no hay meta-patrones calculados. Se generan automáticamente tras cada ingestión de sorteos.
+    </p>
+  )}
+
+  {hasSubscription && metaPatterns.length > 0 && (
+    <div class="space-y-4">
+      {metaPatterns.map((m) => <MetaPatternCard pattern={m} />)}
+    </div>
+  )}
 </Shell>
+
+<script>
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+  document.querySelectorAll<HTMLButtonElement>(".checkout-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const months = btn.dataset.months;
+      const token = document.cookie.match(/loto_token=([^;]+)/)?.[1];
+      if (!token) { window.location.href = "/login"; return; }
+      btn.disabled = true;
+      btn.textContent = "Redirigiendo…";
+      try {
+        const res = await fetch(`${apiBase}/api/v1/payments/checkout`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ validityMonths: Number(months) }),
+        });
+        const data = await res.json() as { success: boolean; data?: { checkoutUrl: string } };
+        if (data.success && data.data?.checkoutUrl) {
+          window.location.href = data.data.checkoutUrl;
+        }
+      } catch { btn.disabled = false; btn.textContent = "Error — intenta de nuevo"; }
+    });
+  });
+</script>

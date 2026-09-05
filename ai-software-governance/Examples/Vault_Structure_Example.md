@@ -5,11 +5,16 @@ area: documentation
 
 # Ejemplo de Bóveda Obsidian de un Proyecto
 
-Ejemplo concreto de cómo queda la carpeta `docs/` de un proyecto que usa el framework. Estándar: [`../07_Documentation/Obsidian_Vault_Standard.md`](../07_Documentation/Obsidian_Vault_Standard.md).
+Ejemplo concreto de cómo queda la carpeta `docs/` de un proyecto que usa el framework. Estándar: [`../gobernanza/Obsidian_Vault_Standard.md`](../gobernanza/Obsidian_Vault_Standard.md).
 
 ```
 docs/
+├── .obsidian/                  ← marca docs/ como bóveda
 ├── 00_MAPA_DE_CONTENIDOS.md
+├── 00_Proyecto/
+│   ├── VISION.md
+│   ├── ALCANCE.md
+│   └── CONTEXTO_GLOBAL.md
 ├── 01_Dominio/
 │   ├── Glosario.md
 │   ├── Entidades.md
@@ -25,7 +30,8 @@ docs/
 ├── 03_Tecnico/
 │   ├── Stack.md
 │   ├── Patrones.md
-│   └── Global_Utilities.md
+│   ├── Global_Utilities.md
+│   └── Mapa_Conceptos_Codigo.md   ← conceptos/componentes/flujos → archivos
 ├── 04_Modulos/
 │   ├── Usuarios.md
 │   ├── Pagos.md
@@ -35,7 +41,9 @@ docs/
 │   └── Flujo_Pago.md
 ├── 06_UX_UI/
 │   ├── Mapa_Navegacion.md
-│   └── Design_System.md
+│   └── Design.md
+├── 07_Implementacion/          ← ZONA DE ESCRITURA COMPARTIDA
+│   └── ACTIVIDAD.md            ← tabla META | TAREA | ESTADO | FECHA_INI | FECHA_FIN
 └── manual/
     ├── index.md
     ├── roles.md
@@ -61,6 +69,9 @@ docs/
 - [[02_Arquitectura/C4_Contexto|Diagrama de Contexto]]
 - [[02_Arquitectura/Dependencias|Dependencias]]
 - [[02_Arquitectura/API|API]]
+
+## Técnico
+- [[03_Tecnico/Mapa_Conceptos_Codigo|Mapa Conceptos ↔ Código]]
 
 ## Módulos
 - [[04_Modulos/Usuarios|Usuarios]]

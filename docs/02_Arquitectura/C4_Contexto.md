@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: activo
-actualizado: 2026-06-23
+actualizado: 2026-06-25
 ---
 
 # C4 · Diagrama de Contexto
@@ -25,8 +25,9 @@ Nivel 1 del modelo C4: el sistema **Loto Honduras Analytics** y sus actores y si
 - **Cloudflare (edge):** ejecuta frontend, API y cron en nodos perimetrales globales.
 - **Neon DB:** Postgres serverless de producción (vía `@neondatabase/serverless`).
 - **Stripe:** pagos en línea (vía pago `stripe`). Integración **implementada** vía API REST + webhook firmado en el módulo 🔒 [[04_Modulos/Pagos|Pagos]] (ver [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003]]).
-- **Fuente oficial de la Lotería de Honduras:** sitio del que se extraen los sorteos.
-- **Decodo:** gateway de proxy rotativo (servicio externo gestionado) que intermedia las peticiones del scraper hacia la fuente para evitar bloqueos. Ver [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]].
+- **API de la Lotería de Honduras:** API JSON (`api.loteriasdehonduras.com`) de la que se obtienen los sorteos.
+- **GitHub Actions:** ejecuta el job de ingestión principal (Node) en cron, fuera de Cloudflare.
+- **WebShare:** lista de proxies rotativos por la que sale el job de Actions hacia la API. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
 
 ## Diagrama (Mermaid)
 ```mermaid
@@ -41,20 +42,24 @@ C4Context
   }
   System_Ext(neon, "Neon DB", "Postgres serverless")
   System_Ext(stripe, "Stripe", "Pagos en línea")
-  System_Ext(loto, "Fuente Lotería HN", "Sitio oficial de sorteos")
-  System_Ext(proxy, "Decodo", "Gateway de proxy rotativo")
+  System_Ext(loto, "API Lotería HN", "API JSON de sorteos")
+  System_Ext(gha, "GitHub Actions", "Job de ingestión (cron)")
+  System_Ext(proxy, "WebShare", "Lista de proxies rotativos")
 
   Rel(cust, fe, "Usa", "HTTPS")
   Rel(admin, fe, "Administra", "HTTPS")
   Rel(fe, be, "Llama API", "HTTPS/JSON")
   Rel(be, neon, "Lee/escribe", "SQL")
   Rel(be, stripe, "Cobra (REST + webhook)", "HTTPS")
-  Rel(cron, proxy, "Solicita vía gateway", "HTTPS")
-  Rel(proxy, loto, "Scrapea con IP rotativa", "HTTPS")
-  Rel(cron, neon, "Persiste sorteos", "SQL")
+  Rel(gha, proxy, "Sale por proxy", "HTTPS")
+  Rel(gha, loto, "GET feed/game-stats vía proxy", "HTTPS")
+  Rel(gha, be, "POST /api/v1/ingest (token servicio)", "HTTPS/JSON")
+  Rel(cron, loto, "Respaldo: API directa", "HTTPS")
+  Rel(cron, neon, "Persiste sorteos (respaldo)", "SQL")
 ```
 
 ## Historial de cambios
-- 2026-06-23: el proxy del scraper pasa de Scrapoxy a **Decodo** (gateway gestionado); actualizados sistemas externos y diagrama. Ver [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]].
+- 2026-06-25: ingestión rediseñada — fuente API JSON; añadidos **GitHub Actions** (job principal) y **WebShare** (proxy); el Worker `scraper-cron` queda como respaldo. Decodo anulado. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
+- 2026-06-23: (anulado) proxy Scrapoxy→Decodo.
 - 2026-06-21: Stripe pasa de "previsto" a integración implementada (módulo Pagos, ADR-0003).
 - 2026-06-20: creación inicial.

@@ -1,0 +1,505 @@
+---
+import Shell from "../layouts/Shell.astro";
+import DrawBalls from "../components/DrawBalls.astro";
+import AdBanner from "../components/AdBanner.astro";
+import GameSelector from "../components/GameSelector.astro";
+import { apiGetSSR } from "../lib/api.ts";
+import { GAME_LABELS, SELECTION_LABELS, ALL_VALID_GAME_KEYS, GAME_FAMILIES } from "../lib/gameLabels.ts";
+import type { LotteryDraw } from "@loto/shared-types";
+import type { GameType } from "@loto/shared-types";
+
+// Params
+const gameParam  = Astro.url.searchParams.get("game");
+const daysParam  = Astro.url.searchParams.get("days");
+const viewParam  = Astro.url.searchParams.get("view") ?? "desc";   // desc | asc | jornada | buscar
+const numsParam  = Astro.url.searchParams.get("numbers") ?? "";
+
+// selectedGame puede ser un GameType individual o una clave "all_*"
+const selectedGame: string = (gameParam && ALL_VALID_GAME_KEYS.has(gameParam) ? gameParam : "diaria_3pm");
+const selectedDays = Math.min(Math.max(parseInt(daysParam ?? "10", 10) || 10, 1), 30);
+const isSearch = viewParam === "buscar";
+
+// En la búsqueda el filtro de juego es independiente del historial normal:
+// "" = todos los juegos, un juego individual o una familia "all_*".
+const SEARCH_GAME_KEYS = new Set<string>(["", ...ALL_VALID_GAME_KEYS, "all_diaria", "all_pega3", "all_premia2", "all_juga3"]);
+const searchGame: string = SEARCH_GAME_KEYS.has(gameParam ?? "")
+  ? (gameParam ?? "")
+  : "";
+
+// ── Búsqueda de números ──────────────────────────────────────────────────────
+interface SearchResult {
+  searched: string[];
+  days: number;
+  total: number;
+  draws: LotteryDraw[];
+}
+
+let searchResult: SearchResult | null = null;
+let searchError: string | null = null;
+
+if (isSearch && numsParam.trim()) {
+  const gameQuery = searchGame ? `&game=${encodeURIComponent(searchGame)}` : "";
+  const res = await apiGetSSR<SearchResult>(
+    `/api/v1/history/search?numbers=${encodeURIComponent(numsParam)}&days=${selectedDays}${gameQuery}`,
+    Astro.locals,
+  );
+  if (res.success) searchResult = res.data;
+  else searchError = res.error.message;
+}
+
+// ── Historial normal ─────────────────────────────────────────────────────────
+let draws: LotteryDraw[] = [];
+let errorMsg: string | null = null;
+
+if (!isSearch) {
+  const order = viewParam === "asc" ? "asc" : "desc";
+  const res = await apiGetSSR<LotteryDraw[]>(
+    `/api/v1/history?game=${selectedGame}&days=${selectedDays}&order=${order}`,
+    Astro.locals,
+  );
+  if (res.success) draws = res.data;
+  else errorMsg = res.error.message;
+}
+
+// ── Agrupar por día (para vista jornada) ─────────────────────────────────────
+type DrawsByDay = Record<string, LotteryDraw[]>;
+
+function groupByDay(list: LotteryDraw[]): DrawsByDay {
+  const out: DrawsByDay = {};
+  for (const d of list) {
+    const key = hnDate(d.drawDate).toLocaleDateString("es-HN", {
+      weekday: "long", day: "2-digit", month: "long", year: "numeric",
+    });
+    (out[key] ??= []).push(d);
+  }
+  return out;
+}
+
+// Para la vista jornada queremos asc (días más antiguos primero → más recientes al final)
+const jornada = viewParam === "jornada" ? groupByDay([...draws].reverse()) : {};
+const jornadaKeys = Object.keys(jornada); // ya en orden asc por construcción
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+// drawDate viene como "YYYY-MM-DDT04:00:00.000Z" — el campo "date" de la API
+// representa el día calendario en Honduras (no una hora real). Parseamos solo
+// la parte de fecha para evitar que la conversión de timezone cambie el día.
+function hnDate(iso: string): Date {
+  const datePart = iso.substring(0, 10); // "YYYY-MM-DD"
+  return new Date(`${datePart}T12:00:00`); // mediodía local, nunca cruza medianoche
+}
+function fmtDate(d: string) {
+  return hnDate(d).toLocaleDateString("es-HN", {
+    weekday: "short", day: "2-digit", month: "short", year: "numeric",
+  });
+}
+// Hora del sorteo según la jornada del juego (datos crudos no traen hora real;
+// el horario oficial de cada sorteo es fijo por juego).
+function fmtTimeOfGame(game: GameType): string {
+  if (game === "super_premio") return "9:00 PM";
+  if (game.endsWith("_11am")) return "11:00 AM";
+  if (game.endsWith("_3pm")) return "3:00 PM";
+  if (game.endsWith("_9pm")) return "9:00 PM";
+  return "";
+}
+function fmtDateLong(d: string) {
+  return hnDate(d).toLocaleDateString("es-HN", {
+    weekday: "long", day: "2-digit", month: "long", year: "numeric",
+  });
+}
+
+const gameLabel  = SELECTION_LABELS[selectedGame] ?? selectedGame;
+const adSlot     = import.meta.env.PUBLIC_ADSENSE_SLOT_1 ?? "0000000001";
+
+// Tabs de vista
+const views = [
+  { key: "desc",    label: "Recientes primero" },
+  { key: "asc",     label: "Más antiguos primero" },
+  { key: "jornada", label: "Por jornada" },
+  { key: "buscar",  label: "Buscar número" },
+] as const;
+---
+
+<Shell title={`Historial — ${gameLabel}`} active="history"
+  ogTitle={`Historial ${gameLabel}`}
+  ogDescription={`Últimos ${selectedDays} días de sorteos de ${gameLabel} — Lotería de Honduras.`}
+>
+  <!-- Selector de juego -->
+  <GameSelector selectedGame={selectedGame} basePath="/history" />
+
+  <!-- Pestañas de vista -->
+  <div class="mb-4 flex flex-wrap gap-1 border-b border-slate-200 pb-1">
+    {views.map((v) => (
+      <a
+        href={`/history?game=${v.key === "buscar" ? encodeURIComponent(searchGame) : selectedGame}&days=${selectedDays}&view=${v.key}${v.key === "buscar" && numsParam ? "&numbers=" + encodeURIComponent(numsParam) : ""}`}
+        class:list={[
+          "rounded-t px-3 py-1.5 text-sm font-medium transition",
+          viewParam === v.key
+            ? "border-b-2 border-brand bg-white text-brand"
+            : "text-slate-500 hover:text-slate-700",
+        ]}
+      >
+        {v.label}
+      </a>
+    ))}
+  </div>
+
+  <!-- Selector de período (solo para vistas de historial, no búsqueda) -->
+  {!isSearch && (
+    <div class="mb-5 flex flex-wrap items-center gap-2">
+      <span class="text-xs font-medium text-slate-500">Período:</span>
+      {[3, 7, 10, 15, 30].map((d) => (
+        <a
+          href={`/history?game=${selectedGame}&days=${d}&view=${viewParam}`}
+          class:list={[
+            "rounded-full px-3 py-1 text-xs font-medium transition",
+            selectedDays === d
+              ? "bg-brand text-white"
+              : "bg-slate-100 text-slate-600 hover:bg-slate-200",
+          ]}
+        >
+          {d}d
+        </a>
+      ))}
+    </div>
+  )}
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       VISTA: BÚSQUEDA DE NÚMEROS
+  ═══════════════════════════════════════════════════════════════ -->
+  {isSearch && (
+    <div>
+      <form method="get" action="/history" class="mb-5">
+        <input type="hidden" name="view" value="buscar" />
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <div class="flex-1">
+            <label for="numbers-input" class="mb-1 block text-sm font-medium text-slate-700">
+              Número o combinación a buscar
+            </label>
+            <input
+              id="numbers-input"
+              type="text"
+              name="numbers"
+              value={numsParam}
+              placeholder="Ej: 07  ó  07, 23  ó  07, 23, 41"
+              maxlength="50"
+              pattern="[0-9, ]+"
+              title="Solo números del 0 al 99, separados por coma"
+              class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+            />
+            <p class="mt-1 text-xs text-slate-400">
+              Ingresa un número o varios separados por coma. Si ingresas varios, busca sorteos donde aparezcan <strong>todos</strong>.
+            </p>
+          </div>
+          <div class="flex items-end gap-2">
+            <div>
+              <label for="search-game" class="mb-1 block text-sm font-medium text-slate-700">Juego</label>
+              <select
+                id="search-game"
+                name="game"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+              >
+                <option value="" selected={searchGame === ""}>Todos los juegos</option>
+                {GAME_FAMILIES.map((family) => (
+                  <optgroup label={family.label}>
+                    {family.familyKey && (
+                      <option value={family.familyKey} selected={searchGame === family.familyKey}>
+                        ★ {family.label} — todas las jornadas
+                      </option>
+                    )}
+                    {family.games.map((g) => (
+                      <option value={g} selected={searchGame === g}>{GAME_LABELS[g]}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label for="search-days" class="mb-1 block text-sm font-medium text-slate-700">Período</label>
+              <select
+                id="search-days"
+                name="days"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+              >
+                {[7, 10, 15, 30].map((d) => (
+                  <option value={d} selected={selectedDays === d}>{d} días</option>
+                ))}
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="flex min-h-[44px] items-center rounded-lg bg-brand px-5 font-semibold text-white hover:bg-brand-dark"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {searchError && (
+        <p class="mb-4 rounded bg-red-50 p-3 text-sm text-red-700">{searchError}</p>
+      )}
+
+      {searchResult && (
+        <div>
+          <div class="mb-4 flex flex-wrap items-center gap-3">
+            <p class="text-sm text-slate-600">
+              Buscando <strong class="text-brand">{searchResult.searched.join(", ")}</strong>
+              {searchGame
+                ? <> en <strong class="text-brand">{SELECTION_LABELS[searchGame] ?? searchGame}</strong></>
+                : <> en <strong class="text-brand">todos los juegos</strong></>}
+              en los últimos <strong>{searchResult.days} días</strong>:
+            </p>
+            <span class:list={[
+              "rounded-full px-2.5 py-0.5 text-xs font-semibold",
+              searchResult.total > 0 ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"
+            ]}>
+              {searchResult.total} {searchResult.total === 1 ? "resultado" : "resultados"}
+            </span>
+          </div>
+
+          {searchResult.total === 0 && (
+            <div class="rounded-lg border border-slate-200 bg-white p-8 text-center">
+              <p class="text-slate-500">No se encontraron sorteos con esa combinación en los últimos {searchResult.days} días.</p>
+              <p class="mt-1 text-xs text-slate-400">Prueba ampliar el período o reducir los números buscados.</p>
+            </div>
+          )}
+
+          {searchResult.total > 0 && (
+            <div class="space-y-2" id="results-list">
+              {searchResult.draws.map((draw) => (
+                <div class="rounded-lg border border-emerald-100 bg-white p-4 shadow-sm ring-1 ring-emerald-200/60">
+                  <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <span class="font-semibold text-slate-800 text-sm">{fmtDate(draw.drawDate)}</span>
+                      <span class="ml-2 text-xs text-slate-400">{fmtTimeOfGame(draw.game)}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500">
+                        {GAME_LABELS[draw.game as GameType] ?? draw.game}
+                      </span>
+                    </div>
+                  </div>
+                  <DrawBalls numbers={draw.numbers} signs={draw.signs} highlight={searchResult!.searched} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {!searchResult && !searchError && (
+        <div class="rounded-lg border border-dashed border-slate-200 bg-white p-8 text-center">
+          <p class="text-slate-400 text-sm">Ingresa un número o combinación y presiona <strong>Buscar</strong>.</p>
+        </div>
+      )}
+    </div>
+  )}
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       VISTA: POR JORNADA (días agrupados, orden ascendente)
+  ═══════════════════════════════════════════════════════════════ -->
+  {viewParam === "jornada" && !isSearch && (
+    <div>
+      {errorMsg && <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>}
+
+      {jornadaKeys.length === 0 && !errorMsg && (
+        <div class="rounded-lg border border-slate-200 bg-white p-8 text-center">
+          <p class="text-slate-500">No hay sorteos en los últimos {selectedDays} días para {gameLabel}.</p>
+        </div>
+      )}
+
+      <div class="space-y-6" id="jornada-list">
+        {jornadaKeys.map((dayLabel) => (
+          <section>
+            <h2 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500">
+              <span class="h-px flex-1 bg-slate-200" />
+              <span>{dayLabel}</span>
+              <span class="h-px flex-1 bg-slate-200" />
+            </h2>
+            <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {jornada[dayLabel]!.map((draw) => (
+                <div class="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                  <p class="mb-2 text-xs font-medium text-slate-400">{fmtTimeOfGame(draw.game)}</p>
+                  <DrawBalls numbers={draw.numbers} signs={draw.signs} />
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       VISTA: CRONOLÓGICA (desc o asc)
+  ═══════════════════════════════════════════════════════════════ -->
+  {(viewParam === "desc" || viewParam === "asc") && !isSearch && (
+    <div>
+      {errorMsg && <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>}
+
+      {draws.length === 0 && !errorMsg && (
+        <div class="rounded-lg border border-slate-200 bg-white p-8 text-center">
+          <p class="text-slate-500">No hay sorteos en los últimos {selectedDays} días para {gameLabel}.</p>
+          <p class="mt-1 text-xs text-slate-400">Los datos se actualizan automáticamente tras cada ingestión.</p>
+        </div>
+      )}
+
+      {draws.length > 0 && (
+        <div>
+          <p class="mb-3 text-xs text-slate-400">{draws.length} sorteo{draws.length !== 1 ? "s" : ""}</p>
+          <div class="space-y-2" id="draws-list">
+            {draws.map((draw) => (
+              <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <span class="text-sm font-semibold text-slate-800">{fmtDate(draw.drawDate)}</span>
+                    <span class="ml-2 text-xs text-slate-400">{fmtTimeOfGame(draw.game)}</span>
+                  </div>
+                  <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500">
+                    {draw.sessionId}
+                  </span>
+                </div>
+                <DrawBalls numbers={draw.numbers} signs={draw.signs} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+
+  <div class="mt-6">
+    <AdBanner slot={adSlot} />
+  </div>
+</Shell>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BOTÓN FLOTANTE: ir al inicio / ir al final
+═══════════════════════════════════════════════════════════════ -->
+<div id="scroll-fab" class="fixed bottom-6 right-4 z-50 flex flex-col gap-2">
+  <button
+    id="fab-top"
+    aria-label="Ir al inicio"
+    class="hidden flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white shadow-lg transition hover:bg-brand-dark active:scale-95"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+  >
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+    </svg>
+  </button>
+  <button
+    id="fab-bottom"
+    aria-label="Ir al final"
+    class="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white shadow-lg transition hover:bg-brand-dark active:scale-95"
+    onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })"
+  >
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  // ── Validación inline del buscador de números ──────────────────
+  const numInput = document.getElementById('numbers-input');
+  if (numInput) {
+    const numHint = document.createElement('p');
+    numHint.className = 'mt-1 text-xs text-red-600 hidden';
+    numInput.insertAdjacentElement('afterend', numHint);
+
+    function numErr(msg) {
+      numInput.classList.add('border-red-400');
+      numInput.classList.remove('border-slate-200');
+      numHint.textContent = msg;
+      numHint.classList.remove('hidden');
+    }
+    function numOk() {
+      numInput.classList.remove('border-red-400');
+      numInput.classList.add('border-slate-200');
+      numHint.classList.add('hidden');
+    }
+
+    // Bloquear caracteres no permitidos al escribir (solo dígitos, coma y espacio)
+    numInput.addEventListener('keydown', function(e) {
+      const allowed = ['Backspace','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Delete','Home','End','Enter'];
+      if (!allowed.includes(e.key) && !/^[\d,\s]$/.test(e.key)) {
+        e.preventDefault();
+        numErr('Solo se permiten números (0-99) separados por coma.');
+      }
+    });
+
+    numInput.addEventListener('input', function() {
+      const v = numInput.value;
+      if (!v.trim()) { numOk(); return; }
+      if (v.length > 50) {
+        numInput.value = v.slice(0, 50);
+        numErr('Máximo 50 caracteres.');
+        return;
+      }
+      // Detectar tokens inválidos (no numéricos)
+      const tokens = v.split(/[,\s]+/).map(t => t.trim()).filter(Boolean);
+      const invalid = tokens.find(t => !/^\d{1,2}$/.test(t));
+      if (invalid) {
+        numErr(`"${invalid.slice(0,5)}" no es válido. Solo números del 0 al 99.`);
+      } else if (tokens.length > 6) {
+        numErr('Máximo 6 números a la vez.');
+      } else {
+        numOk();
+      }
+    });
+
+    // Bloquear pegado de contenido no permitido
+    numInput.addEventListener('paste', function(e) {
+      const pasted = (e.clipboardData || window.clipboardData).getData('text');
+      if (!/^[\d,\s]+$/.test(pasted)) {
+        e.preventDefault();
+        numErr('Solo se pueden pegar números separados por coma.');
+      } else if (pasted.length > 50) {
+        e.preventDefault();
+        numErr('El contenido pegado supera 50 caracteres.');
+      }
+    });
+
+    // Validar antes de enviar el form
+    const searchForm = numInput.closest('form');
+    if (searchForm) {
+      searchForm.addEventListener('submit', function(e) {
+        const v = numInput.value.trim();
+        if (!v) { numErr('Ingresa al menos un número.'); e.preventDefault(); return; }
+        const tokens = v.split(/[,\s]+/).map(t => t.trim()).filter(Boolean);
+        const invalid = tokens.find(t => !/^\d{1,2}$/.test(t));
+        if (invalid) { numErr(`"${invalid.slice(0,5)}" no es válido.`); e.preventDefault(); return; }
+        if (tokens.length > 6) { numErr('Máximo 6 números a la vez.'); e.preventDefault(); return; }
+        numOk();
+      });
+    }
+  }
+
+  // ── FAB scroll ────────────────────────────────────────────────
+  const fabTop    = document.getElementById('fab-top');
+  const fabBottom = document.getElementById('fab-bottom');
+
+  function updateFabs() {
+    const scrolled = window.scrollY;
+    const atBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 40;
+
+    // Mostrar "ir arriba" solo cuando hemos bajado más de 300px
+    if (scrolled > 300) {
+      fabTop.classList.remove('hidden');
+      fabTop.classList.add('flex');
+    } else {
+      fabTop.classList.add('hidden');
+      fabTop.classList.remove('flex');
+    }
+
+    // Ocultar "ir abajo" cuando ya estamos al fondo
+    if (atBottom) {
+      fabBottom.classList.add('opacity-0', 'pointer-events-none');
+    } else {
+      fabBottom.classList.remove('opacity-0', 'pointer-events-none');
+    }
+  }
+
+  window.addEventListener('scroll', updateFabs, { passive: true });
+  updateFabs();
+</script>

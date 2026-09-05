@@ -1,0 +1,168 @@
+---
+import Shell from "../layouts/Shell.astro";
+import { getValidPayload } from "../lib/auth.ts";
+
+const payload = getValidPayload(Astro.cookies);
+if (payload) return Astro.redirect("/");
+---
+
+<Shell title="Crear cuenta" active="login">
+  <div class="mx-auto max-w-sm">
+    <p class="mb-6 text-slate-600">
+      Crea tu cuenta gratuita para guardar favoritos y acceder a patrones avanzados.
+    </p>
+
+    <!-- Botón Google OAuth -->
+    <a
+      href={`${import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787"}/api/v1/auth/google`}
+      class="mb-4 flex min-h-[44px] w-full items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white px-4 font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Continuar con Google
+    </a>
+
+    <div class="relative mb-4">
+      <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-slate-200"></span></div>
+      <div class="relative text-center"><span class="bg-slate-50 px-3 text-xs text-slate-400">o con email y contraseña</span></div>
+    </div>
+
+    <form id="register-form" class="space-y-4">
+      <div>
+        <label for="name" class="mb-1 block text-sm font-medium text-slate-700">Nombre (opcional)</label>
+        <input type="text" id="name" name="name" autocomplete="name" maxlength="100"
+          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          placeholder="Tu nombre" />
+      </div>
+      <div>
+        <label for="email" class="mb-1 block text-sm font-medium text-slate-700">Correo electrónico</label>
+        <input type="email" id="email" name="email" required autocomplete="email" maxlength="254"
+          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          placeholder="tu@email.com" />
+      </div>
+      <div>
+        <label for="password" class="mb-1 block text-sm font-medium text-slate-700">Contraseña</label>
+        <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8" maxlength="128"
+          class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+          placeholder="Mínimo 8 caracteres" />
+      </div>
+
+      <div id="error-msg" class="hidden rounded bg-red-50 px-3 py-2 text-sm text-red-700"></div>
+
+      <button type="submit" id="submit-btn"
+        class="flex min-h-[44px] w-full items-center justify-center rounded-lg bg-brand px-4 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60">
+        Crear cuenta
+      </button>
+    </form>
+
+    <p class="mt-4 text-center text-sm text-slate-500">
+      ¿Ya tienes cuenta?
+      <a href="/login" class="font-medium text-brand hover:underline">Iniciar sesión</a>
+    </p>
+  </div>
+</Shell>
+
+<script>
+  const form = document.getElementById("register-form") as HTMLFormElement;
+  const errorDiv = document.getElementById("error-msg") as HTMLDivElement;
+  const btn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const nameInput = form.elements.namedItem("name") as HTMLInputElement;
+  const emailInput = form.elements.namedItem("email") as HTMLInputElement;
+  const pwInput = form.elements.namedItem("password") as HTMLInputElement;
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showFieldError(input: HTMLInputElement, msg: string) {
+    input.classList.add("border-red-400");
+    input.classList.remove("border-slate-200");
+    let hint = input.nextElementSibling as HTMLElement | null;
+    if (!hint || !hint.classList.contains("field-hint")) {
+      hint = document.createElement("p");
+      hint.className = "field-hint mt-1 text-xs text-red-600";
+      input.insertAdjacentElement("afterend", hint);
+    }
+    hint.textContent = msg;
+  }
+
+  function clearFieldError(input: HTMLInputElement) {
+    input.classList.remove("border-red-400");
+    input.classList.add("border-slate-200");
+    const hint = input.nextElementSibling as HTMLElement | null;
+    if (hint?.classList.contains("field-hint")) hint.textContent = "";
+  }
+
+  // Nombre: solo letras, espacios y caracteres latinos — sin scripts
+  nameInput.addEventListener("input", () => {
+    const v = nameInput.value;
+    if (!v) { clearFieldError(nameInput); return; }
+    if (v.length > 100) showFieldError(nameInput, `Máximo 100 caracteres (${v.length}/100).`);
+    else clearFieldError(nameInput);
+  });
+
+  // Email
+  emailInput.addEventListener("input", () => {
+    const v = emailInput.value;
+    if (!v) { clearFieldError(emailInput); return; }
+    if (v.length > 254) showFieldError(emailInput, "El email no puede superar 254 caracteres.");
+    else if (!EMAIL_RE.test(v)) showFieldError(emailInput, "Formato de email inválido.");
+    else clearFieldError(emailInput);
+  });
+
+  emailInput.addEventListener("paste", (e) => {
+    const pasted = e.clipboardData?.getData("text") ?? "";
+    if (pasted.length > 254) { e.preventDefault(); showFieldError(emailInput, "El email no puede superar 254 caracteres."); }
+  });
+
+  // Contraseña — contador en tiempo real
+  pwInput.addEventListener("input", () => {
+    const v = pwInput.value;
+    if (!v) { clearFieldError(pwInput); return; }
+    if (v.length < 8) showFieldError(pwInput, `Mínimo 8 caracteres (${v.length}/128).`);
+    else clearFieldError(pwInput);
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorDiv.classList.add("hidden");
+
+    const email = emailInput.value.trim();
+    const password = pwInput.value;
+    const name = nameInput.value.trim();
+
+    // Validación client-side
+    if (name.length > 100) { showFieldError(nameInput, "Máximo 100 caracteres."); nameInput.focus(); return; }
+    if (!email || !EMAIL_RE.test(email) || email.length > 254) { showFieldError(emailInput, "Ingresa un email válido."); emailInput.focus(); return; }
+    if (password.length < 8) { showFieldError(pwInput, "La contraseña debe tener al menos 8 caracteres."); pwInput.focus(); return; }
+    if (password.length > 128) { showFieldError(pwInput, "La contraseña no puede superar 128 caracteres."); pwInput.focus(); return; }
+
+    btn.disabled = true;
+    btn.textContent = "Creando cuenta…";
+
+    try {
+      const res = await fetch(`${apiBase}/api/v1/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, name: name || undefined }),
+      });
+      const data = await res.json() as { success: boolean; data?: { token: string }; error?: { message: string } };
+      if (data.success && data.data?.token) {
+        document.cookie = `loto_token=${data.data.token}; path=/; SameSite=Strict; max-age=28800`;
+        window.location.href = "/";
+      } else {
+        errorDiv.textContent = data.error?.message ?? "Error al crear la cuenta.";
+        errorDiv.classList.remove("hidden");
+      }
+    } catch {
+      errorDiv.textContent = "No se pudo contactar el servidor.";
+      errorDiv.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Crear cuenta";
+    }
+  });
+</script>

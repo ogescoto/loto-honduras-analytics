@@ -1,7 +1,7 @@
 ---
 tipo: tecnico
 estado: activo
-actualizado: 2026-06-23
+actualizado: 2026-06-25
 ---
 
 # Stack tecnológico y comandos canónicos
@@ -27,14 +27,16 @@ Stack del monorepo y comandos de uso diario. Decisión en [[02_Arquitectura/adr/
 - Driver BD: **@neondatabase/serverless** `0.10`.
 - Tests: **Vitest** `2.1` (backend 13 tests, scraper 5 tests). Seeds con `tsx` y `@faker-js/faker` (dev/test).
 
-## Scraper — `apps/scraper-cron`
-- Cloudflare **Scheduled Worker** (`wrangler`). Proxy rotativo **Decodo** (gateway gestionado externo, **NO dockerizado**). Ver [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]].
+## Ingestión — `scripts/ingest` (Actions) + `apps/scraper-cron` (respaldo)
+- **Vía principal:** job Node en **GitHub Actions** (`scripts/ingest`, paquete `@loto/ingest-job`) que llama la API real (`api.loteriasdehonduras.com`) **vía proxy WebShare** (`undici` `ProxyAgent`) y hace `POST /api/v1/ingest`.
+- **Vía respaldo:** Cloudflare **Scheduled Worker** `scraper-cron` (`wrangler`), API directa sin proxy.
+- 13 juegos en `game_type` (familia × horario). Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
 
 ## Tipos compartidos — `packages/shared-types`
 - TypeScript puro (DTI): `domain.ts` (entidades) + `api.ts` (contratos). 🔒 protegido.
 
 ## Datos
-- **Dev:** PostgreSQL 15 en Docker (`docker/docker-compose.yml`) — **único servicio dockerizado**.
+- **Dev:** PostgreSQL 15 en Docker (`docker/docker-compose.yml`) — **único servicio dockerizado**. `seed:dev` carga ~6.615 sorteos reales desde `Data/raw/*.json`.
 - **Prod:** Neon serverless. Conexión por `NEON_DATABASE_URL` (prod) / `DATABASE_URL` (local).
 
 ## Comandos canónicos (raíz del monorepo)
@@ -55,7 +57,7 @@ Stack del monorepo y comandos de uso diario. Decisión en [[02_Arquitectura/adr/
 ## Variables de entorno clave
 - `NEON_DATABASE_URL` (prod), `DATABASE_URL` (local/test), `JWT_SECRET` (backend).
 - Pagos: `STRIPE_API_KEY`, `STRIPE_WEBHOOK_SECRET`, `APP_BASE_URL`.
-- Scraper: `LOTERIA_SOURCE_URL` y credenciales de Decodo (`DECODO_PROXY_HOST`, `DECODO_PROXY_PORT`, `DECODO_PROXY_USERNAME`, `DECODO_PROXY_PASSWORD`).
+- Ingestión: `API_BASE_URL`, `APP_API_BASE_URL`, `INGEST_SERVICE_TOKEN`, `WEBSHARE_PROXY_LIST_URL` (secreto; solo en el job de Actions).
 
 ## Repositorio e infraestructura
 - Repo git con remoto en `https://github.com/ogescoto/loto-honduras-analytics` (público).
@@ -63,6 +65,7 @@ Stack del monorepo y comandos de uso diario. Decisión en [[02_Arquitectura/adr/
 - El framework de gobernanza se incorporó por **vendoring** (se eliminó su `.git`).
 
 ## Historial de cambios
-- 2026-06-23: proxy del scraper migrado de Scrapoxy (Docker) a **Decodo** (gateway gestionado); ahora **solo Postgres** se dockeriza. Variables `SCRAPOXY_*` → `DECODO_PROXY_*`. Ver [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004]].
+- 2026-06-25: ingestión rediseñada — fuente API JSON real; vía principal en **GitHub Actions** (`scripts/ingest`, proxy **WebShare**), Worker como respaldo; 13 juegos; variables `DECODO_*`/`LOTERIA_SOURCE_URL` → `API_BASE_URL`/`APP_API_BASE_URL`/`INGEST_SERVICE_TOKEN`/`WEBSHARE_PROXY_LIST_URL`. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].
+- 2026-06-23: (anulado) proxy Scrapoxy→Decodo.
 - 2026-06-21: añadidos `hono/jwt` (auth), Stripe vía REST/fetch + Web Crypto (ADR-0003), ESLint flat config, Node fijado a 24, variables de Stripe, y sección de repositorio/CI (main protegida).
 - 2026-06-20: creación inicial reflejando `package.json` raíz y de backend.

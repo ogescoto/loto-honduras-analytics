@@ -9,14 +9,31 @@
  */
 
 export interface DrawRecord {
-  drawNumber: number;
-  winningNumbers: number[];
-  drawTimestamp: Date;
+  sessionId: string;
+  /** Números tal cual los publica la fuente: "00", "JG", "2X". */
+  numbers: string[];
+  drawDate: Date;
 }
 
 export interface FrequencyResult {
   number: number;
   count: number;
+}
+
+/**
+ * Extrae los tokens NUMÉRICOS de un sorteo, descartando comodines del
+ * imaginario popular ("JG", "2X", etc.). "00" → 0, "07" → 7. Solo cuentan
+ * valores en el dominio 0–99 para los cálculos estadísticos.
+ */
+export function toNumericTokens(numbers: string[]): number[] {
+  const out: number[] = [];
+  for (const raw of numbers) {
+    const token = raw.trim();
+    if (!/^\d{1,2}$/.test(token)) continue; // descarta "JG", "2X", etc.
+    const n = Number(token);
+    if (n >= 0 && n <= 99) out.push(n);
+  }
+  return out;
 }
 
 export interface HotColdResult {
@@ -32,14 +49,14 @@ export function withinWindow(
   now: Date = new Date(),
 ): DrawRecord[] {
   const cutoff = now.getTime() - windowDays * 24 * 60 * 60 * 1000;
-  return draws.filter((d) => d.drawTimestamp.getTime() >= cutoff);
+  return draws.filter((d) => d.drawDate.getTime() >= cutoff);
 }
 
-/** Cuenta apariciones de cada número en los sorteos dados. */
+/** Cuenta apariciones de cada número (tokens numéricos) en los sorteos dados. */
 export function frequency(draws: DrawRecord[]): Map<number, number> {
   const counts = new Map<number, number>();
   for (const d of draws) {
-    for (const n of d.winningNumbers) {
+    for (const n of toNumericTokens(d.numbers)) {
       counts.set(n, (counts.get(n) ?? 0) + 1);
     }
   }
@@ -78,14 +95,14 @@ export function inverseStreaks(
   maxNumber: number,
   limit = 5,
 ): InverseStreakResult[] {
-  const ordered = [...draws].sort(
-    (a, b) => b.drawTimestamp.getTime() - a.drawTimestamp.getTime(),
-  );
+  const ordered = [...draws]
+    .sort((a, b) => b.drawDate.getTime() - a.drawDate.getTime())
+    .map((d) => toNumericTokens(d.numbers));
   const result: InverseStreakResult[] = [];
   for (let n = 0; n <= maxNumber; n++) {
     let since = ordered.length; // si nunca salió, racha = total de sorteos
     for (let i = 0; i < ordered.length; i++) {
-      if (ordered[i]!.winningNumbers.includes(n)) {
+      if (ordered[i]!.includes(n)) {
         since = i;
         break;
       }
@@ -108,7 +125,7 @@ export function parity(draws: DrawRecord[]): ParityResult {
   let even = 0;
   let odd = 0;
   for (const d of draws) {
-    for (const n of d.winningNumbers) {
+    for (const n of toNumericTokens(d.numbers)) {
       if (n % 2 === 0) even++;
       else odd++;
     }

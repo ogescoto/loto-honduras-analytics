@@ -8,7 +8,7 @@ actualizado: AAAA-MM-DD
 
 # Nota de módulo / entidad
 
-> Copia esta plantilla a `docs/04_Modulos/<Modulo>.md` al crear un módulo. Mantén el frontmatter y el historial al día. Ver [`../07_Documentation/Obsidian_Vault_Standard.md`](../07_Documentation/Obsidian_Vault_Standard.md).
+> Copia esta plantilla a `docs/04_Modulos/<Modulo>.md` al crear un módulo. Mantén el frontmatter y el historial al día. Ver [`../gobernanza/Obsidian_Vault_Standard.md`](../gobernanza/Obsidian_Vault_Standard.md).
 
 ## [[00_MAPA_DE_CONTENIDOS|Mapa de Contenidos]]
 
@@ -39,6 +39,10 @@ Breve descripción (1-2 frases) de qué problema de negocio resuelve este módul
 
 ### Flujos relacionados
 - [[05_Procesos/Flujo_Pago|Flujo de Pago]]
+
+### Código relacionado (mapa conceptos ↔ código)
+- **Componentes:** `ruta/archivo.ts:línea` — responsabilidad.
+- **Flujos:** ver [[03_Tecnico/Mapa_Conceptos_Codigo|Mapa Conceptos ↔ Código]].
 
 ### Datos y seeds
 - Seed dev: `dev_payments`

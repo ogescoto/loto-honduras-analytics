@@ -84,6 +84,30 @@ Recibe eventos de Stripe. 🔒 módulo protegido. Ver [[04_Modulos/Pagos|Módulo
 - **Respuesta `200`:** `{ "success": true, "data": { "received": true } }`.
 - **Errores:** `400 BAD_REQUEST` (falta firma), `400 INVALID_SIGNATURE` (firma inválida o fuera de tolerancia).
 
+## POST /api/v1/ingest/events
+Registra un evento de ingestión (historial para [[04_Modulos/Admin_Logs|Admin · Logs]]). Emisor: el scraper. 🔒 ver protegido.
+- **Acceso:** **máquina-a-máquina** — `requireServiceToken` (header `X-Ingest-Token`), no JWT de usuario. Montado en `apps/backend-hono/src/routes/ingest-events.ts`.
+- **Request body:**
+  ```jsonc
+  {
+    "level": "info",            // info | warn | error (def. info)
+    "sourceId": "uuid?",        // debe existir en draw_sources
+    "game": "diaria_9pm?",      // game_type (13 valores)
+    "message": "Fuente X OK",   // obligatorio, máx. 500
+    "meta": { "inserted": 3 }   // jsonb opcional
+  }
+  ```
+- **Respuesta `200`:** `{ "success": true, "data": { "id", "createdAt" } }`.
+- **Errores:** `400 VALIDATION_ERROR` (sin `message`), `404 NOT_FOUND` (sourceId inexistente), `401 UNAUTHENTICATED` (token de servicio ausente/inválido).
+
+## GET /api/v1/admin/logs
+Lista eventos de ingestión para el panel admin. Ver [[04_Modulos/Admin_Logs|módulo]]. Código: `apps/backend-hono/src/routes/admin/logs.ts`.
+- **Acceso:** `requireAuth` + `requireRole("admin", "clerk")`.
+- **Query params:** `level` (info|warn|error), `game` (game_type), `limit` (def. 100, máx. 500), `offset`.
+- **Respuesta `200`:** `{ "success": true, "data": [{ "id", "level", "message", "game", "meta", "createdAt", "sourceId", "sourceName" }] }` ordenado por `createdAt` desc.
+- **Errores:** `401 UNAUTHENTICATED`, `403 FORBIDDEN`.
+
 ## Historial de cambios
+- 2026-09-05: añadidos `POST /api/v1/ingest/events` (write de logs, service token) y `GET /api/v1/admin/logs` (lectura admin con filtros).
 - 2026-06-21: documentado auth Bearer JWT + RBAC; añadidos `POST /auth/login`, `POST /payments/checkout` y `POST /payments/webhook`; `premium/meta-patterns` y `admin/register-physical-payment` ahora toman la identidad del JWT (eliminado `userId` por query y `administratorId` del body); añadidos códigos de error.
 - 2026-06-20: documentación inicial de `/health`, `patterns`, `premium/meta-patterns` y `admin/register-physical-payment`.

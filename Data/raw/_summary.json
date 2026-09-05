@@ -1,0 +1,75 @@
+{
+  "backfillDate": "2026-06-23T21:25:49.707Z",
+  "period": {
+    "start": "2025-01-01T00:00:00.000Z",
+    "end": "2026-06-24T05:59:59.999Z"
+  },
+  "totalSessions": 6615,
+  "games": [
+    {
+      "title": "La Diaria 11:00 AM",
+      "id": "693ae5bbd7b13e9daed23b31",
+      "sessions": 3
+    },
+    {
+      "title": "La Diaria 3:00 PM",
+      "id": "693ae5bbd7b13e9daed23b07",
+      "sessions": 3
+    },
+    {
+      "title": "La Diaria 9:00 PM",
+      "id": "693ae5bbd7b13e9daed23b1f",
+      "sessions": 3
+    },
+    {
+      "title": "Pega 3 11:00 AM",
+      "id": "693ae5bbd7b13e9daed23b37",
+      "sessions": 3
+    },
+    {
+      "title": "Pega 3 3:00 PM",
+      "id": "693ae5bbd7b13e9daed23b0d",
+      "sessions": 3
+    },
+    {
+      "title": "Pega 3 9:00 PM",
+      "id": "693ae5bbd7b13e9daed23b13",
+      "sessions": 3
+    },
+    {
+      "title": "Premia 2 11:00 AM",
+      "id": "693ae5bbd7b13e9daed23b3d",
+      "sessions": 2
+    },
+    {
+      "title": "Premia 2 3:00 PM",
+      "id": "693ae5bbd7b13e9daed23b25",
+      "sessions": 2
+    },
+    {
+      "title": "Premia 2  9:00 PM",
+      "id": "693ae5bbd7b13e9daed23b2b",
+      "sessions": 2
+    },
+    {
+      "title": "Jugá 3 11:00 AM",
+      "id": "693ae5bbd7b13e9daed23b4c",
+      "sessions": 1
+    },
+    {
+      "title": "Jugá 3 3:00 PM",
+      "id": "693ae5bbd7b13e9daed23b52",
+      "sessions": 1
+    },
+    {
+      "title": "Jugá 3 9:00 PM",
+      "id": "693ae5bbd7b13e9daed23b58",
+      "sessions": 1
+    },
+    {
+      "title": "Super Premio Loto",
+      "id": "693ae5bbd7b13e9daed23b19",
+      "sessions": 6
+    }
+  ]
+}

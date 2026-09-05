@@ -1,10 +1,19 @@
 ---
-// Muestra una lista de números como "bolas" de lotería.
 interface Props {
-  numbers: number[];
+  numbers: (number | string)[];
   highlight?: boolean;
 }
 const { numbers, highlight = false } = Astro.props;
+
+function display(n: number | string): string {
+  const s = String(n);
+  if (/^\d{1,2}$/.test(s)) return s.padStart(2, "0");
+  return s;
+}
+
+function isLong(n: number | string): boolean {
+  return display(n).length > 4;
+}
 ---
 
 <div class="flex flex-wrap gap-2">
@@ -15,11 +24,15 @@ const { numbers, highlight = false } = Astro.props;
       numbers.map((n) => (
         <span
           class:list={[
-            "flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold shadow-sm",
-            highlight ? "bg-brand text-white" : "bg-white text-brand-dark ring-1 ring-brand/30",
+            "flex items-center justify-center rounded-full text-xs font-bold shadow-sm",
+            isLong(n) ? "h-10 min-w-[2.5rem] px-2" : "h-10 w-10",
+            highlight
+              ? "bg-brand text-white"
+              : "bg-white text-brand-dark ring-1 ring-brand/30",
           ]}
+          title={String(n)}
         >
-          {String(n).padStart(2, "0")}
+          {display(n).length > 6 ? display(n).slice(0, 6) + "…" : display(n)}
         </span>
       ))
     )

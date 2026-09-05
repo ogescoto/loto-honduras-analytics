@@ -1,7 +1,7 @@
 ---
 tipo: indice
 estado: activo
-actualizado: 2026-06-23
+actualizado: 2026-09-05
 ---
 
 # Mapa de Contenidos — Loto Honduras Analytics
@@ -23,7 +23,8 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
   - [[02_Arquitectura/adr/0001-adopcion-del-framework-de-gobernanza|ADR-0001 · Adopción del framework de gobernanza]]
   - [[02_Arquitectura/adr/0002-arquitectura-edge-cloudflare|ADR-0002 · Arquitectura edge en Cloudflare]]
   - [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003 · Pagos con Stripe vía REST en el edge]]
-  - [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004 · Proxy de scraping vía Decodo (gateway gestionado)]]
+  - [[02_Arquitectura/adr/0004-proxy-scraping-via-decodo|ADR-0004 · Proxy vía Decodo]] ⛔ *(anulado por ADR-0005)*
+  - [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005 · Ingestión en GitHub Actions + WebShare + endpoint]]
 
 ## 03 · Técnico
 - [[03_Tecnico/Stack|Stack tecnológico y comandos canónicos]]
@@ -33,6 +34,7 @@ Punto de entrada de la bóveda. La documentación es la **única fuente de verda
 - [[04_Modulos/Suscripciones|Suscripciones híbridas]] 🔒
 - [[04_Modulos/Pagos|Pagos (Stripe)]] 🔒
 - [[04_Modulos/Admin_Cobros_Presenciales|Admin · Cobros presenciales]] 🔒
+- [[04_Modulos/Admin_Logs|Admin · Logs de ingestión]] 🔒
 - [[04_Modulos/Scraper_Ingestion|Scraper · Ingestión de sorteos]]
 - [[04_Modulos/Frontend|Frontend (Astro)]]
 

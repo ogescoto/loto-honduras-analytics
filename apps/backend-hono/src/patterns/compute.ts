@@ -37,9 +37,9 @@ export async function computePatternsForGame(
     .where(eqGame(game));
 
   const draws: DrawRecord[] = rows.map((r) => ({
-    drawNumber: r.drawNumber,
-    winningNumbers: r.winningNumbers,
-    drawTimestamp: r.drawTimestamp,
+    sessionId: r.sessionId,
+    numbers: r.numbers,
+    drawDate: r.drawDate,
   }));
 
   const inserts: (typeof gamePatterns.$inferInsert)[] = [];
@@ -70,14 +70,17 @@ export async function computePatternsForGame(
     metadata: { ...par },
   });
 
-  // Persistir patrones nivel 1.
+  // Reemplazar patrones anteriores del juego (evita acumulación infinita).
+  await db.delete(gamePatterns).where(eq(gamePatterns.game, game));
+
   let patternsCreated = 0;
   if (inserts.length) {
     const created = await db.insert(gamePatterns).values(inserts).returning({ id: gamePatterns.id });
     patternsCreated = created.length;
   }
 
-  // Meta-patrones: cruce de calientes (ventana 30d) con sueños/búsquedas.
+  // Meta-patrones: limpiar y recalcular (acoplados al juego por parentPatternIds en el futuro;
+  // por ahora se limpian globalmente si no hay suscriptores activos con meta-patrones vigentes).
   const hot30 = hotCold(draws, 30, 10, now).hot;
   const candidates = crossMetaPatterns(hot30, dreamNumbers);
   let metaPatternsCreated = 0;
@@ -103,3 +106,4 @@ import { eq } from "drizzle-orm";
 function eqGame(game: GameType) {
   return eq(lotteryHistory.game, game);
 }
+

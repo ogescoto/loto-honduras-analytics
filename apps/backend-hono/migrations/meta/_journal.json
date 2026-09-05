@@ -8,6 +8,41 @@
       "when": 1782039882924,
       "tag": "0000_whole_richard_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782367413843,
+      "tag": "0001_redesign_lottery_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782800000000,
+      "tag": "0002_auth_credentials",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1782900000000,
+      "tag": "0003_features_trial_ban",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788560792770,
+      "tag": "0004_tranquil_onslaught",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788619752020,
+      "tag": "0005_ingestion_events",
+      "breakpoints": true
     }
   ]
 }

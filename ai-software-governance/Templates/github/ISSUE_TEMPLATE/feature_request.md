@@ -19,8 +19,8 @@ Qué se propone construir, a alto nivel.
 Otras opciones y por qué se descartan.
 
 ## Impacto
-- ¿Afecta a módulos protegidos? ([`Protected_Modules`](../../09_AI/Protected_Modules.md))
-- ¿Requiere ADR? ([`ADR`](../../07_Documentation/ADR.md))
+- ¿Afecta a módulos protegidos? ([`Protected_Modules`](../../../gobernanza/Protected_Modules.md))
+- ¿Requiere ADR? ([`ADR`](../../../gobernanza/ADR.md))
 - ¿Toca datos / migraciones / seeds?
 
 ## Notas

@@ -5,27 +5,35 @@ import {
   parity,
   crossMetaPatterns,
   withinWindow,
+  toNumericTokens,
   type DrawRecord,
 } from "./engine.js";
 import { numberForDream } from "./dream-guide.js";
 
 const NOW = new Date("2026-06-20T00:00:00Z");
 
-function draw(daysAgo: number, nums: number[], n = 1): DrawRecord {
+function draw(daysAgo: number, nums: string[], id = "s"): DrawRecord {
   return {
-    drawNumber: n,
-    winningNumbers: nums,
-    drawTimestamp: new Date(NOW.getTime() - daysAgo * 86_400_000),
+    sessionId: `${id}-${daysAgo}`,
+    numbers: nums,
+    drawDate: new Date(NOW.getTime() - daysAgo * 86_400_000),
   };
 }
 
 const sample: DrawRecord[] = [
-  draw(1, [24], 1),
-  draw(2, [24], 2),
-  draw(3, [8], 3),
-  draw(40, [24], 4), // fuera de ventana 30d
-  draw(100, [13], 5),
+  draw(1, ["24"]),
+  draw(2, ["24"]),
+  draw(3, ["8"]),
+  draw(40, ["24"]), // fuera de ventana 30d
+  draw(100, ["13"]),
 ];
+
+describe("toNumericTokens", () => {
+  it("descarta comodines y normaliza '00'", () => {
+    expect(toNumericTokens(["00", "JG", "2X", "9"])).toEqual([0, 9]);
+    expect(toNumericTokens(["07", "71"])).toEqual([7, 71]);
+  });
+});
 
 describe("withinWindow", () => {
   it("filtra por ventana de días", () => {
@@ -51,7 +59,7 @@ describe("inverseStreaks", () => {
 
 describe("parity", () => {
   it("calcula ratio par/impar", () => {
-    const p = parity([draw(1, [2, 4, 3])]);
+    const p = parity([draw(1, ["2", "4", "3"])]);
     expect(p.even).toBe(2);
     expect(p.odd).toBe(1);
     expect(p.evenRatio).toBeCloseTo(2 / 3);

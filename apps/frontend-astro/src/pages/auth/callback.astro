@@ -1,0 +1,29 @@
+---
+// Página de callback OAuth: guarda el token JWT en cookie y redirige.
+// El backend redirige aquí con ?token=JWT tras el login con Google.
+const token = Astro.url.searchParams.get("token");
+const error = Astro.url.searchParams.get("error");
+
+if (!token && !error) return Astro.redirect("/login");
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Iniciando sesión…</title>
+  </head>
+  <body>
+    <script is:inline define:vars={{ token, error }}>
+      if (error) {
+        window.location.href = "/login?error=" + error;
+      } else if (token) {
+        document.cookie = "loto_token=" + token + "; path=/; SameSite=Strict; max-age=28800";
+        window.location.href = "/";
+      }
+    </script>
+    <p style="font-family:sans-serif;text-align:center;margin-top:4rem;color:#64748b">
+      Iniciando sesión…
+    </p>
+  </body>
+</html>

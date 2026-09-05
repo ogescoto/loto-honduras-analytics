@@ -23,11 +23,11 @@ Closes #___
 ## ¿Toca módulos protegidos?
 - [ ] No
 - [ ] Sí → enlace a la aprobación (`APPROVED`): ___
-  (ver [`../09_AI/Protected_Modules.md`](../09_AI/Protected_Modules.md))
+  (ver [`../gobernanza/Protected_Modules.md`](../gobernanza/Protected_Modules.md))
 
 ## Checklist del autor (Definition of Done)
 - [ ] El código sigue los estándares de la(s) capa(s) afectada(s).
-- [ ] Naming y dependencias correctos ([`../01_Architecture/`](../01_Architecture/)).
+- [ ] Naming y dependencias correctos ([`../practicas/`](../practicas/)).
 - [ ] Tests unitarios/integración añadidos y en verde.
 - [ ] Cobertura por encima del umbral.
 - [ ] Seeds `dev_`/`test_` actualizados (si hubo entidad/caso de uso).

@@ -1,0 +1,239 @@
+---
+import Shell from "../../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../../lib/auth.ts";
+import { apiGetSSR } from "../../lib/api.ts";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+
+if (!payload || (payload.role !== "admin" && payload.role !== "clerk")) {
+  return Astro.redirect("/login");
+}
+
+interface DrawRow {
+  id: string;
+  game: string;
+  sessionId: string;
+  numbers: string[];
+  signs: string[];
+  drawDate: string;
+  source: "official" | "manual";
+  verified: boolean;
+  sourceName: string | null;
+  note: string | null;
+  enteredBy: string | null;
+}
+
+const drawsRes = await apiGetSSR<DrawRow[]>("/api/v1/admin/draws?days=30&limit=200", Astro.locals, token!);
+const draws = drawsRes.success ? drawsRes.data! : [];
+
+const GAME_LABELS: Record<string, string> = {
+  diaria_11am: "La Diaria 11:00 AM",
+  diaria_3pm: "La Diaria 3:00 PM",
+  diaria_9pm: "La Diaria 9:00 PM",
+  pega3_11am: "Pega 3 11:00 AM",
+  pega3_3pm: "Pega 3 3:00 PM",
+  pega3_9pm: "Pega 3 9:00 PM",
+  premia2_11am: "Premia 2 11:00 AM",
+  premia2_3pm: "Premia 2 3:00 PM",
+  premia2_9pm: "Premia 2 9:00 PM",
+  juga3_11am: "Jugá 3 11:00 AM",
+  juga3_3pm: "Jugá 3 3:00 PM",
+  juga3_9pm: "Jugá 3 9:00 PM",
+  super_premio: "Super Premio",
+};
+const GAMES = Object.keys(GAME_LABELS);
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleString("es-HN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+const nowISO = new Date().toISOString().slice(0, 10);
+---
+
+<Shell title="Resultados — Administración" active="admin">
+  <div class="space-y-8">
+    <nav class="flex flex-wrap gap-2 text-sm">
+      <a href="/admin" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Admin</a>
+      <a href="/admin/resultados" class="rounded-lg bg-brand px-3 py-1.5 font-semibold text-white">Resultados</a>
+      <a href="/admin/fuentes" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes</a>
+      <a href="/admin/logs" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Logs</a>
+    </nav>
+
+    <!-- Alta manual -->
+    <section>
+      <h2 class="mb-1 text-lg font-bold text-slate-700">Registrar resultado manual</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        Provisional hasta que la fuente oficial publique el mismo sorteo (juego + día): al llegar, el oficial lo
+        reemplaza automáticamente. Los manuales se muestran con la etiqueta <strong>manual</strong>.
+      </p>
+
+      <form id="manual-form" class="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block">
+            <span class="text-sm font-medium text-slate-700">Juego</span>
+            <select name="game" required
+              class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand">
+              {GAMES.map((g) => <option value={g}>{GAME_LABELS[g]}</option>)}
+            </select>
+          </label>
+          <label class="block">
+            <span class="text-sm font-medium text-slate-700">Día del sorteo</span>
+            <input name="drawDate" type="date" required value={nowISO}
+              class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+          </label>
+        </div>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Resultado</span>
+          <span class="text-xs text-slate-400"> Tokens separados por coma (o salto de línea). Ej: <code>85 Casa, JG, 8</code> o <code>64, 34, 65</code>.</span>
+          <textarea name="result" rows="2" required
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"></textarea>
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Nota <span class="font-normal text-slate-400">(opcional)</span></span>
+          <input name="note" type="text" maxlength="500"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <button type="submit"
+          class="flex min-h-[44px] items-center rounded-lg bg-brand px-5 font-semibold text-white hover:bg-brand-dark disabled:opacity-60">
+          Guardar resultado manual
+        </button>
+        <p id="result" class="text-sm" role="status"></p>
+      </form>
+    </section>
+
+    <!-- Últimos resultados -->
+    <section>
+      <h2 class="mb-3 text-lg font-bold text-slate-700">Últimos resultados (30 días)</h2>
+      {draws.length === 0 ? (
+        <p class="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">
+          No hay resultados en los últimos 30 días.
+        </p>
+      ) : (
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-3 py-3 text-left">Fecha</th>
+                <th class="px-3 py-3 text-left">Juego</th>
+                <th class="px-3 py-3 text-left">Resultado</th>
+                <th class="px-3 py-3 text-left">Origen</th>
+                <th class="px-3 py-3 text-left">Verificado</th>
+                <th class="px-3 py-3 text-left">Nota</th>
+                <th class="px-3 py-3 text-left">Acción</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {draws.map((d) => (
+                <tr class:list={["hover:bg-slate-50", d.source === "manual" ? "bg-amber-50/60" : ""]}>
+                  <td class="px-3 py-2 whitespace-nowrap text-slate-600">{fmtDate(d.drawDate)}</td>
+                  <td class="px-3 py-2 text-slate-800">{GAME_LABELS[d.game] ?? d.game}</td>
+                  <td class="px-3 py-2">
+                    <span class="font-medium text-slate-800">{d.numbers.join(" · ")}</span>
+                    {d.signs.length > 0 && d.signs.join(",") !== d.numbers.join(",") && (
+                      <p class="text-xs text-slate-400">{d.signs.join(" · ")}</p>
+                    )}
+                  </td>
+                  <td class="px-3 py-2">
+                    <span class:list={[
+                      "rounded-full px-2 py-0.5 text-xs font-medium",
+                      d.source === "manual" ? "bg-amber-100 text-amber-700" : "bg-sky-100 text-sky-700",
+                    ]}>
+                      {d.source === "manual" ? "manual" : d.sourceName ?? "oficial"}
+                    </span>
+                  </td>
+                  <td class="px-3 py-2">
+                    {d.verified ? (
+                      <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Sí</span>
+                    ) : (
+                      <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">No</span>
+                    )}
+                  </td>
+                  <td class="px-3 py-2 text-xs text-slate-500">{d.note ?? "—"}{d.enteredBy ? ` (${d.enteredBy})` : ""}</td>
+                  <td class="px-3 py-2">
+                    {d.source === "manual" && (
+                      <button class="del-btn rounded bg-red-100 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-200"
+                        data-id={d.id}>Eliminar</button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  </div>
+</Shell>
+
+<script is:inline define:vars={{ apiBase }}>
+  const token = document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1];
+  const headers = (json = true) => ({
+    ...(json ? { "Content-Type": "application/json" } : {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  });
+
+  const show = (el, msg, ok) => {
+    el.textContent = msg;
+    el.className = ok ? "text-sm text-emerald-700" : "text-sm text-red-600";
+  };
+
+  // Alta manual
+  const form = document.getElementById("manual-form");
+  const result = document.getElementById("result");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = "Guardando…";
+    result.textContent = "";
+    try {
+      const game = form.elements.namedItem("game").value;
+      const drawDate = form.elements.namedItem("drawDate").value;
+      const raw = form.elements.namedItem("result").value;
+      const note = form.elements.namedItem("note").value.trim();
+      const tokens = raw.split(/[\n,]+/).map((t) => t.trim()).filter(Boolean);
+      const numbers = tokens.map((t) => t.split(/\s+/)[0]);
+      const signs = tokens.map((t) => t);
+      const res = await fetch(`${apiBase}/api/v1/admin/draws/manual`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ game, drawDate, numbers, signs: numbers.join() === signs.join() ? undefined : signs, note }),
+      });
+      const body = await res.json();
+      if (body.success) {
+        show(result, "✓ " + body.data.message, true);
+        setTimeout(() => location.reload(), 600);
+      } else {
+        show(result, body.error?.message ?? "Error.", false);
+        btn.disabled = false;
+        btn.textContent = "Guardar resultado manual";
+      }
+    } catch {
+      show(result, "Error de conexión.", false);
+      btn.disabled = false;
+      btn.textContent = "Guardar resultado manual";
+    }
+  });
+
+  // Eliminar manual
+  document.querySelectorAll(".del-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("¿Eliminar este resultado manual?")) return;
+      btn.disabled = true;
+      try {
+        const res = await fetch(`${apiBase}/api/v1/admin/draws/${btn.dataset.id}`, {
+          method: "DELETE",
+          headers: headers(false),
+        });
+        const body = await res.json();
+        if (body.success) location.reload();
+        else { alert(body.error?.message ?? "Error."); btn.disabled = false; }
+      } catch {
+        alert("Error de conexión.");
+        btn.disabled = false;
+      }
+    });
+  });
+</script>

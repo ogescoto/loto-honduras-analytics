@@ -6,7 +6,7 @@ Valida dos cosas en la carpeta docs/ de un proyecto:
   1. Que no haya enlaces wiki rotos: [[ruta/Nota|Alias]] cuyo destino no exista.
   2. (Opcional) Que cada módulo en src/ tenga su nota en docs/04_Modulos/.
 
-Pensado para ejecutarse en CI (ver ../08_DevOps/CI_CD.md). Devuelve código de
+Pensado para ejecutarse en CI (ver ../practicas/CI_CD.md). Devuelve código de
 salida != 0 si encuentra problemas.
 
 NOTA: script de REFERENCIA. Ajusta las rutas y reglas al stack del proyecto.

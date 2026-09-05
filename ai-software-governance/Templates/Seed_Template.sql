@@ -2,7 +2,7 @@
 -- PLANTILLA DE SEED
 -- =====================================================================
 -- Copia este archivo y ajústalo. Elige UNO de los tipos (dev o test).
--- Reglas: ver ../03_Database/Seeds_Strategy.md
+-- Reglas: ver ../practicas/Seeds_Strategy.md
 --
 --   - Prefijo de archivo: dev_<nombre>.sql  |  test_<nombre>.sql
 --   - dev  → datos realistas, idempotente, para revisión manual/demo

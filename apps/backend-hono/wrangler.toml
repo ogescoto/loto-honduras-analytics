@@ -5,12 +5,34 @@ main = "src/index.ts"
 compatibility_date = "2024-10-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Variables NO secretas por entorno.
+# Variables NO secretas (entorno de producción, por defecto).
 [vars]
 APP_ENV = "production"
+APP_BASE_URL = "https://api.pronosticos-hn.oged-solutions.com"
+APP_FRONTEND_URL = "https://pronosticos-hn.oged-solutions.com"
 
-# Secretos requeridos (declarados aquí solo como documentación):
-#   NEON_DATABASE_URL   -> wrangler secret put NEON_DATABASE_URL
-#   JWT_SECRET          -> wrangler secret put JWT_SECRET
-#   STRIPE_API_KEY      -> wrangler secret put STRIPE_API_KEY
-#   STRIPE_WEBHOOK_SECRET -> wrangler secret put STRIPE_WEBHOOK_SECRET
+# Dominio personalizado del worker de producción.
+# Cloudflare crea el CNAME y el certificado automáticamente.
+[[routes]]
+pattern = "api.pronosticos-hn.oged-solutions.com"
+custom_domain = true
+
+# Entorno de pruebas directamente en Cloudflare.
+# Uso: `wrangler deploy --env staging` y `wrangler secret put <NAME> --env staging`.
+[env.staging]
+vars = { APP_ENV = "staging", APP_BASE_URL = "https://api-staging.pronosticos-hn.oged-solutions.com", APP_FRONTEND_URL = "https://staging.pronosticos-hn.pages.dev" }
+
+[[env.staging.routes]]
+pattern = "api-staging.pronosticos-hn.oged-solutions.com"
+custom_domain = true
+
+# Secretos requeridos (wrangler secret put <NAME> [--env staging]):
+#   NEON_DATABASE_URL      -> wrangler secret put NEON_DATABASE_URL
+#   JWT_SECRET             -> wrangler secret put JWT_SECRET
+#   STRIPE_API_KEY         -> wrangler secret put STRIPE_API_KEY
+#   STRIPE_WEBHOOK_SECRET  -> wrangler secret put STRIPE_WEBHOOK_SECRET
+#   INGEST_SERVICE_TOKEN   -> wrangler secret put INGEST_SERVICE_TOKEN
+#   BREVO_API_KEY          -> wrangler secret put BREVO_API_KEY
+#   GOOGLE_CLIENT_ID       -> wrangler secret put GOOGLE_CLIENT_ID
+#   GOOGLE_CLIENT_SECRET   -> wrangler secret put GOOGLE_CLIENT_SECRET
+#   GOOGLE_ADMIN_EMAILS    -> wrangler secret put GOOGLE_ADMIN_EMAILS

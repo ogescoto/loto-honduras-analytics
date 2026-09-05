@@ -25,8 +25,8 @@ Interfaz móvil-first que presenta patrones de nivel 1 (público), el área prem
 
 ## Estructura
 - **Layout:** `src/layouts/Shell.astro` (shell PWA con navegación).
-- **Componente:** `src/components/NumberBalls.astro` (visualización de números).
-- **Páginas** en `src/pages/`: `index.astro` (Dashboard, patrones nivel 1 públicos), `premium.astro` (Zona Premium, meta-patrones con gate por token de suscriptor), `admin.astro` (registro de cobro presencial, con anti doble-click).
+- **Componentes:** `src/components/` — `NumberBalls.astro`, `DrawBalls.astro`, `PatternCard.astro`, `MetaPatternCard.astro`, `ConfidenceBar.astro`, `FavoriteButton.astro`, `GameSelector.astro`, `AdBanner.astro`.
+- **Páginas** en `src/pages/`: `index.astro` (Dashboard, patrones nivel 1 públicos), `premium.astro` (Zona Premium), `patrones.astro` (Análisis de patrones, gated por suscripción), `history.astro` (búsqueda por número con filtro de juego), `login.astro` / `register.astro` / `forgot-password.astro` / `reset-password.astro`, `admin.astro` (suscripciones, usuarios, cobro presencial) y `admin/` (`resultados.astro` alza manual, `fuentes.astro` CRUD de fuentes, `logs.astro` eventos de ingestión).
 
 ## Vistas
 - Ver el [[06_UX_UI/Mapa_Navegacion|Mapa de navegación]]: Dashboard, Zona Premium, Admin (cobros), sobre el Shell.
@@ -41,9 +41,9 @@ Interfaz móvil-first que presenta patrones de nivel 1 (público), el área prem
 - Estado en `.aicodeprotect.yml`: **no protegido**.
 
 ## Pendiente / no documentado
-- No hay todavía una pantalla de **login** propia ni gestión persistente del token de sesión (hoy el gate premium usa un token de suscriptor introducido manualmente).
-- Tests E2E con Playwright (`tests/e2e/landing.spec.ts`); falta cobertura E2E de las páginas Premium y Admin.
+- Tests E2E con Playwright (`tests/e2e/landing.spec.ts`); falta cobertura E2E de las páginas Premium, Admin y de búsqueda.
 
 ## Historial de cambios
+- 2026-09-05: añadidas páginas `history.astro` (filtro de juego), `patrones.astro` (patrones automáticos públicos), auth (login/register/reset) y admin (`resultados`, `fuentes`, `logs`). Actualizada la estructura de páginas.
 - 2026-06-21: documentadas las páginas reales (Dashboard, Premium, Admin), el `Shell.astro`, el componente `NumberBalls.astro`, el cliente `src/lib/api.ts` y Tailwind. Estado pasa a activo; resuelto el pendiente de andamiaje.
 - 2026-06-20: creación inicial (estado andamiaje).

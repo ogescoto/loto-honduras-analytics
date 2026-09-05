@@ -1,82 +1,368 @@
 ---
 import Shell from "../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../lib/auth.ts";
+import { apiGetSSR } from "../lib/api.ts";
 
-// Pantalla Admin: registro de cobros presenciales (admin/clerk).
-// El formulario hace POST autenticado a la Edge API desde el navegador.
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+
+// Solo admin y clerk pueden entrar
+if (!payload || (payload.role !== "admin" && payload.role !== "clerk")) {
+  return Astro.redirect("/login");
+}
+
+interface SubscriptionRow {
+  id: string;
+  email: string;
+  name: string | null;
+  paymentMethod: "stripe" | "cash_presencial" | "trial";
+  startDate: string;
+  endDate: string;
+  receiptNumber: string | null;
+}
+
+interface UserRow {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string;
+  banned: boolean;
+  emailVerified: boolean;
+  createdAt: string;
+  subscription: { paymentMethod: string; endDate: string } | null;
+}
+
+const [subRes, usersRes] = await Promise.all([
+  apiGetSSR<SubscriptionRow[]>("/api/v1/admin/subscriptions", Astro.locals, token!),
+  apiGetSSR<UserRow[]>("/api/v1/admin/users", Astro.locals, token!),
+]);
+const subscriptions = subRes.success ? subRes.data! : [];
+const allUsers = usersRes.success ? usersRes.data! : [];
+
+function formatDate(d: string) {
+  return new Date(d).toLocaleDateString("es-HN", { day: "2-digit", month: "short", year: "numeric" });
+}
+
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
 ---
 
-<Shell title="Cobros presenciales" active="admin">
-  <p class="mb-6 text-slate-600">
-    Registra una suscripción pagada en efectivo en ventanilla. Requiere rol
-    <strong>admin</strong> o <strong>clerk</strong>.
-  </p>
+<Shell title="Administración" active="admin">
+  <div class="space-y-8">
+    <nav class="flex flex-wrap gap-2 text-sm">
+      <a href="/admin/resultados" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Resultados manuales</a>
+      <a href="/admin/fuentes" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes de datos</a>
+      <a href="/admin/logs" class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Logs</a>
+    </nav>
 
-  <form id="cobro-form" class="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-    <label class="block">
-      <span class="text-sm font-medium">Email del cliente</span>
-      <input name="clientEmail" type="email" required
-        class="mt-1 w-full rounded border border-slate-300 px-3 py-2" />
-    </label>
-    <label class="block">
-      <span class="text-sm font-medium">Meses de validez</span>
-      <input name="validityMonths" type="number" min="1" value="1" required
-        class="mt-1 w-full rounded border border-slate-300 px-3 py-2" />
-    </label>
-    <label class="block">
-      <span class="text-sm font-medium">Número de recibo físico</span>
-      <input name="paperReceiptNumber" type="text" required
-        class="mt-1 w-full rounded border border-slate-300 px-3 py-2" />
-    </label>
-    <button type="submit"
-      class="rounded bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-dark">
-      Registrar cobro
-    </button>
-    <p id="result" class="text-sm" role="status"></p>
-  </form>
+    <!-- Sección: suscripciones activas -->
+    <section>
+      <h2 class="mb-3 text-lg font-bold text-slate-700">Suscripciones activas</h2>
+      {subscriptions.length === 0 ? (
+        <p class="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">
+          No hay suscripciones activas en este momento.
+        </p>
+      ) : (
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-4 py-3 text-left">Cliente</th>
+                <th class="px-4 py-3 text-left">Método</th>
+                <th class="px-4 py-3 text-left">Vence</th>
+                <th class="px-4 py-3 text-left">Recibo</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {subscriptions.map((s) => (
+                <tr class="hover:bg-slate-50">
+                  <td class="px-4 py-3">
+                    <p class="font-medium text-slate-800">{s.email}</p>
+                    {s.name && <p class="text-xs text-slate-400">{s.name}</p>}
+                  </td>
+                  <td class="px-4 py-3">
+                    <span class:list={[
+                      "rounded-full px-2 py-0.5 text-xs font-medium",
+                      s.paymentMethod === "stripe" ? "bg-violet-100 text-violet-700"
+                      : s.paymentMethod === "trial" ? "bg-teal-100 text-teal-700"
+                      : "bg-amber-100 text-amber-700"
+                    ]}>
+                      {s.paymentMethod === "stripe" ? "Stripe" : s.paymentMethod === "trial" ? "Trial 90d" : "Efectivo"}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 text-slate-600">{formatDate(s.endDate)}</td>
+                  <td class="px-4 py-3 text-slate-500">{s.receiptNumber ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
 
-  <script is:inline define:vars={{ apiBase }}>
-    const form = document.getElementById("cobro-form");
-    const result = document.getElementById("result");
-    let submitting = false;
+    <!-- Sección: todos los usuarios -->
+    <section>
+      <h2 class="mb-3 text-lg font-bold text-slate-700">Usuarios ({allUsers.length})</h2>
+      {allUsers.length === 0 ? (
+        <p class="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">
+          No hay usuarios registrados aún.
+        </p>
+      ) : (
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-4 py-3 text-left">Usuario</th>
+                <th class="px-4 py-3 text-left">Rol</th>
+                <th class="px-4 py-3 text-left">Suscripción</th>
+                <th class="px-4 py-3 text-left">Estado</th>
+                <th class="px-4 py-3 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {allUsers.map((u) => (
+                <tr class:list={["transition", u.banned ? "bg-red-50" : "hover:bg-slate-50"]}>
+                  <td class="px-4 py-3">
+                    <p class="font-medium text-slate-800">{u.email}</p>
+                    {u.name && <p class="text-xs text-slate-400">{u.name}</p>}
+                    <p class="text-xs text-slate-300">{formatDate(u.createdAt)}</p>
+                  </td>
+                  <td class="px-4 py-3">
+                    <span class:list={[
+                      "rounded-full px-2 py-0.5 text-xs font-medium",
+                      u.role === "admin" ? "bg-red-100 text-red-700"
+                      : u.role === "clerk" ? "bg-blue-100 text-blue-700"
+                      : "bg-slate-100 text-slate-600"
+                    ]}>
+                      {u.role}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3">
+                    {u.subscription ? (
+                      <div>
+                        <span class:list={[
+                          "rounded-full px-2 py-0.5 text-xs font-medium",
+                          u.subscription.paymentMethod === "stripe" ? "bg-violet-100 text-violet-700"
+                          : u.subscription.paymentMethod === "trial" ? "bg-teal-100 text-teal-700"
+                          : "bg-amber-100 text-amber-700"
+                        ]}>
+                          {u.subscription.paymentMethod === "stripe" ? "Stripe"
+                           : u.subscription.paymentMethod === "trial" ? "Trial"
+                           : "Efectivo"}
+                        </span>
+                        <p class="mt-0.5 text-xs text-slate-400">
+                          vence {formatDate(u.subscription.endDate)}
+                        </p>
+                      </div>
+                    ) : (
+                      <span class="text-xs text-slate-400">Sin suscripción</span>
+                    )}
+                  </td>
+                  <td class="px-4 py-3">
+                    {u.banned ? (
+                      <span class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Baneado</span>
+                    ) : (
+                      <span class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">Activo</span>
+                    )}
+                  </td>
+                  <td class="px-4 py-3">
+                    {u.role !== "admin" && (
+                      <button
+                        class:list={[
+                          "ban-btn rounded px-3 py-1 text-xs font-medium transition",
+                          u.banned
+                            ? "bg-green-100 text-green-700 hover:bg-green-200"
+                            : "bg-red-100 text-red-700 hover:bg-red-200"
+                        ]}
+                        data-userid={u.id}
+                        data-banned={String(u.banned)}
+                      >
+                        {u.banned ? "Desbanear" : "Banear"}
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (submitting) return; // anti doble-click
-      submitting = true;
+    <!-- Sección: registrar cobro presencial -->
+    <section>
+      <h2 class="mb-3 text-lg font-bold text-slate-700">Registrar cobro en ventanilla</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        Registra una suscripción pagada en efectivo. Requiere rol <strong>admin</strong> o <strong>clerk</strong>.
+      </p>
 
-      const token = document.cookie
-        .split("; ")
-        .find((c) => c.startsWith("loto_token="))
-        ?.split("=")[1];
+      <form id="cobro-form" class="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm max-w-md">
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Email del cliente</span>
+          <input name="clientEmail" type="email" required autocomplete="off" maxlength="254"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Meses de validez <span class="font-normal text-slate-400">(1–12)</span></span>
+          <input name="validityMonths" type="number" min="1" max="12" value="1" required
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Número de recibo físico</span>
+          <input name="paperReceiptNumber" type="text" required maxlength="50"
+            placeholder="Ej: REC-2026-001"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <button type="submit"
+          class="flex min-h-[44px] items-center rounded-lg bg-brand px-5 font-semibold text-white hover:bg-brand-dark disabled:opacity-60">
+          Registrar cobro
+        </button>
+        <p id="result" class="text-sm" role="status"></p>
+      </form>
+    </section>
+  </div>
+</Shell>
 
-      const data = Object.fromEntries(new FormData(form).entries());
-      data.validityMonths = Number(data.validityMonths);
+<script is:inline define:vars={{ apiBase }}>
+  // ── Ban / Unban ────────────────────────────────────────────────────────────
+  document.querySelectorAll(".ban-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const userId = btn.dataset.userid;
+      const isBanned = btn.dataset.banned === "true";
+      const action = isBanned ? "unban" : "ban";
+      const label = isBanned ? "desbanear" : "banear";
+      if (!confirm(`¿Confirmas ${label} a este usuario?`)) return;
 
+      const token = document.cookie.split("; ").find(c => c.startsWith("loto_token="))?.split("=")[1];
+      btn.disabled = true;
+      btn.textContent = "…";
       try {
-        const res = await fetch(`${apiBase}/api/v1/admin/register-physical-payment`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify(data),
+        const res = await fetch(`${apiBase}/api/v1/admin/users/${userId}/${action}`, {
+          method: "PATCH",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         const body = await res.json();
-        if (body.success) {
-          result.textContent = body.data.message;
-          result.className = "text-sm text-emerald-700";
-          form.reset();
-        } else {
-          result.textContent = body.error.message;
-          result.className = "text-sm text-red-600";
-        }
+        if (body.success) { location.reload(); }
+        else { alert(body.error?.message ?? "Error al procesar."); btn.disabled = false; btn.textContent = isBanned ? "Desbanear" : "Banear"; }
       } catch {
-        result.textContent = "Error de red al registrar el cobro.";
-        result.className = "text-sm text-red-600";
-      } finally {
-        submitting = false;
+        alert("Error de conexión.");
+        btn.disabled = false;
+        btn.textContent = isBanned ? "Desbanear" : "Banear";
       }
     });
-  </script>
-</Shell>
+  });
+</script>
+
+<script is:inline define:vars={{ apiBase }}>
+  const form = document.getElementById("cobro-form");
+  const result = document.getElementById("result");
+  let submitting = false;
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function fieldErr(input, msg) {
+    input.classList.add("border-red-400");
+    input.classList.remove("border-slate-200");
+    let hint = input.parentElement.querySelector(".field-hint");
+    if (!hint) {
+      hint = document.createElement("p");
+      hint.className = "field-hint mt-1 text-xs text-red-600";
+      input.insertAdjacentElement("afterend", hint);
+    }
+    hint.textContent = msg;
+  }
+
+  function fieldOk(input) {
+    input.classList.remove("border-red-400");
+    input.classList.add("border-slate-200");
+    const hint = input.parentElement.querySelector(".field-hint");
+    if (hint) hint.textContent = "";
+  }
+
+  // Email cliente — validación en tiempo real
+  const emailInput = form.elements.namedItem("clientEmail");
+  emailInput.addEventListener("input", () => {
+    const v = emailInput.value.trim();
+    if (!v) { fieldOk(emailInput); return; }
+    if (v.length > 254 || !EMAIL_RE.test(v)) fieldErr(emailInput, "Email inválido.");
+    else fieldOk(emailInput);
+  });
+
+  // Meses — solo enteros 1-12
+  const monthsInput = form.elements.namedItem("validityMonths");
+  monthsInput.addEventListener("input", () => {
+    const v = parseInt(monthsInput.value, 10);
+    if (isNaN(v) || v < 1 || v > 12) fieldErr(monthsInput, "Ingresa un número entre 1 y 12.");
+    else fieldOk(monthsInput);
+  });
+
+  // Solo bloquear caracteres no numéricos en el campo de meses
+  monthsInput.addEventListener("keydown", (e) => {
+    const allowed = ["Backspace","Tab","ArrowLeft","ArrowRight","Delete","Enter"];
+    if (!allowed.includes(e.key) && !/^\d$/.test(e.key)) e.preventDefault();
+  });
+
+  // Recibo — sin caracteres de control
+  const receiptInput = form.elements.namedItem("paperReceiptNumber");
+  receiptInput.addEventListener("input", () => {
+    const v = receiptInput.value;
+    if (v.length > 50) {
+      receiptInput.value = v.slice(0, 50);
+      fieldErr(receiptInput, "Máximo 50 caracteres.");
+    } else {
+      fieldOk(receiptInput);
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    const emailVal = emailInput.value.trim();
+    const monthsVal = parseInt(monthsInput.value, 10);
+    const receiptVal = receiptInput.value.trim();
+
+    // Validación antes de enviar
+    if (!emailVal || !EMAIL_RE.test(emailVal) || emailVal.length > 254) {
+      fieldErr(emailInput, "Ingresa un email válido."); emailInput.focus(); return;
+    }
+    if (isNaN(monthsVal) || monthsVal < 1 || monthsVal > 12) {
+      fieldErr(monthsInput, "Ingresa un número entre 1 y 12."); monthsInput.focus(); return;
+    }
+    if (!receiptVal || receiptVal.length > 50) {
+      fieldErr(receiptInput, "Ingresa el número de recibo (máx. 50 caracteres)."); receiptInput.focus(); return;
+    }
+
+    submitting = true;
+    const btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = "Registrando…";
+    result.textContent = "";
+
+    const token = document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1];
+
+    try {
+      const res = await fetch(`${apiBase}/api/v1/admin/register-physical-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: JSON.stringify({ clientEmail: emailVal, validityMonths: monthsVal, paperReceiptNumber: receiptVal }),
+      });
+      const body = await res.json();
+      if (body.success) {
+        result.textContent = "✓ " + body.data.message;
+        result.className = "text-sm text-emerald-700";
+        form.reset();
+        [emailInput, monthsInput, receiptInput].forEach(fieldOk);
+      } else {
+        result.textContent = body.error.message;
+        result.className = "text-sm text-red-600";
+      }
+    } catch {
+      result.textContent = "Error de red al registrar el cobro.";
+      result.className = "text-sm text-red-600";
+    } finally {
+      submitting = false;
+      btn.disabled = false;
+      btn.textContent = "Registrar cobro";
+    }
+  });
+</script>
