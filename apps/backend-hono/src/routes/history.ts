@@ -23,7 +23,7 @@ const FAMILY_GAMES: Record<string, GameType[]> = {
   all_juga3:   ["juga3_11am",   "juga3_3pm",   "juga3_9pm"],
 };
 
-const MAX_DAYS = 30;
+const MAX_DAYS = 90;
 
 export const historyRoutes = new Hono<{ Variables: { db: Database } }>();
 

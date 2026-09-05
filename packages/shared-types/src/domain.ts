@@ -104,5 +104,17 @@ export interface UserFavorite {
   game: GameType;
   number: string;
   note: string | null;
+  position: number;
+  createdAt: string;
+}
+
+/** Combinación de patrones guardada por el usuario (constructor personal). */
+export interface UserSavedPattern {
+  id: string;
+  userId: string;
+  name: string;
+  game: GameType;
+  features: string[];
+  isDefault: boolean;
   createdAt: string;
 }

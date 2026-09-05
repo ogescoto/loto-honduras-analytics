@@ -96,7 +96,7 @@ export const drawSources = pgTable("draw_sources", {
   createdAt:     timestamp("created_at").defaultNow().notNull(),
 });
 
-// 4. Favoritos de usuario (juego + número marcado)
+// 4. Favoritos de usuario (juego + número marcado) — reordenables por el usuario.
 export const userFavorites = pgTable(
   "user_favorites",
   {
@@ -105,9 +105,27 @@ export const userFavorites = pgTable(
     game:      gameTypeEnum("game").notNull(),
     number:    text("number").notNull(),
     note:      text("note"),
+    position:  integer("position").default(0).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [unique().on(t.userId, t.game, t.number)],
+);
+
+// 4b. Combinaciones de patrones guardadas por el usuario (constructor personal).
+// `features` son los FeatureCode del motor interactivo; `game` el juego objetivo.
+// UNIQUE(userId, name) evita duplicados de nombre por cuenta.
+export const userSavedPatterns = pgTable(
+  "user_saved_patterns",
+  {
+    id:        uuid("id").defaultRandom().primaryKey(),
+    userId:    uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    name:      text("name").notNull(),
+    game:      gameTypeEnum("game").notNull(),
+    features:  text("features").array().notNull(),
+    isDefault: boolean("is_default").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [unique().on(t.userId, t.name)],
 );
 
 // 5. Histórico crudo de sorteos (objetivo de la ingestión)

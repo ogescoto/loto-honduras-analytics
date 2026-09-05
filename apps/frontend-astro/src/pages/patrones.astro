@@ -150,6 +150,14 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
           <!-- Se rellena con JS -->
         </div>
 
+        <!-- Chips ordenables (la c1 se aplica en el orden seleccionado) -->
+        <div id="chips-bar" class="mb-4 hidden rounded-lg border border-dashed border-teal-300 bg-teal-50/60 p-3">
+          <p class="mb-2 text-xs font-medium text-teal-700">Combinación seleccionada (arrastra los chips para ordenarla):</p>
+          <div id="chips-list" class="flex flex-wrap items-center gap-2">
+            <!-- Se rellena con JS -->
+          </div>
+        </div>
+
         <div class="flex flex-wrap items-center gap-3">
           <button id="btn-filter" disabled class="rounded-lg bg-teal-600 px-5 py-2 text-sm font-semibold text-white disabled:opacity-40 hover:bg-teal-700">
             Candidatos para el próximo sorteo
@@ -162,6 +170,30 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
             Limpiar
           </button>
           <span id="filter-count" class="text-xs text-slate-500">0 patrones seleccionados</span>
+        </div>
+
+        <!-- Constructor: guardar / cargar combinaciones personalizadas -->
+        <div class="mt-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <h3 class="mb-2 font-semibold text-slate-800">Mis combinaciones guardadas</h3>
+          <p class="mb-3 text-xs text-slate-500">
+            Guarda esta combinación de patrones para reutilizarla cuando quieras. Se quedan en tu cuenta.
+          </p>
+          <div class="mb-3 flex flex-wrap items-center gap-2">
+            <input
+              id="pattern-name"
+              type="text"
+              placeholder="Nombre (ej: Mi diaria 11AM)"
+              maxlength="60"
+              class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-200"
+            />
+            <button id="btn-save-pattern" disabled class="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-40 hover:bg-slate-700">
+              Guardar
+            </button>
+          </div>
+          <div id="saved-patterns" class="flex flex-wrap gap-2">
+            <!-- Se rellena con JS -->
+          </div>
+          <p id="patterns-status" class="mt-2 text-xs text-emerald-700"></p>
         </div>
 
         <!-- Resultados candidatos -->
@@ -266,6 +298,14 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
     const favoritesList  = document.getElementById("favorites-list");
     const favoritesEmpty = document.getElementById("favorites-empty");
 
+    // Constructor de combinaciones guardadas
+    const chipsBar       = document.getElementById("chips-bar");
+    const chipsList      = document.getElementById("chips-list");
+    const patternName    = document.getElementById("pattern-name") as HTMLInputElement | null;
+    const btnSavePattern = document.getElementById("btn-save-pattern") as HTMLButtonElement | null;
+    const savedPatterns  = document.getElementById("saved-patterns");
+    const patternsStatus = document.getElementById("patterns-status");
+
     const headers = (json = false) => {
       const h: Record<string, string> = {};
       if (json) h["Content-Type"] = "application/json";
@@ -294,8 +334,24 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
       b.textContent = fmtNum(n);
       b.className = `h-10 w-10 rounded-full font-mono text-sm font-bold text-white shadow transition bg-teal-600 hover:bg-teal-700 ${extra}`;
       b.dataset.number = String(n);
-      b.setAttribute("aria-label", `Número ${fmtNum(n)}`);
+      b.setAttribute("aria-label", `Número ${fmtNum(n)} — guardar como favorito`);
+      b.addEventListener("click", () => addFavorite(n));
       return b;
+    }
+
+    /** Guarda el número como favorito (API si hay sesión; localStorage siempre). */
+    async function addFavorite(n: number) {
+      toggleFav(n);
+      if (token) {
+        try {
+          await fetch(`${API_BASE}/api/v1/favorites`, {
+            method: "POST",
+            headers: headers(true),
+            body: JSON.stringify({ game: currentGame, number: fmtNum(n) }),
+          });
+        } catch { /* offline */ }
+      }
+      if (favoritesList && !favoritesList.classList.contains("hidden")) renderFavorites();
     }
 
     function switchTab(tab: string) {
@@ -341,10 +397,117 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
           if (selectedFeatures.has(feat.code)) selectedFeatures.delete(feat.code);
           else if (selectedFeatures.size < 7) selectedFeatures.add(feat.code);
           renderCatalog();
+          renderChips();
         });
         featureCatalog.appendChild(card);
       }
       updateFilterCount();
+    }
+
+    // ── Constructor: chips ordenables + combinaciones guardadas ─────────────
+    function renderChips() {
+      if (!chipsBar || !chipsList) return;
+      chipsBar.classList.toggle("hidden", selectedFeatures.size === 0);
+      chipsList.innerHTML = "";
+      const labels = new Map(catalog.map((f) => [f.code, f.label as string]));
+      selectedFeatures.forEach((code, i) => {
+        const chip = document.createElement("span");
+        chip.draggable = true;
+        chip.dataset.code = code;
+        chip.className = "chip flex cursor-grab items-center gap-1.5 rounded-full bg-teal-600 px-3 py-1 text-xs font-medium text-white active:cursor-grabbing";
+        const lbl = document.createElement("span");
+        lbl.textContent = `${i + 1}. ${labels.get(code) ?? code}`;
+        const x = document.createElement("button");
+        x.type = "button";
+        x.textContent = "✕";
+        x.setAttribute("aria-label", `Quitar ${labels.get(code) ?? code}`);
+        x.className = "opacity-70 hover:opacity-100";
+        x.addEventListener("click", () => { selectedFeatures.delete(code); renderCatalog(); renderChips(); });
+        chip.appendChild(lbl);
+        chip.appendChild(x);
+        chip.addEventListener("dragstart", (e) => {
+          e.dataTransfer!.setData("text/plain", code);
+          chip.classList.add("opacity-50");
+        });
+        chip.addEventListener("dragend", () => chip.classList.remove("opacity-50"));
+        chipsList.appendChild(chip);
+      });
+      // Reordenar en chipsList (drag & drop)
+      chipsList.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const over = (e.target as HTMLElement).closest(".chip") as HTMLElement | null;
+        const dragging = chipsList.querySelector(".chip.opacity-50") as HTMLElement | null;
+        if (!over || !dragging || over === dragging) return;
+        const after = e.clientX > over.getBoundingClientRect().left + over.getBoundingClientRect().width / 2;
+        if (after) over.after(dragging); else over.before(dragging);
+      });
+      chipsList.addEventListener("drop", (e) => {
+        e.preventDefault();
+        // Reconstruir selectedFeatures en el orden visual de los chips.
+        selectedFeatures.clear();
+        for (const c of chipsList.querySelectorAll<HTMLElement>(".chip")) selectedFeatures.add(c.dataset.code!);
+        updateFilterCount();
+      });
+      updateFilterCount();
+      updateSaveButton();
+    }
+
+    function updateSaveButton() {
+      if (btnSavePattern) btnSavePattern.disabled = selectedFeatures.size === 0;
+    }
+
+    function sstatus(msg: string, ok = true) {
+      if (patternsStatus) {
+        patternsStatus.textContent = msg;
+        patternsStatus.className = ok ? "mt-2 text-xs text-emerald-700" : "mt-2 text-xs text-red-600";
+      }
+    }
+
+    async function loadSavedPatterns() {
+      if (!savedPatterns) return;
+      savedPatterns.innerHTML = "";
+      if (!token) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/saved-patterns`, { headers: headers() });
+        const data = await res.json();
+        if (!data.success) return;
+        const list = data.data as { id: string; name: string; game: string; features: string[] }[];
+        const labels = new Map(catalog.map((f) => [f.code, f.label as string]));
+        if (list.length === 0) {
+          savedPatterns.innerHTML = `<span class="text-xs text-slate-400">Aún no has guardado combinaciones.</span>`;
+          return;
+        }
+        for (const p of list) {
+          const pill = document.createElement("span");
+          pill.className = "flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 hover:border-teal-300";
+          const id = p.id;
+          const loadBtn = document.createElement("button");
+          loadBtn.type = "button";
+          loadBtn.textContent = p.name;
+          loadBtn.className = "font-medium text-slate-800 hover:text-teal-700";
+          loadBtn.title = `${p.features.map((f) => labels.get(f) ?? f).join(" + ")}`;
+          loadBtn.addEventListener("click", () => {
+            selectedFeatures.clear();
+            p.features.forEach((f) => selectedFeatures.add(f));
+            renderCatalog();
+            renderChips();
+            sstatus(`Cargada: ${p.name}`);
+          });
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.textContent = "✕";
+          delBtn.className = "text-slate-400 hover:text-red-600";
+          delBtn.setAttribute("aria-label", `Eliminar ${p.name}`);
+          delBtn.addEventListener("click", async () => {
+            await fetch(`${API_BASE}/api/v1/saved-patterns/${id}`, { method: "DELETE", headers: headers() });
+            sstatus(`Eliminada: ${p.name}`);
+            loadSavedPatterns();
+          });
+          pill.appendChild(loadBtn);
+          pill.appendChild(delBtn);
+          savedPatterns.appendChild(pill);
+        }
+      } catch { /* offline */ }
     }
 
     function renderGuide() {
@@ -492,6 +655,31 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
       filterResults?.classList.add("hidden");
       hitsResults?.classList.add("hidden");
       renderCatalog();
+      renderChips();
+    });
+
+    btnSavePattern?.addEventListener("click", async () => {
+      if (selectedFeatures.size === 0) return;
+      const name = patternName?.value.trim();
+      if (!name || name.length < 2 || name.length > 60) {
+        sstatus("Pon un nombre (entre 2 y 60 caracteres).", false);
+        patternName?.focus();
+        return;
+      }
+      if (!token) { sstatus("Necesitas iniciar sesión.", false); return; }
+      const res = await fetch(`${API_BASE}/api/v1/saved-patterns`, {
+        method: "POST",
+        headers: headers(true),
+        body: JSON.stringify({ name, game: currentGame, features: [...selectedFeatures] }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        patternName!.value = "";
+        sstatus(`Guardada: ${name}`);
+        loadSavedPatterns();
+      } else {
+        sstatus(data.error?.message ?? "Error al guardar.", false);
+      }
     });
 
     const gameSelect = document.getElementById("game-select") as HTMLSelectElement | null;
@@ -504,6 +692,8 @@ if (patternsRes.success) autoPatterns = patternsRes.data;
     (async () => {
       await loadCatalog();
       await loadNumberStates();
+      await loadSavedPatterns();
+      renderChips();
       switchTab(initialTab);
     })();
   }

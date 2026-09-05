@@ -6,7 +6,7 @@
  * DELETE /api/v1/favorites/:id    — eliminar favorito
  */
 import { Hono } from "hono";
-import { and, eq, count } from "drizzle-orm";
+import { and, eq, inArray, count } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import { userFavorites } from "../db/schema.js";
 import type { GameType } from "@loto/shared-types";
@@ -24,7 +24,7 @@ export const favoritesRoutes = new Hono<{
   Variables: { db: Database; auth: AuthClaims };
 }>();
 
-// GET /api/v1/favorites
+// GET /api/v1/favorites — lista favoritos del usuario ordenados por posición (reorden drag & drop)
 favoritesRoutes.get("/", async (c) => {
   const db = c.get("db");
   const { sub: userId } = c.get("auth");
@@ -32,7 +32,7 @@ favoritesRoutes.get("/", async (c) => {
     .select()
     .from(userFavorites)
     .where(eq(userFavorites.userId, userId))
-    .orderBy(userFavorites.createdAt);
+    .orderBy(userFavorites.position, userFavorites.createdAt);
   return c.json({ success: true, data: rows });
 });
 
@@ -90,6 +90,35 @@ favoritesRoutes.post("/", async (c) => {
     return c.json({ success: false, error: { code: "ALREADY_EXISTS", message: "Ya tienes ese número como favorito." } }, 409);
 
   return c.json({ success: true, data: row }, 201);
+});
+
+// PATCH /api/v1/favorites/reorder — reordena favoritos por drag & drop.
+favoritesRoutes.patch("/reorder", async (c) => {
+  const db = c.get("db");
+  const { sub: userId } = c.get("auth");
+  const body = (await c.req.json().catch(() => null)) as { ids?: string[] } | null;
+  const ids = Array.isArray(body?.ids) ? body.ids : [];
+
+  if (ids.length === 0 || ids.length > 100)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "ids debe ser una lista no vacía (máx. 100)." } }, 400);
+
+  // Verificar que todos pertenecen a este usuario (evita reordenar favoritos ajenos).
+  const owned = await db
+    .select({ id: userFavorites.id })
+    .from(userFavorites)
+    .where(and(eq(userFavorites.userId, userId), inArray(userFavorites.id, ids)));
+
+  if (owned.length !== ids.length)
+    return c.json({ success: false, error: { code: "FORBIDDEN", message: "Algunos favoritos no pertenecen a tu cuenta." } }, 403);
+
+  // Actualizar posición en orden de la lista recibida.
+  await Promise.all(
+    ids.map((id, position) =>
+      db.update(userFavorites).set({ position }).where(eq(userFavorites.id, id)),
+    ),
+  );
+
+  return c.json({ success: true, data: { ok: true, count: ids.length } });
 });
 
 // DELETE /api/v1/favorites/:id

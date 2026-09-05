@@ -20,6 +20,7 @@ import { adminDrawsRoutes } from "./routes/admin/manual-draws.js";
 import { ingestRoutes } from "./routes/ingest.js";
 import { ingestEventsRoutes } from "./routes/ingest-events.js";
 import { favoritesRoutes } from "./routes/favorites.js";
+import { savedPatternsRoutes } from "./routes/saved-patterns.js";
 import { historyRoutes } from "./routes/history.js";
 import { featuresRoutes } from "./routes/features.js";
 import { paymentsRoutes } from "./payments/routes.js";
@@ -76,6 +77,10 @@ app.route("/api/v1/admin/logs", adminLogsRoutes);
 // Favoritos: requiere cuenta gratuita o superior (JWT de usuario).
 app.use("/api/v1/favorites/*", requireAuth);
 app.route("/api/v1/favorites", favoritesRoutes);
+
+// Combinaciones de patrones guardadas (constructor personal) — requiere cuenta.
+app.use("/api/v1/saved-patterns/*", requireAuth);
+app.route("/api/v1/saved-patterns", savedPatternsRoutes);
 
 // Ingestión (máquina-a-máquina): token de servicio, no JWT de usuario.
 app.use("/api/v1/ingest", requireServiceToken);
