@@ -1,7 +1,7 @@
 ---
 tipo: proceso
 estado: activo
-actualizado: 2026-06-21
+actualizado: 2026-09-05
 ---
 
 # Flujo: Acceso a meta-patrones premium
@@ -43,8 +43,9 @@ sequenceDiagram
 ## Reglas
 - Identidad **siempre** desde el JWT (`auth.sub`); no se acepta `userId` por query.
 - Acceso ⇔ `isActive = true` **y** `endDate > ahora`.
-- La suscripción puede provenir de [[05_Procesos/Flujo_Pago_Online|Stripe (pago online)]] o de un [[05_Procesos/Flujo_Cobro_Presencial|cobro presencial]]; el flujo es idéntico desde aquí.
+- La suscripción puede provenir de [[05_Procesos/Flujo_Pago_Online|Stripe (pago online)]], de un [[05_Procesos/Flujo_Cobro_Presencial|cobro presencial]], o ser asignada directamente por un admin (rol `admin`/`clerk`) vía `PATCH /api/v1/admin/users/:id/subscription` (método `trial` o `cash_presencial` + meses). El flujo de verificación es idéntico desde aquí; los planes (1/3/6/12 meses) se muestran en `/premium`, también sin sesión.
 
 ## Historial de cambios
+- 2026-09-05: añadida la vía de asignación de plan por admin (`PATCH /admin/users/:id/subscription`) y los planes visibles sin sesión en `/premium`.
 - 2026-06-21: el flujo arranca con `auth/login` → JWT; la verificación de suscripción toma el `userId` del JWT (eliminado el query). Resuelto el pendiente de andamiaje.
 - 2026-06-20: creación inicial.

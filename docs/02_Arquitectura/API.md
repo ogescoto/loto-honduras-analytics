@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: activo
-actualizado: 2026-06-21
+actualizado: 2026-09-05
 ---
 
 # Contrato de la API REST
@@ -68,6 +68,22 @@ Registra un cobro presencial. 🔒 módulo protegido. Ver [[04_Modulos/Admin_Cob
 - **Respuesta `200`:** `{ "success": true, "data": { "message": "Acceso premium activado para … hasta …" } }`.
 - **Errores:** `400 VALIDATION_ERROR` (campos faltantes o `validityMonths <= 0`), `404 USER_NOT_FOUND` (email no registrado), `403 FORBIDDEN` (rol insuficiente).
 
+## PATCH /api/v1/admin/users/:id/role
+Cambia el rol de un usuario (`customer | admin | clerk`). Código: `apps/backend-hono/src/routes/admin/users.ts`.
+- **Acceso:** `requireAuth` + `requireRole("admin", "clerk")`.
+- **Request body:** `{ "role": "clerk" }`.
+- **Seguridad:** no se permite a un admin autodemotarse a sí mismo (`FORBIDDEN`), ni que un admin distinto modifique el rol de **otro admin**.
+- **Respuesta `200`:** `{ "success": true, "data": { "message": "Rol actualizado a "clerk"." } }`.
+- **Errores:** `400 VALIDATION_ERROR` (rol inválido), `404 USER_NOT_FOUND`, `403 FORBIDDEN`.
+
+## PATCH /api/v1/admin/users/:id/subscription
+Asigna o renueva un plan premium a un usuario (trial o efectivo) con vencimiento a N meses. Código: `apps/backend-hono/src/routes/admin/users.ts`.
+- **Acceso:** `requireAuth` + `requireRole("admin", "clerk")`.
+- **Request body:** `{ "method": "trial" | "cash_presencial", "validityMonths": 1..12 }` (`planLabel` opcional se guarda como `receiptNumber` si es efectivo).
+- **Comportamiento:** crea una `Subscription` activa con `endDate = ahora + validityMonths` y `registeredByAdminId = auth.sub`.
+- **Respuesta `200`:** `{ "success": true, "data": { "message": "Plan … asignado N mes(es) hasta …" } }`.
+- **Errores:** `400 VALIDATION_ERROR`, `404 USER_NOT_FOUND`, `403 FORBIDDEN`.
+
 ## POST /api/v1/payments/checkout
 Inicia una sesión de Stripe Checkout. 🔒 módulo protegido. Ver [[04_Modulos/Pagos|Módulo Pagos]], [[05_Procesos/Flujo_Pago_Online|Flujo de pago online]] y [[02_Arquitectura/adr/0003-pagos-stripe-via-rest-en-edge|ADR-0003]].
 - **Acceso:** `requireAuth` (aplicado en la propia ruta).
@@ -108,6 +124,6 @@ Lista eventos de ingestión para el panel admin. Ver [[04_Modulos/Admin_Logs|mó
 - **Errores:** `401 UNAUTHENTICATED`, `403 FORBIDDEN`.
 
 ## Historial de cambios
-- 2026-09-05: añadidos `POST /api/v1/ingest/events` (write de logs, service token) y `GET /api/v1/admin/logs` (lectura admin con filtros).
+- 2026-09-05: añadidos `PATCH /api/v1/admin/users/:id/role` y `PATCH /api/v1/admin/users/:id/subscription` (gestión de roles y planes desde admin); documentados `POST /api/v1/ingest/events` y `GET /api/v1/admin/logs`.
 - 2026-06-21: documentado auth Bearer JWT + RBAC; añadidos `POST /auth/login`, `POST /payments/checkout` y `POST /payments/webhook`; `premium/meta-patterns` y `admin/register-physical-payment` ahora toman la identidad del JWT (eliminado `userId` por query y `administratorId` del body); añadidos códigos de error.
 - 2026-06-20: documentación inicial de `/health`, `patterns`, `premium/meta-patterns` y `admin/register-physical-payment`.
