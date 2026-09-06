@@ -45,7 +45,12 @@ Página `premium.astro` (2026-09-05): el premium es un **Estudio de Combinacione
 ## Motor de patrones
 Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - **`engine.ts`** (lógica pura, sin I/O — testeable): `withinWindow` (filtra por ventana de N días), `frequency` (conteo de apariciones), `hotCold` (top calientes/fríos por ventana), `inverseStreaks` (rachas inversas: números más "atrasados"), `parity` (distribución par/impar), `crossMetaPatterns` (cruce psico-estadístico: calientes ∩ números de sueños/búsquedas en tendencia, con `confidenceScore`).
-- **`features-engine.ts`** (motor interactivo, 31 características): bloques A-G como se documentan y **bloque H "Perfil del juego"** (2026-09-05) con características calculadas **solo con el histórico de ese juego** en los **últimos 100 sorteos** de su jornada: `frecuencia_100` (≥3 salidas en 100), `reciente_5_juego` (salió en los últimos 5), `terminacion_top_100`, `decena_top_100`, `promedio_vencido` (gap > promedio del número en ese juego) y `gusto_sueno` (número en la guía de sueños `DREAM_GUIDE`).
+- **`features-engine.ts`** (motor interactivo, 31 características): bloques A-G como se documentan y **bloque H "Perfil del juego"** (2026-09-05) con características calculadas **solo con el histórico de ese juego** en los **últimos 100 sorteos** de su jornada: `frecuencia_100` (≥3 salidas en 100), `reciente_5_juego` (salió en los últimos 5), `terminacion_top_100`, `decena_top_100`, `promedio_vencido` (gap > promedio del número en ese juego) y `gusto_sueno` (número en la guía de sueños `DREAM_GUIDE`). Expone `FEATURE_META` (`scope`: `familia`|`juego`; `windowDesc`) para la pantalla `/configuracion`.
+
+### Alcance de análisis (familia vs juego)
+- Los patrones analizan **secuencias continuas de sorteos en conjunto**, no una hora aislada.
+- **`scope: familia`** (22 patrones): se calculan sobre TODA la secuencia del tipo de juego — varias jornadas/horas y días seguidos (p. ej. las 3 horas de La Diaria más los días previos).
+- **`scope: juego`** (9 patrones): se calculan contra la jornada/hora concreta de ese juego (p. ej. solo Diaria 3 PM, `frio_horario`, `eco_horario`, `decena_activa_jornada`, `favorito_jornada_anterior` y el bloque H). Cuando aplica a una sola hora, su descripción y `windowDesc` lo indican.
 - **`dream-guide.ts`**: `DREAM_GUIDE` (guía de los sueños hondureña: `fuego=24`, `dinero=8`, `agua=12`, …) y `numberForDream(symbol)`.
 - **`compute.ts`**: `computePatternsForGame(db, game, dreamNumbers, now)` — calcula patrones nivel 1 en ventanas **30/90/365** días (`frio_caliente` por ventana, `rachas_inversas`, `par_impar`) y meta-patrones (cruce de calientes de 30 d con `dreamNumbers`), y los **persiste** en `game_patterns` y `meta_patterns`. Dominio numérico `00–99`.
 - **Numerología por defecto (2026-09-05):** si se invoca sin `dreamNumbers`, usa `Object.values(DREAM_GUIDE)` como referencia del imaginario popular, de modo que el cruce `calientes ∩ sueños` siempre pueda generar meta-patrones. Antes, `ingest.ts` llamaba con `[]` → `meta_patterns` quedaba vacío (la pantalla premium parecía "vacía"). Tras `seed:prod` hay **65 patrones + 32 meta-patrones**.
@@ -73,6 +78,7 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
+- 2026-09-05: detalle "cómo está hecho" por patrón y **alcance familia vs juego** (`FEATURE_META` en `/config` y en `/configuracion`).
 - 2026-09-05: **características por juego (bloque H)** — 6 nuevas sobre los últimos 100 sorteos de cada jornada (`frecuencia_100`, `reciente_5_juego`, `terminacion_top_100`, `decena_top_100`, `promedio_vencido`, `gusto_sueno`). Catálogo 25→31. Fix upsert `number_states`.
 - 2026-09-05: **Tab "Top combinaciones"** en el Estudio Premium (`topFeatureCombos` + `POST /top-combos`) — combinaciones de 3 más frecuentes en últimos 30 sorteos.
 - 2026-09-05: **Estudio Premium** en dos paneles + tab "Mis combinaciones" (atrás/adelante); `GET /features/config` (JSON interpretable) y pantalla `/configuracion` + MCP `loto-pattern-tools`.
