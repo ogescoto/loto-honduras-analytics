@@ -136,6 +136,53 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
   gusto_sueno:          "El número aparece en la guía de los sueños (imaginario popular).",
 };
 
+/**
+ * Metadata técnica por patrón — expuesta en /config para que el admin sepa
+ * "cómo está hecho" cada patrón.
+ * - scope: "familia" = analiza la secuencia de TODA la familia (varias jornadas
+ *   del mismo tipo de juego en días seguidos); "juego" = solo la jornada/específico
+ *   de ese juego (ej. la hora concreta).
+ * - windowDesc: ventana de análisis en sorteos/días.
+ */
+export interface FeatureMeta {
+  scope: "familia" | "juego";
+  windowDesc: string;
+}
+
+export const FEATURE_META: Record<FeatureCode, FeatureMeta> = {
+  frio_absoluto:        { scope: "familia", windowDesc: ">30 días sin aparecer en la familia" },
+  frio_horario:         { scope: "juego", windowDesc: ">15 días sin salir en ESTA jornada (hora)" },
+  despertar_promedio:   { scope: "familia", windowDesc: "familia · 7–14 días de ausencia" },
+  latencia_reciente:    { scope: "familia", windowDesc: "familia · 3–6 días de ausencia" },
+  caliente_cortoplazo:  { scope: "familia", windowDesc: "≥3 salidas en últimos 10 días (familia)" },
+  eco_consecutivo:      { scope: "familia", windowDesc: "mismo número del sorteo inmediatamente anterior (familia)" },
+  eco_horario:          { scope: "juego", windowDesc: "cayó ayer en ESTA jornada (hora)" },
+  digitos_gemelos:      { scope: "familia", windowDesc: "anatomía: ambos dígitos iguales (atemporal)" },
+  cluster_decena_activa:{ scope: "familia", windowDesc: "decena más salida de la familia · últimos 3 días" },
+  terminacion_caliente: { scope: "familia", windowDesc: "terminación más frecuente · últimas 15 jugadas de la familia" },
+  inversion_directa:    { scope: "familia", windowDesc: "espejo del último ganador (familia)" },
+  multiplo_base_cinco:  { scope: "familia", windowDesc: "termina en 0 o 5 (atemporal)" },
+  multiplo_generacional:{ scope: "familia", windowDesc: "múltiplo/divisor del último ganador (familia)" },
+  producto_interno:     { scope: "familia", windowDesc: "producto de dígitos del último ganador (familia)" },
+  suma_consecutiva:     { scope: "familia", windowDesc: "suma de los 2 últimos ganadores (familia)" },
+  presencia_corta:      { scope: "familia", windowDesc: "salió en últimos 5 días (familia)" },
+  sobredemora:          { scope: "familia", windowDesc: "gap de días > promedio histórico (familia)" },
+  pareja_100:           { scope: "familia", windowDesc: "complemento a 100 del último ganador (familia)" },
+  complemento_99:       { scope: "familia", windowDesc: "complemento a 99 del último ganador (familia)" },
+  vecino_ganador:       { scope: "familia", windowDesc: "adyacente al último ganador (familia)" },
+  raiz_digitos_ganador: { scope: "familia", windowDesc: "suma de dígitos del último ganador (familia)" },
+  docena_activa:        { scope: "familia", windowDesc: "docena más salida · últimas 30 jugadas (familia)" },
+  decena_activa_jornada:{ scope: "juego", windowDesc: "decena más jugada en ESTA jornada · últimos 10 sorteos" },
+  favorito_jornada_anterior: { scope: "juego", windowDesc: "decena del sorteo inmediatamente anterior de ESTA jornada" },
+  terminacion_fria:     { scope: "familia", windowDesc: "terminación menos frecuente · últimas 15 jugadas (familia)" },
+  frecuencia_100:       { scope: "juego", windowDesc: "juego · ≥3 salidas en los últimos 100 sorteos de ESTA jornada" },
+  reciente_5_juego:     { scope: "juego", windowDesc: "juego · salió en uno de los últimos 5 sorteos de ESTA jornada" },
+  terminacion_top_100:  { scope: "juego", windowDesc: "juego · terminación top en los últimos 100 sorteos de ESTA jornada" },
+  decena_top_100:       { scope: "juego", windowDesc: "juego · decena top en los últimos 100 sorteos de ESTA jornada" },
+  promedio_vencido:     { scope: "juego", windowDesc: "juego · gap en sorteos > promedio histórico de ESTA jornada" },
+  gusto_sueno:          { scope: "familia", windowDesc: "imaginario popular: número en la guía de los sueños (atemporal)" },
+};
+
 export type NumberFeatures = Record<FeatureCode, boolean>;
 
 export interface NumberState {

@@ -14,6 +14,7 @@ import {
   ALL_FEATURES,
   FEATURE_LABELS,
   FEATURE_DESCRIPTIONS,
+  FEATURE_META,
   computeNumberStates,
   filterByFeatures,
   type FeatureCode,
@@ -95,6 +96,8 @@ featuresRoutes.get("/config", (c) => {
     label: FEATURE_LABELS[code],
     description: FEATURE_DESCRIPTIONS[code],
     block: FEATURE_BLOCKS[code],
+    scope: FEATURE_META[code].scope,
+    windowDesc: FEATURE_META[code].windowDesc,
   }));
   const manual = {
     version: "1.0",
@@ -103,10 +106,16 @@ featuresRoutes.get("/config", (c) => {
       "Cada patrón define una condición sobre un número (00-99). Una combinación agrupa 1-7 patrones; " +
       "un número 'candidato' cumple TODAS las condiciones. La efectividad se mide contra el histórico: " +
       "cuántos sorteos pasados tuvieron un ganador que cumplía toda la combinación (hitRatePct).",
+    alcance:
+      "Los patrones analizan secuencias continuas de sorteos, no una hora aislada. El campo 'scope' indica el " +
+      "ámbito: 'familia' = analiza TODA la serie del tipo de juego (varias jornadas/horas y días seguidos, p. ej. " +
+      "las 3 horas de La Diaria); 'juego' = se calcula contra la jornada/hora concreta de ese juego (por ejemplo " +
+      "solo Diaria 3 PM). Cuando un patrón aplica a una sola hora de sorteo, su descripción y 'windowDesc' lo dicen.",
     bloques: BLOCK_INFO,
     comoInterpretarElJson:
-      "patterns: lista de patrones con code (identificador estable), label, description y block (A-G). " +
-      "El campo 'expresion' describe la regla en lenguaje natural; el motor la implementa en features-engine.ts.",
+      "patterns: lista con code (identificador estable), label, description, block (A-H), scope (familia|juego) " +
+      "y windowDesc (ventana de análisis). El campo 'expresion' describe la regla en lenguaje natural; el motor " +
+      "la implementa en features-engine.ts.",
   };
   return c.json({
     success: true,
