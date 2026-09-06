@@ -40,6 +40,15 @@ const SLOT_GAMES: Record<string, string[]> = {
 
 const ALL_GAME_TYPES = new Set(Object.keys(SLOT_GAMES));
 
+/** Etiqueta de la jornada/hora para cada juego. */
+const SLOT_HOURS: Record<string, string> = {
+  diaria_11am: "11 AM", diaria_3pm: "3 PM", diaria_9pm: "9 PM",
+  pega3_11am: "11 AM", pega3_3pm: "3 PM", pega3_9pm: "9 PM",
+  premia2_11am: "11 AM", premia2_3pm: "3 PM", premia2_9pm: "9 PM",
+  juga3_11am: "11 AM", juga3_3pm: "3 PM", juga3_9pm: "9 PM",
+  super_premio: "9 PM (dom)",
+};
+
 // Familia de un juego: mismo tipo en las distintas jornadas (diaria_11am → todas las diaria).
 function familyOf(game: GameType): GameType[] {
   const prefix = game.replace(/_(\d+am|\d+pm)$/, "");
@@ -355,6 +364,123 @@ featuresRoutes.post("/:game/top-combos", async (c) => {
       days: body?.days || 30,
       evaluatedDraws: result.evaluatedDraws,
       combos: result.combos,
+    },
+  });
+});
+
+// POST /api/v1/features/:game/analytics — análisis de números favoritos o una
+// combinación: frecuencias por jornada, día de la semana, mes (últimos N meses)
+// y en qué patrones se da, para un período ajustable.
+// Body: { numbers: number[], days?: number (1-120, def. 120) }
+featuresRoutes.post("/:game/analytics", async (c) => {
+  const game = c.req.param("game") as GameType;
+  if (!ALL_GAME_TYPES.has(game))
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
+
+  const body = (await c.req.json().catch(() => null)) as { numbers?: number[]; days?: number } | null;
+  const requested = (body?.numbers ?? []).filter((n) => Number.isInteger(n) && n >= 0 && n <= 99);
+  const days = Math.min(Math.max(Number(body?.days) || 120, 1), 120);
+
+  if (requested.length === 0 || requested.length > 50)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "numbers debe tener entre 1 y 50 números (0-99)." } }, 400);
+
+  const db = c.get("db");
+  const family = familyOf(game);
+  const familyRows = await db
+    .select({ game: lotteryHistory.game, sessionId: lotteryHistory.sessionId, numbers: lotteryHistory.numbers, drawDate: lotteryHistory.drawDate })
+    .from(lotteryHistory)
+    .where(inArray(lotteryHistory.game, family))
+    .orderBy(asc(lotteryHistory.drawDate));
+
+  const slotRows = familyRows.filter((r) => r.game === game);
+  const toDraw = (rows: typeof familyRows): Draw[] =>
+    rows.map((r) => ({
+      game: r.game,
+      sessionId: r.sessionId,
+      numbers: r.numbers,
+      drawDate: new Date(r.drawDate).getTime(),
+    }));
+
+  const familyDraws = toDraw(familyRows);
+  const slotDraws = toDraw(slotRows);
+
+  const cutoff = Date.now() - days * 86_400_000;
+  const set = new Set(requested);
+  const target = requested[0]!; // estado de patrones lo mostramos para el primer número
+
+  // Frecuencias por jornada (slot) / día de semana / mes, dentro de la ventana.
+  const bySlot = new Map<string, number>();
+  const byWeekday = new Map<string, number>();
+  const byMonth = new Map<string, number>();
+  let totalHits = 0;
+  let rangeEnd: string | null = null;
+  let rangeStart: string | null = null;
+
+  for (const draw of slotDraws) {
+    if (draw.drawDate < cutoff) continue;
+    const dt = new Date(draw.drawDate);
+    const present = draw.numbers.some((raw) => set.has(parseInt(raw, 10)));
+    if (!present) continue;
+
+    totalHits++;
+    const d = new Date(dt.getTime() + 6 * 3600_000); // a hora HN para el día civil (GMT-6)
+    const isoDay = d.toISOString().slice(0, 10);
+    if (!rangeStart || isoDay < rangeStart) rangeStart = isoDay;
+    if (!rangeEnd || isoDay > rangeEnd) rangeEnd = isoDay;
+
+    const slotName = SLOT_HOURS[game] ?? game;
+    bySlot.set(slotName, (bySlot.get(slotName) ?? 0) + 1);
+
+    const weekday = d.toLocaleString("es-HN", { timeZone: "UTC", weekday: "short" });
+    byWeekday.set(weekday, (byWeekday.get(weekday) ?? 0) + 1);
+
+    const month = d.toLocaleString("es-HN", { timeZone: "UTC", month: "short", year: "2-digit" });
+    byMonth.set(month, (byMonth.get(month) ?? 0) + 1);
+  }
+
+  // Patrones activos del número objetivo en el estado actual (cache number_states).
+  const cachedStates = await db
+    .select()
+    .from(numberStates)
+    .where(eq(numberStates.game, game))
+    .orderBy(numberStates.number);
+  const targetStateRow = cachedStates.find((r) => r.number === target);
+  const activePatterns = targetStateRow
+    ? ALL_FEATURES.filter((f) => (targetStateRow.features as Record<string, boolean>)[f]).map((f) => ({
+        code: f,
+        label: FEATURE_LABELS[f],
+        block: FEATURE_BLOCKS[f],
+        category: FEATURE_META[f].category,
+        scope: FEATURE_META[f].scope,
+      }))
+    : [];
+
+  // Frecuencia por número en la ventana (para los solicitados).
+  const perNumber = requested.map((n) => {
+    let c = 0;
+    for (const draw of slotDraws) {
+      if (draw.drawDate < cutoff) continue;
+      if (draw.numbers.some((raw) => parseInt(raw, 10) === n)) c++;
+    }
+    return { number: n, count: c };
+  });
+
+  const sortDesc = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]);
+
+  return c.json({
+    success: true,
+    data: {
+      game,
+      numbers: requested,
+      primaryNumber: target,
+      days,
+      range: { from: rangeStart, to: rangeEnd },
+      totalOccurrences: totalHits,
+      perNumber,
+      bySlot: sortDesc(bySlot),
+      byWeekday: sortDesc(byWeekday),
+      byMonth: sortDesc(byMonth),
+      activePatterns,
     },
   });
 });

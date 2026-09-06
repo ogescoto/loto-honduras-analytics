@@ -10,7 +10,7 @@
  * CPU del Worker). Solo evalúa los ganadores con búsquedas binarias sobre
  * estructuras pre-computadas.
  */
-import { ALL_FEATURES, FEATURE_LABELS, type FeatureCode } from "./features-engine.js";
+import { ALL_FEATURES, FEATURE_LABELS, FEATURE_META, type FeatureCode } from "./features-engine.js";
 import { DREAM_GUIDE } from "./dream-guide.js";
 
 const SUEÑO_NUMBERS = new Set(Object.values(DREAM_GUIDE));
@@ -426,6 +426,19 @@ export interface TopCombo {
  * los últimos `maxDraws` sorteos. Reconstruye el estado justo antes de cada
  * sorteo (misma infraestructura que complianceSummary).
  */
+
+/** True si la combinación repite la clasificación (`category`) de algún patrón. */
+function hasDuplicatedCategory(features: FeatureCode[]): boolean {
+  const seen = new Set<string>();
+  for (const f of features) {
+    const cat = FEATURE_META[f].category;
+    if (cat === "none") continue;
+    if (seen.has(cat)) return true;
+    seen.add(cat);
+  }
+  return false;
+}
+
 export function topFeatureCombos(
   familyDraws: Draw[],
   slotDraws: Draw[],
@@ -464,6 +477,9 @@ export function topFeatureCombos(
       }
       if (active.length < k) continue;
       for (const combo of combine(active, k)) {
+        // Descartar combinaciones que repitan CLASIFICACIÓN (ej. dos 'decena'):
+        // son redundantes y sobreestiman el porcentaje.
+        if (hasDuplicatedCategory(combo)) continue;
         const sortKey = [...combo].sort().join("|");
         bump(combo, sortKey, draw);
       }

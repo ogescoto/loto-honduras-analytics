@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { FEATURE_META } from "./features-engine.js";
 import {
   computeWinnerCompliance,
   lastHits,
@@ -143,5 +144,22 @@ describe("computeWinnerCompliance — cumplimiento histórico de ganadores", () 
     // 52 se repite en s2 y s3 → eco_consecutivo debe estar en el top.
     const hasEco = res.combos.some((c) => c.features.includes("eco_consecutivo"));
     expect(hasEco).toBe(true);
+  });
+
+  it("topFeatureCombos descarta combinaciones que repiten clasificación", () => {
+    const familyDraws = [
+      d("diaria_11am", "s1", 5, ["52"]),
+      d("diaria_11am", "s2", 4, ["52"]),
+      d("diaria_11am", "s3", 3, ["52"]),
+      d("diaria_11am", "s4", 2, ["44"]),
+      d("diaria_11am", "s5", 1, ["52"]),
+    ];
+    const res = topFeatureCombos(familyDraws, familyDraws, { k: 2, maxDraws: 10, topN: 25 });
+
+    for (const c of res.combos) {
+      const cats = c.features.map((f) => FEATURE_META[f]?.category).filter((x) => x && x !== "none");
+      const uniq = new Set(cats);
+      expect(uniq.size).toBe(cats.length); // sin categoría repetida
+    }
   });
 });

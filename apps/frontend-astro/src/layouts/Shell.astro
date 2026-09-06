@@ -4,7 +4,7 @@ import { getValidPayload } from "../lib/auth.ts";
 
 interface Props {
   title: string;
-  active?: "dashboard" | "history" | "patrones" | "premium" | "favoritos" | "admin" | "login";
+  active?: "dashboard" | "history" | "patrones" | "premium" | "favoritos" | "analisis" | "admin" | "login";
   ogTitle?: string;
   ogDescription?: string;
   isPremium?: boolean;
@@ -77,6 +77,9 @@ const metaUrl = Astro.url.href;
           {payload && (
             <a href="/favoritos" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "favoritos" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Favoritos</a>
           )}
+          {payload && (
+            <a href="/analisis" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "analisis" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Análisis</a>
+          )}
           {isAdmin && (
             <a href="/admin" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "admin" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Admin</a>
           )}
@@ -113,6 +116,9 @@ const metaUrl = Astro.url.href;
         <div class="flex flex-col px-4 pb-6 pt-2 text-sm">
           {payload && (
             <a href="/favoritos" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "favoritos" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>⭐ Favoritos</a>
+          )}
+          {payload && (
+            <a href="/analisis" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "analisis" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>📊 Análisis de números</a>
           )}
           {isAdmin && (
             <a href="/admin" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "admin" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Admin</a>
