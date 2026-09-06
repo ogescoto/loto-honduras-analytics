@@ -153,6 +153,13 @@ Top de combinaciones de K patrones más frecuentes en el ganador de la jornada. 
 - **Acceso:** público.
 - **Request body:** `{ "k"?: number (def. 3, 2-4), "days"?: number (def. 30, 1-120), "top"?: number (def. 10) }`.
 - **Respuesta `200`:** `{ "success": true, "data": { game, k, days, evaluatedDraws, combos: [{ features, label, count, hitRatePct, hits: [{ drawDate, sessionId }] }] } }`.
+- Nota: `topFeatureCombos` **descarta combinaciones con clasificación repetida** (`hasDuplicatedCategory`) para no inflar el porcentaje.
+
+## POST /api/v1/features/:game/analytics
+Análisis estadístico de números favoritos o combinaciones. Código: `apps/backend-hono/src/routes/features.ts`.
+- **Acceso:** público.
+- **Request body:** `{ "numbers": number[] (1-50, 0-99), "days"?: number (def. 120, 1-120) }`.
+- **Respuesta `200`:** `{ "success": true, "data": { game, numbers, primaryNumber, days, range: { from, to }, totalOccurrences, perNumber, bySlot, byWeekday, byMonth, activePatterns } }`.
 
 ## GET /api/v1/saved-patterns
 Lista combinaciones de patrones guardadas por el usuario (constructor personal). Código: `apps/backend-hono/src/routes/saved-patterns.ts`.
@@ -174,6 +181,7 @@ Elimina la combinación del usuario.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
 ## Historial de cambios
+- 2026-09-05: documentado `POST /api/v1/features/:game/analytics`; nota de que `top-combos` descarta clasificaciones repetidas.
 - 2026-09-05: `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION` si se combinan patrones de la misma clasificación (`category`). `/catalog` expone `category` y `scope`.
 - 2026-09-05: documentado `POST /api/v1/features/:game/top-combos` (top de combinaciones).
 - 2026-09-05: documentados `GET/POST /favorites`, `PATCH /favorites/reorder`, `DELETE /favorites/:id` y CRUD `/saved-patterns`; `MAX_DAYS` de historial sube a 90.
