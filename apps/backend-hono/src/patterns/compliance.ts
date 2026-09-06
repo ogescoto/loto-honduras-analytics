@@ -11,6 +11,9 @@
  * estructuras pre-computadas.
  */
 import { ALL_FEATURES, FEATURE_LABELS, type FeatureCode } from "./features-engine.js";
+import { DREAM_GUIDE } from "./dream-guide.js";
+
+const SUEÑO_NUMBERS = new Set(Object.values(DREAM_GUIDE));
 
 export interface Draw {
   game: string;
@@ -106,6 +109,14 @@ interface GlobalCtx {
   activeDozen: Set<number>;
   activeSlotDecenas: Set<number>;
   prevSlotDecade: number;
+  /** Fechas de los sorteos de la jornada objetivo (ascendentes). */
+  slotDatesAsc: number[];
+  /** Números de la guía de los sueños (imaginario popular). */
+  suenoNumbers: Set<number>;
+  /** Terminaciones (dígito 0-9) de los últimos 100 sorteos de la jornada. */
+  term100: number[];
+  /** Decenas de los últimos 100 sorteos de la jornada. */
+  decena100: number[];
 }
 
 function buildGlobalCtx(b: CtxBuilder, now: number): GlobalCtx {
@@ -203,7 +214,39 @@ function buildGlobalCtx(b: CtxBuilder, now: number): GlobalCtx {
     activeDozen,
     activeSlotDecenas,
     prevSlotDecade,
+    slotDatesAsc: b.slotDraws.map((d) => d.drawDate),
+    suenoNumbers: SUEÑO_NUMBERS,
+    term100: heatTerm100(b, now),
+    decena100: heatDecena100(b, now),
   };
+}
+
+/** Terminaciones (dígito) de los últimos 100 sorteos de la jornada antes de `now`. */
+function heatTerm100(b: CtxBuilder, now: number): number[] {
+  const out = new Array(10).fill(0);
+  const idx = rightmostBefore(b.slotDraws.map((d) => d.drawDate), now);
+  const start = Math.max(0, idx - 99);
+  for (let i = start; i <= idx; i++) {
+    for (const raw of b.slotDraws[i]!.numbers) {
+      const n = parseInt(raw, 10);
+      if (!isNaN(n) && n >= 0 && n <= 99) out[n % 10]!++;
+    }
+  }
+  return out;
+}
+
+/** Decenas de los últimos 100 sorteos de la jornada antes de `now`. */
+function heatDecena100(b: CtxBuilder, now: number): number[] {
+  const out = new Array(10).fill(0);
+  const idx = rightmostBefore(b.slotDraws.map((d) => d.drawDate), now);
+  const start = Math.max(0, idx - 99);
+  for (let i = start; i <= idx; i++) {
+    for (const raw of b.slotDraws[i]!.numbers) {
+      const n = parseInt(raw, 10);
+      if (!isNaN(n) && n >= 0 && n <= 99) out[decadeOf(n)]!++;
+    }
+  }
+  return out;
 }
 
 function daysBetween(now: number, lastTs: number): number {
@@ -217,6 +260,36 @@ function avgIntervalBefore(tsArr: number[], now: number): number {
   let total = 0;
   for (let i = 0; i < idx; i++) total += (tsArr[i + 1]! - tsArr[i]!) / DAY;
   return total / idx;
+}
+
+/** Número de sorteos de la jornada transcurridos desde la última aparición de `w` antes de `now`. */
+function slotGapsBefore(slotDatesAsc: number[], numSlotTs: number[], now: number): number {
+  const draws = rightmostBefore(slotDatesAsc, now);
+  const last = rightmostBefore(numSlotTs, now);
+  if (last < 0) return draws + 1; // nunca apareció en la jornada
+  // Posición del último sorteo de la jornada donde apareció (ascendente).
+  const ts = numSlotTs[last]!;
+  const pos = rightmostBefore(slotDatesAsc, ts + 1); // índice incluido
+  return draws - pos;
+}
+
+/** Promedio de sorteos de la jornada entre apariciones consecutivas de `w`. */
+function avgSlotGap(slotDatesAsc: number[], numSlotTs: number[], now: number): number {
+  const last = rightmostBefore(numSlotTs, now);
+  if (last < 1) return Number.POSITIVE_INFINITY;
+  let total = 0;
+  let count = 0;
+  // Posición (en sorteos) de cada aparición, asc.
+  const positions: number[] = [];
+  for (let i = 0; i <= last; i++) {
+    const pos = rightmostBefore(slotDatesAsc, numSlotTs[i]! + 1);
+    if (positions.length === 0 || pos !== positions[positions.length - 1]!) positions.push(pos);
+  }
+  for (let i = 1; i < positions.length; i++) {
+    total += positions[i]! - positions[i - 1]!;
+    count++;
+  }
+  return count === 0 ? Number.POSITIVE_INFINITY : total / count;
 }
 
 function evaluateFeature(
@@ -297,6 +370,34 @@ function evaluateFeature(
       return ctx.prevSlotDecade >= 0 && decadeOf(w) === ctx.prevSlotDecade;
     case "terminacion_fria":
       return ctx.coldTerminations.has(w % 10);
+    case "frecuencia_100": {
+      // Frecuencia en los últimos 100 sorteos de ESTE juego (jornada).
+      const last100 = ctx.slotDatesAsc.filter((d) => d < now).slice(-100);
+      const threshold = last100[0] ?? -Infinity;
+      let freq = 0;
+      for (const ts of numSlotTs) {
+        if (ts >= threshold && ts < now) freq++;
+      }
+      return freq >= 3;
+    }
+    case "reciente_5_juego": {
+      return slotGapsBefore(ctx.slotDatesAsc, numSlotTs, now) <= 5;
+    }
+    case "terminacion_top_100": {
+      const maxT = Math.max(...ctx.term100);
+      return maxT > 0 && ctx.term100[w % 10] === maxT;
+    }
+    case "decena_top_100": {
+      const maxD = Math.max(...ctx.decena100);
+      return maxD > 0 && ctx.decena100[decadeOf(w)] === maxD;
+    }
+    case "promedio_vencido": {
+      const gap = slotGapsBefore(ctx.slotDatesAsc, numSlotTs, now);
+      const avg = avgSlotGap(ctx.slotDatesAsc, numSlotTs, now);
+      return Number.isFinite(avg) && gap > avg;
+    }
+    case "gusto_sueno":
+      return ctx.suenoNumbers.has(w);
   }
   return false;
 }

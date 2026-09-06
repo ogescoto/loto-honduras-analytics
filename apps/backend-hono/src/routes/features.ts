@@ -6,7 +6,7 @@
  *   POST /api/v1/features/:game/refresh — (uso interno/cron) recalcula y persiste en number_states
  */
 import { Hono } from "hono";
-import { eq, desc, asc, inArray } from "drizzle-orm";
+import { eq, desc, asc, inArray, sql } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import { lotteryHistory, numberStates, featureCompliance } from "../db/schema.js";
 import type { GameType } from "@loto/shared-types";
@@ -74,6 +74,8 @@ const FEATURE_BLOCKS: Record<FeatureCode, string> = {
   pareja_100: "F", complemento_99: "F", vecino_ganador: "F", raiz_digitos_ganador: "F",
   docena_activa: "G", decena_activa_jornada: "G", favorito_jornada_anterior: "G",
   terminacion_fria: "G",
+  frecuencia_100: "H", reciente_5_juego: "H", terminacion_top_100: "H",
+  decena_top_100: "H", promedio_vencido: "H", gusto_sueno: "H",
 };
 
 const BLOCK_INFO: Record<string, { name: string; desc: string }> = {
@@ -84,6 +86,7 @@ const BLOCK_INFO: Record<string, { name: string; desc: string }> = {
   E: { name: "Recencia +", desc: "Ventanas de recencia extendidas y sobredemora." },
   F: { name: "Complemento", desc: "Números complementarios del último ganador." },
   G: { name: "Estructura por jornada", desc: "Contexto del juego/jornada." },
+  H: { name: "Perfil del juego", desc: "Patrones según los últimos 100 sorteos de ESTE juego + imaginario popular." },
 };
 
 featuresRoutes.get("/config", (c) => {
@@ -378,7 +381,7 @@ async function _computeAndPersist(db: Database, game: GameType): Promise<number>
     .onConflictDoUpdate({
       target: [numberStates.game, numberStates.number],
       set: {
-        features: numberStates.features,
+        features: sql`excluded.features`,
         updatedAt: new Date(),
       },
     });

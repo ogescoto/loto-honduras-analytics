@@ -15,7 +15,10 @@
  *  F: Complemento  — pareja_100, complemento_99, vecino_ganador, raiz_digitos_ganador
  *  G: Estructura   — docena_activa, decena_activa_jornada, favorito_jornada_anterior,
  *                    terminacion_fria
+ *  H: Perfil juego — frecuencia_100, reciente_5_juego, terminacion_top_100,
+ *                    decena_top_100, promedio_vencido, gusto_sueno
  */
+import { DREAM_GUIDE } from "./dream-guide.js";
 
 export type FeatureCode =
   | "frio_absoluto"
@@ -42,7 +45,14 @@ export type FeatureCode =
   | "docena_activa"
   | "decena_activa_jornada"
   | "favorito_jornada_anterior"
-  | "terminacion_fria";
+  | "terminacion_fria"
+  // Bloque H — perfil del juego (ventana de 100 sorteos de ESTE juego)
+  | "frecuencia_100"
+  | "reciente_5_juego"
+  | "terminacion_top_100"
+  | "decena_top_100"
+  | "promedio_vencido"
+  | "gusto_sueno";
 
 export const ALL_FEATURES: FeatureCode[] = [
   "frio_absoluto", "frio_horario", "despertar_promedio", "latencia_reciente",
@@ -54,6 +64,8 @@ export const ALL_FEATURES: FeatureCode[] = [
   "pareja_100", "complemento_99", "vecino_ganador", "raiz_digitos_ganador",
   "docena_activa", "decena_activa_jornada", "favorito_jornada_anterior",
   "terminacion_fria",
+  "frecuencia_100", "reciente_5_juego", "terminacion_top_100",
+  "decena_top_100", "promedio_vencido", "gusto_sueno",
 ];
 
 export const FEATURE_LABELS: Record<FeatureCode, string> = {
@@ -82,6 +94,12 @@ export const FEATURE_LABELS: Record<FeatureCode, string> = {
   decena_activa_jornada:"Decena Activa de la Jornada",
   favorito_jornada_anterior: "Favorito de la Jornada Anterior",
   terminacion_fria:     "Terminación Fría",
+  frecuencia_100:       "Frecuencia 100",
+  reciente_5_juego:     "Reciente en este juego (5)",
+  terminacion_top_100:  "Terminación Top 100 del juego",
+  decena_top_100:       "Decena Top 100 del juego",
+  promedio_vencido:     "Promedio Vencido (juego)",
+  gusto_sueno:          "Gusto del Sueño (imaginario)",
 };
 
 export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
@@ -110,6 +128,12 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
   decena_activa_jornada:"Pertenece a la decena con más jugadas en esta misma jornada (últimos 10 sorteos).",
   favorito_jornada_anterior: "Pertenece a la decena que jugó el sorteo inmediatamente anterior de esta jornada.",
   terminacion_fria:     "Su dígito final es la terminación menos frecuente de las últimas 15 jugadas.",
+  frecuencia_100:       "Salió al menos 3 veces en los últimos 100 sorteos de ESTE juego.",
+  reciente_5_juego:     "Apareció en uno de los últimos 5 sorteos de ESTE juego.",
+  terminacion_top_100:  "Su dígito final está entre las terminaciones más frecuentes de los últimos 100 sorteos de ESTE juego.",
+  decena_top_100:       "Pertenece a la decena con más salidas en los últimos 100 sorteos de ESTE juego.",
+  promedio_vencido:     "En ESTE juego lleva más sorteos sin salir que su promedio histórico entre apariciones.",
+  gusto_sueno:          "El número aparece en la guía de los sueños (imaginario popular).",
 };
 
 export type NumberFeatures = Record<FeatureCode, boolean>;
@@ -167,6 +191,24 @@ function avgIntervalDays(entries: DrawEntry[], number: number): number {
     total += (dates[i]! - dates[i + 1]!) / 86_400_000;
   }
   return total / (dates.length - 1);
+}
+
+/** Número de sorteos de la jornada (ya descendentes) transcurridos desde la última aparición de `num`. */
+function slotDrawGap(entries: DrawEntry[], number: number): number {
+  const idx = entries.findIndex((e) => e.number === number);
+  return idx === -1 ? entries.length : idx;
+}
+
+/** Promedio de sorteos de la jornada entre apariciones consecutivas del número. */
+function avgSlotGap(entries: DrawEntry[], number: number): number {
+  const idxs: number[] = [];
+  entries.forEach((e, i) => {
+    if (e.number === number) idxs.push(i);
+  });
+  if (idxs.length < 2) return Number.POSITIVE_INFINITY;
+  let total = 0;
+  for (let i = 0; i < idxs.length - 1; i++) total += idxs[i + 1]! - idxs[i]!;
+  return total / (idxs.length - 1);
 }
 
 /**
@@ -243,6 +285,25 @@ export function computeNumberStates(
   const prevSlotDraw = slotEntries.find((e) => e.drawDate.getTime() < now.getTime());
   const prevSlotDecade = prevSlotDraw ? decadeOf(prevSlotDraw.number) : -1;
 
+  // ── Bloque H · perfil del juego (últimos 100 sorteos de ESTA jornada) ─────
+  const slotLast100 = slotEntries.slice(0, 100); // ya descendente por fecha
+  const slotHas5 = new Set(slotLast100.slice(0, 5).map((e) => e.number));
+  const term100 = new Array(10).fill(0);
+  const decena100 = new Array(10).fill(0);
+  const freq100 = new Array(100).fill(0);
+  for (const e of slotLast100) {
+    term100[e.number % 10]!++;
+    decena100[decadeOf(e.number)]!++;
+    freq100[e.number]!++;
+  }
+  const maxTerm100 = Math.max(...term100);
+  const topTerm100 = new Set(term100.map((c, i) => (c === maxTerm100 && c > 0 ? i : -1)).filter((i) => i >= 0));
+  const maxDecena100 = Math.max(...decena100);
+  const topDecena100 = new Set(decena100.map((c, i) => (c === maxDecena100 && c > 0 ? i : -1)).filter((i) => i >= 0));
+
+  // Guía de los sueños (imaginario popular): números de referencia cultural.
+  const suenoNumbers = new Set(Object.values(DREAM_GUIDE));
+
   // Ventanas de tiempo.
   const tenDaysAgo  = new Date(now.getTime() - 10 * 86_400_000);
   const fiveDaysAgo = new Date(now.getTime() - 5 * 86_400_000);
@@ -307,6 +368,13 @@ export function computeNumberStates(
       decena_activa_jornada:activeSlotDecenas.has(decadeOf(num)),
       favorito_jornada_anterior: prevSlotDecade >= 0 && decadeOf(num) === prevSlotDecade,
       terminacion_fria:     coldTerminations.has(num % 10),
+      // Bloque H — Perfil del juego (últimos 100 sorteos de ESTE juego)
+      frecuencia_100:       freq100[num]! >= 3,
+      reciente_5_juego:     slotHas5.has(num),
+      terminacion_top_100:  topTerm100.has(num % 10),
+      decena_top_100:       topDecena100.has(decadeOf(num)),
+      promedio_vencido:     Boolean(lastSlot && slotDrawGap(slotEntries, num) > avgSlotGap(slotEntries, num)),
+      gusto_sueno:          suenoNumbers.has(num),
     };
 
     states.push({ number: num, features, daysSinceLastGlobal: daysSinceGlobal, daysSinceLastInSlot: daysSinceSlot, countLast10Days: countLast10 });
