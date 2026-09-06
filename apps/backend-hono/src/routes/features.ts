@@ -18,7 +18,7 @@ import {
   filterByFeatures,
   type FeatureCode,
 } from "../patterns/features-engine.js";
-import { complianceSummary, type Draw } from "../patterns/compliance.js";
+import { complianceSummary, topFeatureCombos, type Draw } from "../patterns/compliance.js";
 
 const SLOT_GAMES: Record<string, string[]> = {
   diaria_11am: ["diaria_11am"],
@@ -274,6 +274,51 @@ featuresRoutes.post("/:game/hits", async (c) => {
       evaluatedDraws: res.evaluatedDraws,
       hitRatePct: pct,
       hits: res.hits.slice().reverse(),
+    },
+  });
+});
+
+// POST /api/v1/features/:game/top-combos — top de combinaciones de K características
+// que más veces estuvieron activas en el ganador de la jornada en los últimos N sorteos.
+// Body: { k?: number (def.3), days?: number (def.30), top?: number (def.10) }
+featuresRoutes.post("/:game/top-combos", async (c) => {
+  const game = c.req.param("game") as GameType;
+  if (!ALL_GAME_TYPES.has(game))
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
+
+  const body = (await c.req.json().catch(() => null)) as { k?: number; days?: number; top?: number } | null;
+  const db = c.get("db");
+  const family = familyOf(game);
+
+  const familyRows = await db
+    .select({ game: lotteryHistory.game, sessionId: lotteryHistory.sessionId, numbers: lotteryHistory.numbers, drawDate: lotteryHistory.drawDate })
+    .from(lotteryHistory)
+    .where(inArray(lotteryHistory.game, family))
+    .orderBy(asc(lotteryHistory.drawDate));
+
+  const slotRows = familyRows.filter((r) => r.game === game);
+  const toDraw = (rows: typeof familyRows): Draw[] =>
+    rows.map((r) => ({
+      game: r.game,
+      sessionId: r.sessionId,
+      numbers: r.numbers,
+      drawDate: new Date(r.drawDate).getTime(),
+    }));
+
+  const result = topFeatureCombos(toDraw(familyRows), toDraw(slotRows), {
+    k: Number(body?.k) || 3,
+    maxDraws: Math.min(Math.max(Number(body?.days) || 30, 1), 120),
+    topN: Number(body?.top) || 10,
+  });
+
+  return c.json({
+    success: true,
+    data: {
+      game,
+      k: Number(body?.k) || 3,
+      days: body?.days || 30,
+      evaluatedDraws: result.evaluatedDraws,
+      combos: result.combos,
     },
   });
 });

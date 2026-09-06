@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeWinnerCompliance,
   lastHits,
+  topFeatureCombos,
   MAX_EVALUATED_DRAWS,
   MAX_RETURNED_HITS,
   type Draw,
@@ -120,5 +121,27 @@ describe("computeWinnerCompliance — cumplimiento histórico de ganadores", () 
     expect(lastHits(["pareja_100"], familyDraws, slotDraws)).toEqual(
       computeWinnerCompliance(["pareja_100"], familyDraws, slotDraws),
     );
+  });
+
+  it("topFeatureCombos cuenta combinaciones presentes en varios sorteos", () => {
+    // 3 sorteos con ganador 52: los ganadores repetidos activan eco_consecutivo.
+    const familyDraws = [
+      d("diaria_11am", "s1", 5, ["52"]),
+      d("diaria_11am", "s2", 4, ["52"]),
+      d("diaria_11am", "s3", 3, ["52"]),
+      d("diaria_11am", "s4", 2, ["44"]),
+      d("diaria_11am", "s5", 1, ["52"]),
+    ];
+    const res = topFeatureCombos(familyDraws, familyDraws, { k: 1, maxDraws: 10, topN: 25 });
+
+    expect(res.evaluatedDraws).toBe(5);
+    expect(Array.isArray(res.combos)).toBe(true);
+    // Ordenadas por count desc.
+    for (let i = 1; i < res.combos.length; i++) {
+      expect(res.combos[i]!.count).toBeLessThanOrEqual(res.combos[i - 1]!.count);
+    }
+    // 52 se repite en s2 y s3 → eco_consecutivo debe estar en el top.
+    const hasEco = res.combos.some((c) => c.features.includes("eco_consecutivo"));
+    expect(hasEco).toBe(true);
   });
 });

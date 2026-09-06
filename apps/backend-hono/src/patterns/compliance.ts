@@ -10,7 +10,7 @@
  * CPU del Worker). Solo evalúa los ganadores con búsquedas binarias sobre
  * estructuras pre-computadas.
  */
-import { ALL_FEATURES, type FeatureCode } from "./features-engine.js";
+import { ALL_FEATURES, FEATURE_LABELS, type FeatureCode } from "./features-engine.js";
 
 export interface Draw {
   game: string;
@@ -306,6 +306,100 @@ export interface ComplianceSummary {
   totalHits: number;
   /** Número de sorteos de la jornada evaluados en la ventana. */
   evaluatedDraws: number;
+}
+
+export interface TopCombo {
+  features: FeatureCode[];
+  label: string;
+  /** Cuántos sorteos de la ventana tuvieron un ganador con TODA la combinación activa. */
+  count: number;
+  /** count/evaluatedDraws %. */
+  hitRatePct: number;
+  /** Sorteos donde se dio (fechas, las más recientes primero). */
+  hits: { drawDate: string; sessionId: string }[];
+}
+
+/**
+ * Calcula las combinaciones de `k` características que más veces estuvieron
+ * activas a la vez en el/los números ganadores de la jornada objetivo durante
+ * los últimos `maxDraws` sorteos. Reconstruye el estado justo antes de cada
+ * sorteo (misma infraestructura que complianceSummary).
+ */
+export function topFeatureCombos(
+  familyDraws: Draw[],
+  slotDraws: Draw[],
+  opts: { k?: number; maxDraws?: number; topN?: number } = {},
+): { evaluatedDraws: number; combos: TopCombo[] } {
+  const k = Math.max(1, Math.min(opts.k ?? 3, 7));
+  const maxDraws = Math.max(1, Math.min(opts.maxDraws ?? 30, 120));
+  const topN = Math.max(1, Math.min(opts.topN ?? 10, 25));
+
+  const b = buildIndexes(familyDraws, slotDraws);
+  const slotAsc = [...b.slotDraws].sort((a, b) => a.drawDate - b.drawDate).slice(-maxDraws);
+  if (slotAsc.length === 0) return { evaluatedDraws: 0, combos: [] };
+
+  const counts = new Map<string, { features: FeatureCode[]; count: number; hits: { drawDate: string; sessionId: string }[]; seenLastDraw: Set<string> }>();
+
+  const bump = (features: FeatureCode[], sortKey: string, draw: Draw) => {
+    let rec = counts.get(sortKey);
+    if (!rec) {
+      rec = { features: [...features].sort(), count: 0, hits: [], seenLastDraw: new Set() };
+      counts.set(sortKey, rec);
+    }
+    if (rec.seenLastDraw.has(draw.sessionId)) return; // 1 por sorteo
+    rec.seenLastDraw.add(draw.sessionId);
+    rec.count++;
+    rec.hits.unshift({ drawDate: new Date(draw.drawDate).toISOString(), sessionId: draw.sessionId });
+  };
+
+  for (const draw of slotAsc) {
+    const ctx = buildGlobalCtx(b, draw.drawDate);
+    for (const raw of draw.numbers) {
+      const n = parseInt(raw, 10);
+      if (isNaN(n) || n < 0 || n > 99) continue;
+      const active: FeatureCode[] = [];
+      for (const f of ALL_FEATURES) {
+        if (evaluateFeature(f, n, draw.drawDate, ctx, b.numTs[n]!, b.numSlotTs[n]!)) active.push(f);
+      }
+      if (active.length < k) continue;
+      for (const combo of combine(active, k)) {
+        const sortKey = [...combo].sort().join("|");
+        bump(combo, sortKey, draw);
+      }
+    }
+  }
+
+  const evaluatedDraws = slotAsc.length;
+  const combos = [...counts.values()]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, topN)
+    .map((rec) => ({
+      features: rec.features,
+      label: rec.features.map((f) => FEATURE_LABELS[f]).join(" + "),
+      count: rec.count,
+      hitRatePct: Math.round((rec.count / evaluatedDraws) * 100),
+      hits: rec.hits.slice(0, 30),
+    }));
+
+  return { evaluatedDraws, combos };
+}
+
+/** Genera todas las combinaciones de tamaño `k` de `arr`. */
+function combine<T>(arr: T[], k: number): T[][] {
+  const out: T[][] = [];
+  const rec = (start: number, acc: T[]): void => {
+    if (acc.length === k) {
+      out.push([...acc]);
+      return;
+    }
+    for (let i = start; i < arr.length; i++) {
+      acc.push(arr[i]!);
+      rec(i + 1, acc);
+      acc.pop();
+    }
+  };
+  rec(0, []);
+  return out;
 }
 
 /**

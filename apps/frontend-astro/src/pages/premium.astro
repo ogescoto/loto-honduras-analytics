@@ -161,13 +161,16 @@ const GAMES = [
         </button>
       </div>
 
-      <!-- Tabs: Constructor | Mis combinaciones -->
-      <div class="mb-5 flex gap-1 rounded-lg bg-slate-100 p-1 max-w-md">
-        <button class="tab-btn flex-1 rounded-md px-3 py-2 text-sm font-medium transition" data-tab="builder">
+      <!-- Tabs: Constructor | Mis combinaciones | Top combinaciones -->
+      <div class="mb-5 flex max-w-2xl gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1 scrollbar-thin">
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="builder">
           Constructor
         </button>
-        <button class="tab-btn flex-1 rounded-md px-3 py-2 text-sm font-medium transition" data-tab="miscombos">
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="miscombos">
           Mis combinaciones
+        </button>
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="topcombos">
+          Top combinaciones
         </button>
       </div>
 
@@ -212,6 +215,30 @@ const GAMES = [
       <div id="panel-miscombos" class="tab-panel hidden">
         <div id="saved-list" class="space-y-3">
           <p class="text-sm text-slate-400">Cargando…</p>
+        </div>
+      </div>
+
+      <!-- ── Tab 3: Top combinaciones (las más frecuentes en últimos sorteos) ── -->
+      <div id="panel-topcombos" class="tab-panel hidden">
+        <div class="mb-3 flex flex-wrap items-center gap-3">
+          <label class="text-sm font-medium text-slate-700" for="top-k">Combinaciones de:</label>
+          <select id="top-k" class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm">
+            {[2, 3, 4].map((k) => <option value={k} selected={k === 3}>{k} patrones</option>)}
+          </select>
+          <label class="text-sm font-medium text-slate-700" for="top-days">últimos:</label>
+          <select id="top-days" class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm">
+            {[15, 30, 60, 90].map((d) => <option value={d} selected={d === 30}>{d} sorteos</option>)}
+          </select>
+          <button id="btn-top-load" class="rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-dark" type="button">
+            Analizar
+          </button>
+        </div>
+        <p class="mb-3 text-xs text-slate-500">
+          Patrones que más veces estuvieron activos juntos en el número ganador de la jornada seleccionada.
+          Toca una combinación para cargarla en el constructor y evaluarla.
+        </p>
+        <div id="top-list" class="space-y-2">
+          <!-- Se rellena con JS -->
         </div>
       </div>
 
@@ -313,6 +340,10 @@ const GAMES = [
     const compare = document.getElementById("compare") as HTMLElement | null;
     const compareBody = document.getElementById("compare-body") as HTMLElement | null;
     const gameSelect = document.getElementById("game-select") as HTMLSelectElement | null;
+    const topK = document.getElementById("top-k") as HTMLSelectElement | null;
+    const topDays = document.getElementById("top-days") as HTMLSelectElement | null;
+    const btnTopLoad = document.getElementById("btn-top-load") as HTMLButtonElement | null;
+    const topList = document.getElementById("top-list") as HTMLElement | null;
 
     const fmt = (n) => String(n).padStart(2, "0");
     const HN_TZ = "America/Tegucigalpa";
@@ -496,8 +527,11 @@ const GAMES = [
       });
       const bp = document.getElementById("panel-builder");
       const mc = document.getElementById("panel-miscombos");
+      const tc = document.getElementById("panel-topcombos");
       if (bp) bp.classList.toggle("hidden", tab !== "builder");
       if (mc) mc.classList.toggle("hidden", tab !== "miscombos");
+      if (tc) tc.classList.toggle("hidden", tab !== "topcombos");
+      if (tab === "topcombos" && topList && topList.childElementCount === 0) loadTopCombos();
     }
 
     // ── Evaluación (historial + candidatos) ──────────────────────────────────
@@ -569,6 +603,83 @@ const GAMES = [
       return { p, hitRate, totalHits: data.totalHits, evaluatedDraws: data.evaluatedDraws, hits: data.hits || [], days };
     }
 
+    async function loadTopCombos() {
+      if (!topList) return;
+      const k = Number(topK?.value ?? 3);
+      const days = Number(topDays?.value ?? 30);
+      topList.innerHTML = '<p class="text-sm text-slate-400">Analizando…</p>';
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/features/${currentGame}/top-combos`, {
+          method: "POST", headers: headers(true),
+          body: JSON.stringify({ k, days }),
+        });
+        const data = await res.json();
+        if (!data.success) { topList.innerHTML = `<p class="text-sm text-red-600">${data.error?.message ?? "Error"}</p>`; return; }
+        const { combos, evaluatedDraws } = data.data;
+        if (!combos || combos.length === 0) {
+          topList.innerHTML = '<p class="text-sm text-slate-400">Sin suficientes datos en esta ventana.</p>';
+          return;
+        }
+        const labels = new Map(catalog.map((f) => [f.code, f.label]));
+        const intro = document.createElement("p");
+        intro.className = "mb-2 text-xs text-slate-500";
+        intro.textContent = `Analizados ${evaluatedDraws} sorteos de ${currentGame} — combinaciones de ${k} patrones:`;
+        topList.innerHTML = "";
+        topList.appendChild(intro);
+        combos.forEach((c, idx) => {
+          const rateClass = c.hitRatePct >= 50 ? "bg-emerald-100 text-emerald-700" : c.hitRatePct >= 20 ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600";
+          const card = document.createElement("div");
+          card.className = "cursor-pointer rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:border-brand" + (idx === 0 ? " ring-1 ring-brand/40" : "");
+          const head = document.createElement("div");
+          head.className = "mb-1 flex flex-wrap items-center gap-2";
+          const pos = document.createElement("span");
+          pos.className = "font-mono text-xs font-bold " + (idx === 0 ? "text-brand" : "text-slate-400");
+          pos.textContent = `#${idx + 1}`;
+          const title = document.createElement("span");
+          title.className = "text-sm font-semibold text-slate-800";
+          title.textContent = c.label;
+          const badge = document.createElement("span");
+          badge.className = "rounded-full px-2 py-0.5 text-xs font-semibold " + rateClass;
+          badge.textContent = `${c.hitRatePct}%`;
+          const meta = document.createElement("span");
+          meta.className = "text-xs text-slate-400";
+          meta.textContent = `${c.count}/${evaluatedDraws} sorteos`;
+          head.append(pos, title, badge, meta);
+          card.appendChild(head);
+          const chips = document.createElement("div");
+          chips.className = "flex flex-wrap gap-1";
+          c.features.forEach((f) => {
+            const s = document.createElement("span");
+            s.className = "rounded-full bg-teal-50 px-2 py-0.5 text-[10px] font-medium text-teal-700";
+            s.textContent = labels.get(f) ?? f;
+            chips.appendChild(s);
+          });
+          card.appendChild(chips);
+          if (c.hits?.length) {
+            const det = document.createElement("details");
+            det.className = "mt-1";
+            const sum = document.createElement("summary");
+            sum.className = "cursor-pointer text-xs text-brand hover:underline";
+            sum.textContent = `Ver sorteos donde se cumplió (${c.hits.length})`;
+            det.appendChild(sum);
+            const dates = document.createElement("div");
+            dates.className = "mt-1 flex flex-wrap gap-1.5 text-xs text-slate-500";
+            dates.textContent = c.hits.map((h) => civilDate(h.drawDate).toLocaleDateString("es-HN", { timeZone: HN_TZ, day: "2-digit", month: "short", year: "numeric" })).join(" · ");
+            det.appendChild(dates);
+            card.appendChild(det);
+          }
+          card.addEventListener("click", () => {
+            selectedFeatures.clear();
+            c.features.forEach((f) => selectedFeatures.add(f));
+            renderCatalog(); renderChips(); setButtons();
+            switchTab("builder");
+            sstatus(`Cargada la combinación #${idx + 1} del top — acompáñala y evalúa.`);
+          });
+          topList.appendChild(card);
+        });
+      } catch { topList.innerHTML = '<p class="text-sm text-red-600">Error de conexión.</p>'; }
+    }
+
     async function evalAll() {
       if (combos.length === 0) { sstatus("Guarda al menos una combinación para comparar.", false); return; }
       if (btnEvalAll) { btnEvalAll.disabled = true; btnEvalAll.textContent = "Evaluando…"; }
@@ -593,6 +704,7 @@ const GAMES = [
 
     // ── eventos ──
     gameSelect?.addEventListener("change", () => { currentGame = gameSelect.value; });
+    btnTopLoad?.addEventListener("click", () => loadTopCombos());
     btnSave?.addEventListener("click", saveCombo);
     btnEvalSel?.addEventListener("click", () => {
       if (selectedFeatures.size === 0) return;
