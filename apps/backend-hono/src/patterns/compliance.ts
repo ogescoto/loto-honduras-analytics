@@ -301,18 +301,26 @@ function evaluateFeature(
   return false;
 }
 
+export interface ComplianceSummary {
+  hits: HitResult[];
+  totalHits: number;
+  /** Número de sorteos de la jornada evaluados en la ventana. */
+  evaluatedDraws: number;
+}
+
 /**
  * Reconstruye el estado previo a cada sorteo de la jornada objetivo (hasta
- * MAX_EVALUATED_DRAWS) y devuelve los sorteos donde un ganador cumplía TODAS
- * las características pedidas, en orden cronológico.
+ * MAX_EVALUATED_DRAWS) y devuelve un resumen: los sorteos donde un ganador
+ * cumplía TODAS las características pedidas (en orden cronológico), el total
+ * de aciertos y cuántos sorteos se evaluaron.
  */
-export function computeWinnerCompliance(
+export function complianceSummary(
   features: FeatureCode[],
   familyDraws: Draw[],
   slotDraws: Draw[],
-): HitResult[] {
+): ComplianceSummary {
   const valid = features.filter((f) => ALL_FEATURES.includes(f));
-  if (valid.length === 0) return [];
+  if (valid.length === 0) return { hits: [], totalHits: 0, evaluatedDraws: 0 };
 
   const b = buildIndexes(familyDraws, slotDraws);
   const slotAsc = [...b.slotDraws].sort((a, b) => a.drawDate - b.drawDate);
@@ -344,7 +352,24 @@ export function computeWinnerCompliance(
     }
   }
 
-  return out.slice(-MAX_RETURNED_HITS);
+  return {
+    hits: out.slice(-MAX_RETURNED_HITS),
+    totalHits: out.length,
+    evaluatedDraws: slotAsc.length - start,
+  };
+}
+
+/**
+ * Reconstruye el estado previo a cada sorteo de la jornada objetivo (hasta
+ * MAX_EVALUATED_DRAWS) y devuelve los sorteos donde un ganador cumplía TODAS
+ * las características pedidas, en orden cronológico.
+ */
+export function computeWinnerCompliance(
+  features: FeatureCode[],
+  familyDraws: Draw[],
+  slotDraws: Draw[],
+): HitResult[] {
+  return complianceSummary(features, familyDraws, slotDraws).hits;
 }
 
 /** Últimos aciertos cronológicos (máx MAX_RETURNED_HITS). */

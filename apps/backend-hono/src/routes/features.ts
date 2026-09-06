@@ -18,7 +18,7 @@ import {
   filterByFeatures,
   type FeatureCode,
 } from "../patterns/features-engine.js";
-import { computeWinnerCompliance, type Draw } from "../patterns/compliance.js";
+import { complianceSummary, type Draw } from "../patterns/compliance.js";
 
 const SLOT_GAMES: Record<string, string[]> = {
   diaria_11am: ["diaria_11am"],
@@ -161,7 +161,7 @@ featuresRoutes.post("/:game/hits", async (c) => {
   if (!ALL_GAME_TYPES.has(game))
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
 
-  const body = (await c.req.json().catch(() => null)) as { features?: string[] } | null;
+  const body = (await c.req.json().catch(() => null)) as { features?: string[]; days?: number } | null;
   if (!body?.features || !Array.isArray(body.features) || body.features.length === 0)
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Se requiere al menos una característica." } }, 400);
 
@@ -171,6 +171,9 @@ featuresRoutes.post("/:game/hits", async (c) => {
 
   if (body.features.length > 7)
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Máximo 7 características por combinación." } }, 400);
+
+  // Ventana de emulación (opcional): evaluar solo sorteos de los últimos N días.
+  const days = Math.min(Math.max(Number(body.days) || 30, 1), 90);
 
   const db = c.get("db");
   const requested = body.features as FeatureCode[];
@@ -184,6 +187,9 @@ featuresRoutes.post("/:game/hits", async (c) => {
     .orderBy(asc(lotteryHistory.drawDate));
 
   const slotRows = familyRows.filter((r) => r.game === game);
+  // Ventana de emulación: solo sorteos del juego a partir de `hoy - days`.
+  const cutoff = Date.now() - days * 86_400_000;
+  const windowed = slotRows.filter((r) => new Date(r.drawDate).getTime() >= cutoff);
   const toDraw = (rows: typeof familyRows): Draw[] =>
     rows.map((r) => ({
       game: r.game,
@@ -192,16 +198,20 @@ featuresRoutes.post("/:game/hits", async (c) => {
       drawDate: new Date(r.drawDate).getTime(),
     }));
 
-  const hits = computeWinnerCompliance(requested, toDraw(familyRows), toDraw(slotRows));
+  const res = complianceSummary(requested, toDraw(familyRows), toDraw(windowed.length ? windowed : slotRows));
+  const pct = res.evaluatedDraws > 0 ? Math.round((res.totalHits / res.evaluatedDraws) * 100) : 0;
 
   // Últimos 30 sorteos cronológicos (los más recientes primero).
   return c.json({
     success: true,
     data: {
       game,
+      days,
       requestedFeatures: requested.map((f) => ({ code: f, label: FEATURE_LABELS[f] })),
-      totalHits: hits.length,
-      hits: hits.slice().reverse(),
+      totalHits: res.totalHits,
+      evaluatedDraws: res.evaluatedDraws,
+      hitRatePct: pct,
+      hits: res.hits.slice().reverse(),
     },
   });
 });
