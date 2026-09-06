@@ -60,6 +60,68 @@ featuresRoutes.get("/catalog", (c) => {
   return c.json({ success: true, data: catalog });
 });
 
+// GET /api/v1/features/config — configuración de patrones (público, para el
+// constructor y para la pantalla de administración de patrones).
+// Devuelve el JSON interpretable y testeable: versión, bloques, manual y cada
+// patrón con código, etiqueta, descripción, bloque, y umbrales/parámetros.
+const FEATURE_BLOCKS: Record<FeatureCode, string> = {
+  frio_absoluto: "A", frio_horario: "A", despertar_promedio: "A", latencia_reciente: "A",
+  caliente_cortoplazo: "B", eco_consecutivo: "B", eco_horario: "B",
+  digitos_gemelos: "C", cluster_decena_activa: "C", terminacion_caliente: "C",
+  inversion_directa: "D", multiplo_base_cinco: "D", multiplo_generacional: "D",
+  producto_interno: "D", suma_consecutiva: "D",
+  presencia_corta: "E", sobredemora: "E",
+  pareja_100: "F", complemento_99: "F", vecino_ganador: "F", raiz_digitos_ganador: "F",
+  docena_activa: "G", decena_activa_jornada: "G", favorito_jornada_anterior: "G",
+  terminacion_fria: "G",
+};
+
+const BLOCK_INFO: Record<string, { name: string; desc: string }> = {
+  A: { name: "Recencia", desc: "Ausencia del número (global o por jornada)." },
+  B: { name: "Frecuencia", desc: "Ecos y repeticiones recientes." },
+  C: { name: "Anatomía", desc: "Propiedades del número mismo (gemelos, decena, terminación)." },
+  D: { name: "Aritmética", desc: "Relaciones aritméticas con el último ganador." },
+  E: { name: "Recencia +", desc: "Ventanas de recencia extendidas y sobredemora." },
+  F: { name: "Complemento", desc: "Números complementarios del último ganador." },
+  G: { name: "Estructura por jornada", desc: "Contexto del juego/jornada." },
+};
+
+featuresRoutes.get("/config", (c) => {
+  const patterns = ALL_FEATURES.map((code) => ({
+    code,
+    label: FEATURE_LABELS[code],
+    description: FEATURE_DESCRIPTIONS[code],
+    block: FEATURE_BLOCKS[code],
+  }));
+  const manual = {
+    version: "1.0",
+    autor: "Loto Honduras Analytics",
+    explicacion:
+      "Cada patrón define una condición sobre un número (00-99). Una combinación agrupa 1-7 patrones; " +
+      "un número 'candidato' cumple TODAS las condiciones. La efectividad se mide contra el histórico: " +
+      "cuántos sorteos pasados tuvieron un ganador que cumplía toda la combinación (hitRatePct).",
+    bloques: BLOCK_INFO,
+    comoInterpretarElJson:
+      "patterns: lista de patrones con code (identificador estable), label, description y block (A-G). " +
+      "El campo 'expresion' describe la regla en lenguaje natural; el motor la implementa en features-engine.ts.",
+  };
+  return c.json({
+    success: true,
+    data: {
+      version: 1,
+      generatedAt: new Date().toISOString(),
+      manual,
+      blocks: BLOCK_INFO,
+      patterns,
+      defaults: {
+        maxFeaturesPerCombo: 7,
+        maxEvalDays: 90,
+        games: Object.keys(SLOT_GAMES),
+      },
+    },
+  });
+});
+
 // GET /api/v1/features/:game — estado latente actual de los 100 números
 featuresRoutes.get("/:game", async (c) => {
   const game = c.req.param("game") as GameType;
