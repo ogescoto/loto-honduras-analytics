@@ -1,0 +1,739 @@
+---
+import Shell from "../layouts/Shell.astro";
+import MetaPatternCard from "../components/MetaPatternCard.astro";
+import { apiGetSSR } from "../lib/api.ts";
+import { getToken, getValidPayload } from "../lib/auth.ts";
+import type { MetaPattern } from "@loto/shared-types";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+const checkout = Astro.url.searchParams.get("checkout");
+
+let metaPatterns: MetaPattern[] = [];
+let hasSubscription = false;
+let errorMsg: string | null = null;
+
+if (token && payload) {
+  const res = await apiGetSSR<{ metaPatterns: MetaPattern[] }>(
+    "/api/v1/premium/meta-patterns",
+    Astro.locals,
+    token,
+  );
+  if (res.success) {
+    metaPatterns = res.data.metaPatterns;
+    hasSubscription = true;
+  } else if (res.error.code === "SUBSCRIPTION_REQUIRED" || res.error.code === "FORBIDDEN") {
+    hasSubscription = false;
+  } else {
+    errorMsg = res.error.message;
+  }
+}
+
+const GAMES = [
+  { value: "pega3_9pm",   label: "Pega 3 · 9 PM" },
+  { value: "pega3_3pm",   label: "Pega 3 · 3 PM" },
+  { value: "pega3_11am",  label: "Pega 3 · 11 AM" },
+  { value: "premia2_9pm", label: "Premia 2 · 9 PM" },
+  { value: "premia2_3pm", label: "Premia 2 · 3 PM" },
+  { value: "premia2_11am",label: "Premia 2 · 11 AM" },
+  { value: "juga3_9pm",   label: "Jugá 3 · 9 PM" },
+  { value: "juga3_3pm",   label: "Jugá 3 · 3 PM" },
+  { value: "juga3_11am",  label: "Jugá 3 · 11 AM" },
+  { value: "diaria_9pm",  label: "La Diaria · 9 PM" },
+  { value: "diaria_3pm",  label: "La Diaria · 3 PM" },
+  { value: "diaria_11am", label: "La Diaria · 11 AM" },
+  { value: "super_premio",label: "Super Premio" },
+];
+---
+
+<Shell
+  title="Estudio Premium"
+  active="premium"
+  ogTitle="Estudio Premium — combina patrones"
+  ogDescription="Combina patrones, evalúa tu efectividad histórica, ve candidatos para el próximo sorteo y emula por ventana."
+  isPremium={hasSubscription}
+>
+  {checkout === "success" && (
+    <p class="mb-4 rounded bg-emerald-50 p-3 text-sm text-emerald-800">
+      ¡Pago recibido! Tu acceso premium se activará en unos segundos. Recarga la página si no ves el estudio.
+    </p>
+  )}
+
+  {errorMsg && (
+    <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>
+  )}
+
+  {!token && (
+    <div>
+      <div class="rounded-lg border border-brand/30 bg-white p-6 text-center">
+        <p class="mb-2 text-slate-700 font-semibold">Acceso exclusivo para suscriptores</p>
+        <p class="mb-5 text-sm text-slate-500">Combina hasta 7 patrones, mide qué tan acertada es tu combinación y obtén candidatos para el próximo sorteo.</p>
+        <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <a href="/login" class="flex min-h-[44px] items-center justify-center rounded-lg bg-brand px-6 font-semibold text-white hover:bg-brand-dark">
+            Iniciar sesión
+          </a>
+          <a href="#planes" class="flex min-h-[44px] items-center justify-center rounded-lg border border-brand px-6 font-semibold text-brand hover:bg-brand/5">
+            Ver planes
+          </a>
+        </div>
+      </div>
+
+      <!-- Planes visibles también sin sesión -->
+      <div id="planes" class="mt-6 rounded-lg border border-slate-200 bg-white p-6">
+        <h2 class="mb-4 text-lg font-bold">Planes de suscripción</h2>
+        <div class="rounded-lg border-2 border-brand/40 bg-brand/5 p-5 max-w-sm">
+          <p class="font-semibold text-slate-800">Premium · 30 días</p>
+          <p class="mt-1 text-2xl font-bold text-brand">L. 200.00</p>
+          <p class="mt-1 text-xs text-slate-500">Acceso completo al Estudio Premium y meta-patrones por 30 días.</p>
+        </div>
+        <p class="mt-4 text-xs text-slate-400 text-center">Inicia sesión para pagar online (Stripe) o en ventanilla.</p>
+      </div>
+    </div>
+  )}
+
+  {token && !hasSubscription && (
+    <div>
+      <!-- Preview blur del estudio (CTA visual) -->
+      <div class="relative mb-6">
+        <div class="space-y-3 opacity-80">
+          <div class="rounded-lg border border-brand/30 bg-white p-4 shadow-sm blur-sm select-none pointer-events-none">
+            <p class="mb-2 text-sm text-slate-700">Combina patrones (Ej: Pareja 100 + Dígitos Gemelos + Caliente…) y mira cuántos sorteos habría acertado y los candidatos para el próximo.</p>
+            <div class="flex gap-2">
+              {[7, 23, 41].map((n) => (
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-white text-xs font-bold shadow-sm">
+                  {String(n).padStart(2, "0")}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="rounded-full bg-brand/90 px-4 py-1.5 text-xs font-bold text-white shadow">
+            Solo para suscriptores
+          </span>
+        </div>
+      </div>
+
+      <!-- Planes de suscripción -->
+      <div class="rounded-lg border border-slate-200 bg-white p-6">
+        <h2 class="mb-4 text-lg font-bold">Activar Premium</h2>
+        <div class="max-w-sm rounded-lg border-2 border-brand/30 p-5">
+          <p class="font-semibold text-slate-800">Premium · 30 días</p>
+          <p class="mt-1 text-2xl font-bold text-brand">L. 200.00</p>
+          <p class="mt-1 text-xs text-slate-500">Acceso completo al Estudio Premium y meta-patrones por 30 días.</p>
+          <button
+            data-months="1"
+            class="checkout-btn mt-4 w-full rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+          >
+            Pagar L. 200.00
+          </button>
+        </div>
+        <p class="mt-4 text-xs text-slate-400 text-center">Pago seguro vía Stripe (Lempiras). También disponible en ventanilla.</p>
+      </div>
+    </div>
+  )}
+
+  {hasSubscription && (
+    <div id="estudio" data-game="diaria_11am">
+      <div class="mb-4 flex flex-wrap items-center gap-3">
+        <label class="text-sm font-medium text-slate-700" for="game-select">Juego:</label>
+        <select id="game-select" class="rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-200">
+          {GAMES.map(g => (
+            <option value={g.value} selected={g.value === "diaria_11am"}>{g.label}</option>
+          ))}
+        </select>
+        <button id="btn-eval-all" class="ml-auto rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" type="button">
+          Evaluar todas
+        </button>
+      </div>
+
+      <!-- Tabs: Constructor | Mis combinaciones | Top combinaciones -->
+      <div class="mb-5 flex max-w-2xl gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1 scrollbar-thin">
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="builder">
+          Constructor
+        </button>
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="miscombos">
+          Mis combinaciones
+        </button>
+        <button class="tab-btn flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition" data-tab="topcombos">
+          Top combinaciones
+        </button>
+      </div>
+
+      <!-- ── Tab 1: Constructor (dos paneles) ─────────────────────────────── -->
+      <div id="panel-builder" class="tab-panel">
+        <div class="grid gap-4 lg:grid-cols-2">
+          <!-- Panel izquierdo: todos los patrones -->
+          <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="mb-2 flex items-center justify-between">
+              <h2 class="font-semibold text-slate-800">Patrones disponibles</h2>
+              <span id="catalog-count" class="text-xs text-slate-400 text-right">31</span>
+            </div>
+            <div id="feature-catalog" class="max-h-[420px] space-y-1.5 overflow-y-auto pr-1">
+              <!-- Se rellena con JS -->
+            </div>
+          </div>
+
+          <!-- Panel derecho: seleccionados -->
+          <div class="rounded-lg border-2 border-dashed border-brand/40 bg-brand/5 p-4">
+            <div class="mb-2 flex items-center justify-between">
+              <h2 class="font-semibold text-slate-800">Seleccionados</h2>
+              <span id="sel-count" class="text-xs font-medium text-brand">0/7</span>
+            </div>
+            <div id="chips-list" class="min-h-[120px] space-y-2">
+              <!-- Se rellena con JS -->
+            </div>
+            <p id="chips-empty" class="mt-1 text-xs text-slate-400">Toca un patrón de la izquierda para agregarlo a tu combinación.</p>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <input id="pattern-name" type="text" placeholder="Nombre de la combinación (ej: Mi combo estrella)" maxlength="60"
+            class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-200" />
+          <button id="btn-save" disabled class="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white disabled:opacity-40 hover:bg-slate-700">Guardar</button>
+          <button id="btn-eval-sel" disabled class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white disabled:opacity-40 hover:bg-brand-dark">Evaluar</button>
+          <button id="btn-clear" class="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50" type="button">Limpiar</button>
+        </div>
+        <p id="status" class="mt-2 text-xs"></p>
+      </div>
+
+      <!-- ── Tab 2: Mis combinaciones (con atrás/adelante) ────────────────── -->
+      <div id="panel-miscombos" class="tab-panel hidden">
+        <div id="saved-list" class="space-y-3">
+          <p class="text-sm text-slate-400">Cargando…</p>
+        </div>
+      </div>
+
+      <!-- ── Tab 3: Top combinaciones (las más frecuentes en últimos sorteos) ── -->
+      <div id="panel-topcombos" class="tab-panel hidden">
+        <div class="mb-3 flex flex-wrap items-center gap-3">
+          <label class="text-sm font-medium text-slate-700" for="top-k">Combinaciones de:</label>
+          <select id="top-k" class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm">
+            {[2, 3, 4].map((k) => <option value={k} selected={k === 3}>{k} patrones</option>)}
+          </select>
+          <label class="text-sm font-medium text-slate-700" for="top-days">últimos:</label>
+          <select id="top-days" class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm">
+            {[15, 30, 60, 90].map((d) => <option value={d} selected={d === 30}>{d} sorteos</option>)}
+          </select>
+          <button id="btn-top-load" class="rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-dark" type="button">
+            Analizar
+          </button>
+        </div>
+        <p class="mb-3 text-xs text-slate-500">
+          Patrones que más veces estuvieron activos juntos en el número ganador de la jornada seleccionada.
+          Toca una combinación para cargarla en el constructor y evaluarla.
+        </p>
+        <div id="top-list" class="space-y-2">
+          <!-- Se rellena con JS -->
+        </div>
+      </div>
+
+      <!-- Resultados de evaluación -->
+      <div id="results" class="mt-6 space-y-4">
+        <!-- La evaluación individual de cada combo se pinta aquí -->
+      </div>
+
+      <div id="compare" class="mt-6 hidden">
+        <h2 class="mb-2 text-lg font-bold text-slate-800">Comparativa (efectividad por combinación)</h2>
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-4 py-3 text-left">Combinación</th>
+                <th class="px-4 py-3 text-left">Patrones</th>
+                <th class="px-4 py-3 text-left">Aciertos</th>
+                <th class="px-4 py-3 text-left">Efectividad</th>
+                <th class="px-4 py-3 text-left">Último acierto</th>
+              </tr>
+            </thead>
+            <tbody id="compare-body" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Meta-patrones (sección secundaria) -->
+      <div class="mt-8 border-t border-slate-200 pt-6">
+        <h2 class="mb-2 text-lg font-bold text-slate-800">Meta-patrones psico-estadísticos</h2>
+        {metaPatterns.length === 0 ? (
+          <p class="text-sm text-slate-500">Aún no hay meta-patrones calculados para este juego.</p>
+        ) : (
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {metaPatterns.map((m) => <MetaPatternCard pattern={m} />)}
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</Shell>
+
+<script is:inline>
+  // Checkout (solo visible si no hay suscripción)
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+  document.querySelectorAll(".checkout-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const months = btn.dataset.months;
+      const token = document.cookie.match(/loto_token=([^;]+)/)?.[1];
+      if (!token) { window.location.href = "/login"; return; }
+      btn.disabled = true;
+      btn.textContent = "Redirigiendo…";
+      try {
+        const res = await fetch(`${apiBase}/api/v1/payments/checkout`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ validityMonths: Number(months) }),
+        });
+        const data = await res.json();
+        if (data.success && data.data?.checkoutUrl) {
+          window.location.href = data.data.checkoutUrl;
+        } else { btn.disabled = false; btn.textContent = "Error — intenta de nuevo"; }
+      } catch { btn.disabled = false; btn.textContent = "Error — intenta de nuevo"; }
+    });
+  });
+</script>
+
+<script>
+  // @ts-nocheck
+  const estudio = document.getElementById("estudio");
+  if (estudio) {
+    const API_BASE = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+    const getToken = () => document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1] ?? "";
+    const token = getToken();
+    const headers = (json = false) => {
+      const h = {};
+      if (json) h["Content-Type"] = "application/json";
+      if (token) h["Authorization"] = `Bearer ${token}`;
+      return h;
+    };
+
+    let catalog: { code: string; label: string; description: string; category: string; scope: string }[] = [];
+    let combos: { id: string; name: string; game: string; features: string[] }[] = [];
+    let selectedFeatures = new Set<string>();
+    let currentGame = "diaria_11am";
+
+    const featureCatalog = document.getElementById("feature-catalog") as HTMLElement | null;
+    const chipsList = document.getElementById("chips-list") as HTMLElement | null;
+    const chipsEmpty = document.getElementById("chips-empty") as HTMLElement | null;
+    const catalogCount = document.getElementById("catalog-count") as HTMLElement | null;
+    const selCount = document.getElementById("sel-count") as HTMLElement | null;
+    const patternName = document.getElementById("pattern-name") as HTMLInputElement | null;
+    const btnSave = document.getElementById("btn-save") as HTMLButtonElement | null;
+    const btnEvalSel = document.getElementById("btn-eval-sel") as HTMLButtonElement | null;
+    const btnClear = document.getElementById("btn-clear") as HTMLButtonElement | null;
+    const btnEvalAll = document.getElementById("btn-eval-all") as HTMLButtonElement | null;
+    const savedList = document.getElementById("saved-list") as HTMLElement | null;
+    const results = document.getElementById("results") as HTMLElement | null;
+    const status = document.getElementById("status") as HTMLElement | null;
+    const compare = document.getElementById("compare") as HTMLElement | null;
+    const compareBody = document.getElementById("compare-body") as HTMLElement | null;
+    const gameSelect = document.getElementById("game-select") as HTMLSelectElement | null;
+    const topK = document.getElementById("top-k") as HTMLSelectElement | null;
+    const topDays = document.getElementById("top-days") as HTMLSelectElement | null;
+    const btnTopLoad = document.getElementById("btn-top-load") as HTMLButtonElement | null;
+    const topList = document.getElementById("top-list") as HTMLElement | null;
+
+    const fmt = (n) => String(n).padStart(2, "0");
+    const HN_TZ = "America/Tegucigalpa";
+    const civilDate = (iso) => { const p = iso.substring(0, 10); return new Date(p + "T12:00:00Z"); };
+
+    function sstatus(msg, ok = true) {
+      if (!status) return;
+      status.textContent = msg;
+      status.className = "mt-2 text-xs " + (ok ? "text-emerald-700" : "text-red-600");
+    }
+
+    function setButtons() {
+      const n = selectedFeatures.size;
+      if (btnSave) btnSave.disabled = n === 0;
+      if (btnEvalSel) btnEvalSel.disabled = n === 0;
+      if (selCount) selCount.textContent = `${n}/7`;
+    }
+
+    // Panel izquierdo: TODOS los patrones como filas compactas.
+    function renderCatalog() {
+      if (!featureCatalog) return;
+      featureCatalog.innerHTML = "";
+      // Categorías ya ocupadas en la selección (para bloquear otros de la misma).
+      const occupied = new Set();
+      selectedFeatures.forEach((code) => {
+        const f = catalog.find((x) => x.code === code);
+        if (f && f.category !== "none") occupied.add(f.category);
+      });
+      const CAT_LABEL = {
+        decena: "Decena", docena: "Docena", terminacion: "Terminación", paridad: "Paridad",
+        multiplicidad: "Múltiplo", anatomia: "Dígitos", complemento: "Complemento",
+        recencia: "Recencia", frecuencia: "Frecuencia", ecos: "Eco", desequilibrio: "Vencido",
+        imaginario: "Sueño", jornada: "Jornada", none: "",
+      };
+      for (const feat of catalog) {
+        const active = selectedFeatures.has(feat.code);
+        const blocked = !active && feat.category !== "none" && occupied.has(feat.category);
+        const row = document.createElement("button");
+        row.type = "button";
+        row.disabled = blocked && false; // no deshabilitamos el clic; mostramos el conflicto
+        row.className = "block w-full text-left rounded-lg border px-2.5 py-1.5 text-xs transition " +
+          (active ? "border-brand bg-brand/10" : blocked ? "border-slate-200 bg-slate-50 opacity-60" : "border-slate-200 bg-white hover:border-brand/50");
+        const catTag = feat.category && feat.category !== "none" ? `<span class="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-medium text-slate-500">${CAT_LABEL[feat.category] ?? feat.category}</span>` : "";
+        row.innerHTML = `<div class="flex items-center justify-between gap-1"><span class="font-semibold ${active ? "text-brand" : "text-slate-800"}"></span><span class="flex shrink-0 items-center gap-1">${catTag}${active ? '<span class="text-[10px] text-teal-600">✓</span>' : blocked ? '<span class="text-[9px] text-red-400">ocupada</span>' : '<span class="text-[10px] text-slate-400">+</span>'}</span></div><p class="truncate text-slate-500"></p>`;
+        (row.querySelector("span.font-semibold") as HTMLElement).textContent = feat.label;
+        (row.querySelector("p") as HTMLElement).textContent = feat.description;
+        row.addEventListener("click", () => {
+          if (selectedFeatures.has(feat.code)) {
+            selectedFeatures.delete(feat.code);
+          } else if (selectedFeatures.size < 7) {
+            if (feat.category !== "none" && occupied.has(feat.category)) {
+              sstatus(`No puedes combinar dos patrones de la misma clasificación (${CAT_LABEL[feat.category] ?? feat.category}).`, false);
+              return;
+            }
+            selectedFeatures.add(feat.code);
+          }
+          sstatus("");
+          renderCatalog(); renderChips(); setButtons();
+        });
+        featureCatalog.appendChild(row);
+      }
+      if (catalogCount) catalogCount.textContent = `${catalog.length} patrones`;
+    }
+
+    // Panel derecho: seleccionados como tarjetas apiladas (orden = clic).
+    function renderChips() {
+      if (!chipsList) return;
+      chipsList.innerHTML = "";
+      const labels = new Map(catalog.map((f) => [f.code, f.label]));
+      const arr = [...selectedFeatures];
+      if (arr.length === 0) { if (chipsEmpty) chipsEmpty.classList.remove("hidden"); return; }
+      if (chipsEmpty) chipsEmpty.classList.add("hidden");
+      arr.forEach((code, i) => {
+        const feat = catalog.find((f) => f.code === code);
+        const chip = document.createElement("div");
+        chip.className = "flex items-center justify-between gap-2 rounded-lg border border-brand/30 bg-white px-2.5 py-1.5 text-xs shadow-sm";
+        const left = document.createElement("span");
+        left.className = "font-medium text-slate-700";
+        const catTag = feat && feat.category && feat.category !== "none" ? ` <span class="text-[9px] text-slate-400">(${feat.category})</span>` : "";
+        left.innerHTML = `${i + 1}. ` + labels.get(code) + catTag;
+        const x = document.createElement("button");
+        x.type = "button"; x.textContent = "✕";
+        x.className = "shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-red-600";
+        x.setAttribute("aria-label", `Quitar ${labels.get(code) ?? code}`);
+        x.addEventListener("click", () => { selectedFeatures.delete(code); renderCatalog(); renderChips(); setButtons(); });
+        chip.appendChild(left); chip.appendChild(x);
+        chipsList.appendChild(chip);
+      });
+    }
+
+    async function saveCombo() {
+      if (selectedFeatures.size === 0) return;
+      const name = (patternName?.value ?? "").trim();
+      if (name.length < 2 || name.length > 60) { sstatus("Pon un nombre (2-60 caracteres).", false); return; }
+      const res = await fetch(`${API_BASE}/api/v1/saved-patterns`, {
+        method: "POST", headers: headers(true),
+        body: JSON.stringify({ name, game: currentGame, features: [...selectedFeatures] }),
+      });
+      const data = await res.json();
+      if (data.success) { if (patternName) patternName.value = ""; sstatus(`Guardada: ${name}`); loadCombos(); }
+      else sstatus(data.error?.message ?? "Error al guardar.", false);
+    }
+
+    async function loadCombos() {
+      const res = await fetch(`${API_BASE}/api/v1/saved-patterns`, { headers: headers() });
+      const data = await res.json();
+      combos = data.success ? data.data : [];
+      renderCombos();
+    }
+
+    // Tab "Mis combinaciones": cada combo con atrás (historial) y adelante (candidatos).
+    function renderCombos() {
+      if (!savedList) return;
+      if (combos.length === 0) {
+        savedList.innerHTML = '<div class="rounded-lg border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-400">Aún no hay combinaciones. Crea una en el tab "Constructor" y guárdala.</div>';
+        return;
+      }
+      savedList.innerHTML = "";
+      const labels = new Map(catalog.map((f) => [f.code, f.label]));
+      for (const p of combos) {
+        const card = document.createElement("div");
+        card.className = "rounded-lg border border-slate-200 bg-white p-3 shadow-sm";
+        const head = document.createElement("div");
+        head.className = "flex flex-wrap items-center gap-2";
+        const nameBtn = document.createElement("button");
+        nameBtn.type = "button";
+        nameBtn.className = "font-semibold text-slate-800 hover:text-brand";
+        nameBtn.textContent = p.name;
+        nameBtn.addEventListener("click", () => { selectCombo(p); switchTab("builder"); });
+        const tag = document.createElement("span");
+        tag.className = "rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500";
+        tag.textContent = p.game;
+        const feats = document.createElement("span");
+        feats.className = "min-w-0 flex-1 truncate text-xs text-slate-400";
+        feats.textContent = p.features.map((f) => labels.get(f) ?? f).join(" · ");
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "text-slate-400 hover:text-red-600";
+        del.textContent = "✕";
+        del.addEventListener("click", async () => {
+          await fetch(`${API_BASE}/api/v1/saved-patterns/${p.id}`, { method: "DELETE", headers: headers() });
+          loadCombos();
+        });
+        head.append(nameBtn, tag, feats, del);
+        card.appendChild(head);
+
+        const actBtns = document.createElement("div");
+        actBtns.className = "mt-2 flex flex-wrap gap-2";
+        const atras = document.createElement("button");
+        atras.type = "button";
+        atras.className = "rounded bg-brand/10 px-2.5 py-1 text-xs font-medium text-brand hover:bg-brand/20";
+        atras.textContent = "← Atrás (historial)";
+        atras.addEventListener("click", () => evalCombo(p, 90, true));
+        const adelante = document.createElement("button");
+        adelante.type = "button";
+        adelante.className = "rounded bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-100";
+        adelante.textContent = "Adelante (próximo sorteo) →";
+        adelante.addEventListener("click", async () => {
+          const f = await fetch(`${API_BASE}/api/v1/features/${p.game}/filter`, { method: "POST", headers: headers(true), body: JSON.stringify({ features: p.features }) }).then((r) => r.json());
+          let inner = "";
+          if (f.success) {
+            const nums = (f.data?.exact?.length ? f.data.exact : f.data?.partial ?? []);
+            inner = nums.map((n) => `<span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 font-mono text-xs font-bold text-white">${fmt(n)}</span>`).join("");
+            if (!nums.length) inner = '<span class="text-xs text-slate-400">Sin candidatos exactos hoy.</span>';
+          } else {
+            inner = `<span class="text-xs text-red-600">${f.error?.message ?? "Error"}</span>`;
+          }
+          const box = document.createElement("div");
+          box.className = "mt-2 flex flex-wrap items-center gap-1.5 rounded-lg bg-emerald-50 p-2";
+          box.innerHTML = `<span class="mr-1 text-xs font-medium text-emerald-800">Candidatos siguientes:</span>${inner}`;
+          card.querySelector(".act-zone")?.remove();
+          const zone = document.createElement("div");
+          zone.className = "act-zone";
+          zone.appendChild(box);
+          card.appendChild(zone);
+        });
+        const emular = document.createElement("select");
+        emular.className = "days-sel ml-auto rounded border border-slate-300 px-1.5 py-1 text-xs";
+        [7, 15, 30, 60, 90].forEach((d) => {
+          const o = document.createElement("option");
+          o.value = String(d); o.textContent = `${d} días`; o.selected = d === 30;
+          emular.appendChild(o);
+        });
+        emular.addEventListener("change", (e) => { card.querySelector(".atras-zone")?.remove(); evalCombo(p, Number(e.target.value), true, card); });
+        actBtns.append(atras, adelante, emular);
+        card.appendChild(actBtns);
+        savedList.appendChild(card);
+      }
+    }
+
+    function selectCombo(p) {
+      selectedFeatures.clear();
+      p.features.forEach((f) => selectedFeatures.add(f));
+      if (patternName) patternName.value = p.name;
+      renderCatalog(); renderChips(); setButtons();
+      sstatus(`Seleccionada: ${p.name} — evalúala o edítala y vuelve a guardar.`);
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll(".tab-btn").forEach((b) => {
+        const on = b.dataset.tab === tab;
+        b.classList.toggle("bg-white", on);
+        b.classList.toggle("shadow", on);
+        b.classList.toggle("text-brand", on);
+        b.classList.toggle("font-semibold", on);
+      });
+      const bp = document.getElementById("panel-builder");
+      const mc = document.getElementById("panel-miscombos");
+      const tc = document.getElementById("panel-topcombos");
+      if (bp) bp.classList.toggle("hidden", tab !== "builder");
+      if (mc) mc.classList.toggle("hidden", tab !== "miscombos");
+      if (tc) tc.classList.toggle("hidden", tab !== "topcombos");
+      if (tab === "topcombos" && topList && topList.childElementCount === 0) loadTopCombos();
+    }
+
+    // ── Evaluación (historial + candidatos) ──────────────────────────────────
+    async function evalCombo(p, days = 90, atrasOnly = false, cardEl = null) {
+      const card = cardEl || document.createElement("div");
+      if (!cardEl) {
+        card.className = "rounded-lg border border-slate-200 bg-white p-4 shadow-sm";
+        results.insertBefore(card, results.firstChild);
+      }
+      // zona "atrás" dentro de la tarjeta de Mis combinaciones, o bloque completo en resultados
+      const target = cardEl
+        ? document.createElement("div")
+        : document.createElement("div");
+      target.className = "space-y-3";
+
+      const [h, f] = await Promise.all([
+        fetch(`${API_BASE}/api/v1/features/${p.game}/hits`, { method: "POST", headers: headers(true), body: JSON.stringify({ features: p.features, days }) }).then((r) => r.json()),
+        fetch(`${API_BASE}/api/v1/features/${p.game}/filter`, { method: "POST", headers: headers(true), body: JSON.stringify({ features: p.features }) }).then((r) => r.json()),
+      ]);
+
+      const data = h.data || {};
+      const hitRate = data.evaluatedDraws > 0 ? Math.round((data.totalHits / data.evaluatedDraws) * 100) : 0;
+      const labels = new Map(catalog.map((x) => [x.code, x.label]));
+      const rateClass = hitRate >= 50 ? "bg-emerald-100 text-emerald-700" : hitRate >= 20 ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600";
+
+      // Atras (historial)
+      const hitsHtml = (data.hits && data.hits.length ? data.hits.slice(0, 12).map((hh) => {
+        const d0 = civilDate(hh.drawDate);
+        const fecha = d0.toLocaleDateString("es-HN", { timeZone: HN_TZ, day: "2-digit", month: "short", year: "numeric" });
+        return `<div class="flex items-center gap-2 py-1 text-xs border-b border-slate-50"><span class="text-slate-600">${fecha}</span><span class="font-mono text-slate-500">#${hh.matchedNumbers.map((n) => fmt(n)).join(" #")}</span></div>`;
+      }).join("") : `<div class="text-xs text-slate-400">Sin aciertos en los últimos ${days} días.</div>`);
+
+      // Adelante (candidatos)
+      const candHtml = f.success
+        ? (f.data?.exact?.length
+            ? f.data.exact.map((n) => `<span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand font-mono text-xs font-bold text-white">${fmt(n)}</span>`).join("")
+            : f.data?.partial?.length
+              ? `<div class="text-xs text-amber-600">Mejor coincidencia (${f.data.matchCount}/${f.data.totalRequested}): ${f.data.partial.map((n) => `<span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 font-mono text-xs font-bold text-white">${fmt(n)}</span>`).join("")}</div>`
+              : `<div class="text-xs text-slate-400">Sin candidatos exactos.</div>`)
+        : `<div class="text-xs text-red-600">${f.error?.message ?? "Error"}</div>`;
+
+      target.innerHTML = `
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-semibold text-slate-800">${p.name}</span>
+          <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500">${p.game}</span>
+          <span class="rounded-full px-2 py-0.5 text-xs font-semibold ${rateClass}">${hitRate}% efectividad</span>
+          <span class="text-xs text-slate-400">${data.totalHits}/${data.evaluatedDraws} sorteos (${days}d)</span>
+          ${cardEl ? `<span class="text-xs text-slate-400">→ ajusta la ventana arriba</span>` : ""}
+        </div>
+        <p class="text-xs text-slate-500">${p.features.map((x) => labels.get(x) ?? x).join(" · ")}</p>
+        <div class="rounded-lg bg-slate-50 p-2">
+          <p class="mb-1 text-xs font-semibold text-slate-600">← Hacia atrás (cuándo se cumplió)</p>
+          <div class="max-h-44 space-y-0 overflow-y-auto">${hitsHtml}</div>
+        </div>
+        <div class="rounded-lg bg-emerald-50 p-2">
+          <p class="mb-1 text-xs font-semibold text-emerald-800">→ Hacia adelante (próximo sorteo)</p>
+          <div class="flex flex-wrap items-center gap-1.5">${candHtml}</div>
+        </div>
+      `;
+
+      if (cardEl) {
+        card.querySelector(".atras-zone")?.remove();
+        target.classList.add("atras-zone", "mt-2");
+        card.appendChild(target);
+      } else {
+        card.innerHTML = "";
+        card.appendChild(target);
+      }
+      return { p, hitRate, totalHits: data.totalHits, evaluatedDraws: data.evaluatedDraws, hits: data.hits || [], days };
+    }
+
+    async function loadTopCombos() {
+      if (!topList) return;
+      const k = Number(topK?.value ?? 3);
+      const days = Number(topDays?.value ?? 30);
+      topList.innerHTML = '<p class="text-sm text-slate-400">Analizando…</p>';
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/features/${currentGame}/top-combos`, {
+          method: "POST", headers: headers(true),
+          body: JSON.stringify({ k, days }),
+        });
+        const data = await res.json();
+        if (!data.success) { topList.innerHTML = `<p class="text-sm text-red-600">${data.error?.message ?? "Error"}</p>`; return; }
+        const { combos, evaluatedDraws } = data.data;
+        if (!combos || combos.length === 0) {
+          topList.innerHTML = '<p class="text-sm text-slate-400">Sin suficientes datos en esta ventana.</p>';
+          return;
+        }
+        const labels = new Map(catalog.map((f) => [f.code, f.label]));
+        const intro = document.createElement("p");
+        intro.className = "mb-2 text-xs text-slate-500";
+        intro.textContent = `Analizados ${evaluatedDraws} sorteos de ${currentGame} — combinaciones de ${k} patrones:`;
+        topList.innerHTML = "";
+        topList.appendChild(intro);
+        combos.forEach((c, idx) => {
+          const rateClass = c.hitRatePct >= 50 ? "bg-emerald-100 text-emerald-700" : c.hitRatePct >= 20 ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600";
+          const card = document.createElement("div");
+          card.className = "cursor-pointer rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:border-brand" + (idx === 0 ? " ring-1 ring-brand/40" : "");
+          const head = document.createElement("div");
+          head.className = "mb-1 flex flex-wrap items-center gap-2";
+          const pos = document.createElement("span");
+          pos.className = "font-mono text-xs font-bold " + (idx === 0 ? "text-brand" : "text-slate-400");
+          pos.textContent = `#${idx + 1}`;
+          const title = document.createElement("span");
+          title.className = "text-sm font-semibold text-slate-800";
+          title.textContent = c.label;
+          const badge = document.createElement("span");
+          badge.className = "rounded-full px-2 py-0.5 text-xs font-semibold " + rateClass;
+          badge.textContent = `${c.hitRatePct}%`;
+          const meta = document.createElement("span");
+          meta.className = "text-xs text-slate-400";
+          meta.textContent = `${c.count}/${evaluatedDraws} sorteos`;
+          head.append(pos, title, badge, meta);
+          card.appendChild(head);
+          const chips = document.createElement("div");
+          chips.className = "flex flex-wrap gap-1";
+          c.features.forEach((f) => {
+            const s = document.createElement("span");
+            s.className = "rounded-full bg-teal-50 px-2 py-0.5 text-[10px] font-medium text-teal-700";
+            s.textContent = labels.get(f) ?? f;
+            chips.appendChild(s);
+          });
+          card.appendChild(chips);
+          if (c.hits?.length) {
+            const det = document.createElement("details");
+            det.className = "mt-1";
+            const sum = document.createElement("summary");
+            sum.className = "cursor-pointer text-xs text-brand hover:underline";
+            sum.textContent = `Ver sorteos donde se cumplió (${c.hits.length})`;
+            det.appendChild(sum);
+            const dates = document.createElement("div");
+            dates.className = "mt-1 flex flex-wrap gap-1.5 text-xs text-slate-500";
+            dates.textContent = c.hits.map((h) => civilDate(h.drawDate).toLocaleDateString("es-HN", { timeZone: HN_TZ, day: "2-digit", month: "short", year: "numeric" })).join(" · ");
+            det.appendChild(dates);
+            card.appendChild(det);
+          }
+          card.addEventListener("click", () => {
+            selectedFeatures.clear();
+            c.features.forEach((f) => selectedFeatures.add(f));
+            renderCatalog(); renderChips(); setButtons();
+            switchTab("builder");
+            sstatus(`Cargada la combinación #${idx + 1} del top — acompáñala y evalúa.`);
+          });
+          topList.appendChild(card);
+        });
+      } catch { topList.innerHTML = '<p class="text-sm text-red-600">Error de conexión.</p>'; }
+    }
+
+    async function evalAll() {
+      if (combos.length === 0) { sstatus("Guarda al menos una combinación para comparar.", false); return; }
+      if (btnEvalAll) { btnEvalAll.disabled = true; btnEvalAll.textContent = "Evaluando…"; }
+      const rows = [];
+      for (const p of combos) rows.push(await evalCombo(p, 90));
+      if (compare) compare.classList.remove("hidden");
+      if (compareBody) compareBody.innerHTML = "";
+      rows.sort((a, b) => b.hitRate - a.hitRate);
+      for (const r of rows) {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-50";
+        const last = r.hits && r.hits[0] ? civilDate(r.hits[0].drawDate).toLocaleDateString("es-HN", { timeZone: HN_TZ, day: "2-digit", month: "short", year: "numeric" }) : "—";
+        tr.innerHTML = `<td class="px-4 py-3 font-medium text-slate-800">${r.p.name}</td>
+          <td class="px-4 py-3 text-xs text-slate-500">${r.p.features.length} patrones</td>
+          <td class="px-4 py-3 text-slate-700">${r.totalHits}/${r.evaluatedDraws}</td>
+          <td class="px-4 py-3"><span class="rounded-full px-2 py-0.5 text-xs font-semibold ${r.hitRate >= 50 ? "bg-emerald-100 text-emerald-700" : r.hitRate >= 20 ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600"}">${r.hitRate}%</span></td>
+          <td class="px-4 py-3 text-xs text-slate-500">${last}</td>`;
+        if (compareBody) compareBody.appendChild(tr);
+      }
+      if (btnEvalAll) { btnEvalAll.disabled = false; btnEvalAll.textContent = "Evaluar todas"; }
+    }
+
+    // ── eventos ──
+    gameSelect?.addEventListener("change", () => { currentGame = gameSelect.value; });
+    btnTopLoad?.addEventListener("click", () => loadTopCombos());
+    btnSave?.addEventListener("click", saveCombo);
+    btnEvalSel?.addEventListener("click", () => {
+      if (selectedFeatures.size === 0) return;
+      evalCombo({ name: patternName?.value.trim() || "Selección actual", game: currentGame, features: [...selectedFeatures] });
+    });
+    btnClear?.addEventListener("click", () => { selectedFeatures.clear(); renderCatalog(); renderChips(); setButtons(); sstatus(""); });
+    btnEvalAll?.addEventListener("click", evalAll);
+    document.querySelectorAll(".tab-btn").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab ?? "builder")));
+
+    // ── inicio ──
+    (async () => {
+      const cat = await fetch(`${API_BASE}/api/v1/features/catalog`, { headers: headers() }).then((r) => r.json());
+      if (cat.success) catalog = cat.data;
+      renderCatalog();
+      renderChips();
+      setButtons();
+      switchTab("builder");
+      await loadCombos();
+    })();
+  }
+</script>

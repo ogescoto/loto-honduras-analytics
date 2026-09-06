@@ -1,4 +1,6 @@
-# Entorno local aislado: Postgres (dev) + Scrapoxy (proxy rotativo).
+# Entorno local aislado: SOLO la base de datos de desarrollo se dockeriza.
+# El proxy del scraper es Decodo (gateway gestionado, credenciales por entorno),
+# por lo que NO hay contenedor de proxy en local.
 # Las credenciales se leen de variables de entorno (.env), NO se hardcodean.
 # Regla mandatory: ai-software-governance/08_DevOps/Secrets_Management.md
 services:
@@ -18,20 +20,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  scrapoxy:
-    image: fabienvauchelles/scrapoxy:latest
-    container_name: scrapoxy_master
-    ports:
-      - "8888:8888" # proxy de cara al Worker scraper
-      - "8890:8890" # consola web administrativa
-    volumes:
-      - ./scrapoxy:/cfg
-    environment:
-      AUTH_LOCAL_USERNAME: ${SCRAPOXY_AUTH_USERNAME:-scraper_admin}
-      AUTH_LOCAL_PASSWORD: ${SCRAPOXY_AUTH_PASSWORD:?define SCRAPOXY_AUTH_PASSWORD en tu .env}
-      STORAGE_FILE_FILENAME: /cfg/scrapoxy_config.json
-    restart: always
 
 volumes:
   pgdata_local:

@@ -1,0 +1,12 @@
+{
+  "name": "loto-pattern-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server: herramientas de configuración y evaluación de patrones de Loto Honduras Analytics.",
+  "bin": { "loto-pattern-tools": "server.mjs" },
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

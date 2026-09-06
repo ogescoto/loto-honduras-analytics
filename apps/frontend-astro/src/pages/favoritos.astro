@@ -1,0 +1,152 @@
+---
+/**
+ * Mis favoritos — lista de números guardados, reordenable por drag & drop.
+ * Requiere sesión. Persistencia en la API (user_favorites con position).
+ */
+import Shell from "../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../lib/auth.ts";
+import { apiGetSSR } from "../lib/api.ts";
+import { GAME_LABELS } from "../lib/gameLabels.ts";
+import type { UserFavorite } from "@loto/shared-types";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+
+if (!payload) return Astro.redirect("/login");
+
+let favorites: UserFavorite[] = [];
+let errorMsg: string | null = null;
+const res = await apiGetSSR<UserFavorite[]>("/api/v1/favorites", Astro.locals, token ?? undefined);
+if (res.success) favorites = res.data!;
+else errorMsg = res.error.message;
+
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+---
+
+<Shell title="Mis favoritos" active="patrones">
+  <div class="mb-5 flex items-center gap-3">
+    <p class="text-sm text-slate-600">Tus números guardados. Arrastra para reordenarlos; el nuevo orden queda guardado en tu cuenta.</p>
+  </div>
+
+  {errorMsg && (
+    <p class="mb-4 rounded bg-amber-50 p-3 text-sm text-amber-800">{errorMsg}</p>
+  )}
+
+  {favorites.length === 0 && !errorMsg && (
+    <div class="rounded-lg border border-dashed border-slate-200 bg-white p-10 text-center text-sm text-slate-500">
+      No tienes favoritos guardados aún. Toca un número en cualquier análisis o en el historial para guardarlo.
+    </div>
+  )}
+
+  <div id="fav-list" class="space-y-2">
+    {favorites.map((f, idx) => (
+      <div
+        class="fav-item flex cursor-grab items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm active:cursor-grabbing"
+        draggable="true"
+        data-id={f.id}
+        data-idx={idx}
+      >
+        <!-- Handle -->
+        <svg class="h-5 w-5 shrink-0 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01M5 6h.01M5 12h.01M5 18h.01M19 6h.01M19 12h.01M19 18h.01"/>
+        </svg>
+
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand font-mono text-base font-bold text-white">
+          {f.number.padStart(2, "0")}
+        </span>
+
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium text-slate-800">{GAME_LABELS[f.game] ?? f.game}</p>
+          {f.note ? (
+            <p class="truncate text-xs text-slate-400">{f.note}</p>
+          ) : (
+            <p class="text-xs text-slate-300">Favorito</p>
+          )}
+        </div>
+
+        <div class="flex shrink-0 items-center gap-1.5">
+          <a
+            href={`/history?view=buscar&numbers=${f.number}&game=${f.game}&days=30`}
+            class="rounded border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
+          >
+            Ver historia
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</Shell>
+
+<script define:vars={{ apiBase }}>
+  const list = document.getElementById("fav-list");
+  if (!list) return;
+
+  const getToken = () => document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1];
+
+  let dragId = null;
+
+  // ── Drag & drop (HTML5) ───────────────────────────────────────────────────
+  list.addEventListener("dragstart", (e) => {
+    const item = e.target.closest(".fav-item");
+    if (!item) return;
+    dragId = item.dataset.id;
+    item.classList.add("opacity-50");
+    e.dataTransfer.effectAllowed = "move";
+  });
+  list.addEventListener("dragend", (e) => {
+    const item = e.target.closest(".fav-item");
+    if (item) item.classList.remove("opacity-50");
+    if (dragId) persistOrder();
+    dragId = null;
+  });
+  list.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    const over = e.target.closest(".fav-item");
+    const dragging = dragId ? list.querySelector(`.fav-item[data-id="${dragId}"]`) : null;
+    if (!over || !dragging || over === dragging) return;
+    const rect = over.getBoundingClientRect();
+    const after = e.clientY > rect.top + rect.height / 2;
+    if (after) over.after(dragging); else over.before(dragging);
+  });
+
+  // ── Botones de reordenar (fallback touch/teclado) ─────────────────────────
+  function addMoveButtons() {
+    list.querySelectorAll(".fav-move").forEach((b) => b.remove());
+    const items = Array.from(list.querySelectorAll(".fav-item"));
+    items.forEach((item, idx) => {
+      const wrap = document.createElement("div");
+      wrap.className = "fav-move flex shrink-0 flex-col gap-0.5";
+      const up = mkBtn("▲", "Mover arriba");
+      const down = mkBtn("▼", "Mover abajo");
+      up.addEventListener("click", () => { if (idx > 0) items[idx - 1].before(item); persistOrder(); });
+      down.addEventListener("click", () => { if (idx < items.length - 1) items[idx + 1].after(item); persistOrder(); });
+      wrap.append(up, down);
+      item.appendChild(wrap);
+    });
+  }
+  function mkBtn(txt, label) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = txt;
+    b.setAttribute("aria-label", label);
+    b.className = "h-5 w-5 rounded text-[10px] text-slate-500 hover:bg-slate-100";
+    return b;
+  }
+
+  // ── Persistir orden ───────────────────────────────────────────────────────
+  async function persistOrder() {
+    const ids = Array.from(list.querySelectorAll(".fav-item")).map((i) => i.dataset.id);
+    const tok = getToken();
+    try {
+      await fetch(`${apiBase}/api/v1/favorites/reorder`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+        body: JSON.stringify({ ids }),
+      });
+    } catch { /* offline */ }
+    addMoveButtons();
+  }
+
+  addMoveButtons();
+</script>

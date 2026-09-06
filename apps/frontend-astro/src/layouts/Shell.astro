@@ -1,0 +1,276 @@
+---
+import "../styles/global.css";
+import { getValidPayload } from "../lib/auth.ts";
+
+interface Props {
+  title: string;
+  active?: "dashboard" | "history" | "patrones" | "premium" | "favoritos" | "analisis" | "admin" | "login";
+  ogTitle?: string;
+  ogDescription?: string;
+  isPremium?: boolean;
+}
+
+const { title, active, ogTitle, ogDescription, isPremium = false } = Astro.props;
+
+const payload = getValidPayload(Astro.cookies);
+const isAdmin = payload?.role === "admin" || payload?.role === "clerk";
+
+const adsenseId   = import.meta.env.PUBLIC_ADSENSE_ID    ?? "";
+const adSlotBar   = import.meta.env.PUBLIC_ADSENSE_SLOT_BAR ?? "0000000099";
+const showAds     = !isPremium && !!adsenseId;
+const isDev       = import.meta.env.DEV;
+
+const metaTitle = `${ogTitle ?? title} · Loto Honduras Analytics`;
+const metaDesc = ogDescription ?? "Patrones estadísticos e imaginario popular de la lotería de Honduras.";
+const metaUrl = Astro.url.href;
+---
+
+<!doctype html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={metaDesc} />
+    <meta name="theme-color" content="#0f766e" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDesc} />
+    <meta property="og:url" content={metaUrl} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <title>{metaTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    {showAds && (
+      <script
+        is:inline
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        data-ad-client={adsenseId}
+      />
+    )}
+  </head>
+  <body class="min-h-full bg-slate-50 text-slate-900 antialiased">
+
+    <header class="sticky top-0 z-30 bg-brand-dark text-white shadow-md">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <!-- Logo: símbolo de la Lotería Nacional de Honduras -->
+        <a href="/" class="flex items-center gap-2 select-none" aria-label="Inicio — Loto Honduras">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-400 text-brand-dark shadow-sm ring-2 ring-yellow-300" aria-hidden="true">
+            <svg viewBox="0 0 36 36" class="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Bola de lotería estilizada con estrella de 5 puntas y número -->
+              <circle cx="18" cy="18" r="16" fill="#0f766e" stroke="#134e4a" stroke-width="1.5"/>
+              <circle cx="18" cy="18" r="12" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <!-- Estrella de 5 puntas (símbolo lotería HN) -->
+              <polygon points="18,7 20.4,14.6 28.5,14.6 22.1,19.3 24.4,26.9 18,22.2 11.6,26.9 13.9,19.3 7.5,14.6 15.6,14.6" fill="white" opacity="0.92"/>
+            </svg>
+          </span>
+          <span class="hidden text-sm font-bold tracking-tight sm:block">Loto Honduras</span>
+        </a>
+
+        <!-- Nav desktop -->
+        <nav class="hidden gap-1 text-sm md:flex" aria-label="Navegación principal">
+          <a href="/" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "dashboard" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Dashboard</a>
+          <a href="/history" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "history" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Historial</a>
+          <a href="/patrones" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "patrones" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Análisis</a>
+          <a href="/premium" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "premium" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Premium</a>
+          {payload && (
+            <a href="/favoritos" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "favoritos" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Favoritos</a>
+          )}
+          {payload && (
+            <a href="/analisis" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "analisis" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Análisis</a>
+          )}
+          {isAdmin && (
+            <a href="/admin" class:list={["flex min-h-[44px] items-center rounded px-3 transition", active === "admin" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Admin</a>
+          )}
+          {payload ? (
+            <a href="/api/logout" class="flex min-h-[44px] items-center rounded px-3 opacity-80 transition hover:bg-white/10">Salir</a>
+          ) : (
+            <a href="/login" class:list={["flex min-h-[44px] items-center rounded px-3 font-semibold transition", active === "login" ? "bg-white/20" : "hover:bg-white/10"]}>Entrar</a>
+          )}
+        </nav>
+
+        <!-- Hamburguesa mobile -->
+        <button
+          id="menu-btn"
+          class="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center rounded p-2 hover:bg-white/10 md:hidden"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          <svg id="icon-menu" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Menú mobile desplegable (enlaces secundarios; el principal está en la barra inferior) -->
+      <nav
+        id="mobile-nav"
+        class="hidden border-t border-white/10 md:hidden"
+        aria-label="Menú móvil"
+      >
+        <div class="flex flex-col px-4 pb-6 pt-2 text-sm">
+          {payload && (
+            <a href="/favoritos" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "favoritos" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>⭐ Favoritos</a>
+          )}
+          {payload && (
+            <a href="/analisis" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "analisis" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>📊 Análisis de números</a>
+          )}
+          {isAdmin && (
+            <a href="/admin" class:list={["flex min-h-[44px] items-center rounded px-2 transition", active === "admin" ? "bg-white/20 font-semibold" : "hover:bg-white/10"]}>Admin</a>
+          )}
+          {payload ? (
+            <a href="/api/logout" class="flex min-h-[44px] items-center rounded px-2 opacity-80 transition hover:bg-white/10">Salir</a>
+          ) : (
+            <a href="/login" class="flex min-h-[44px] items-center rounded px-2 font-semibold transition hover:bg-white/10">Entrar</a>
+          )}
+        </div>
+      </nav>
+    </header>
+
+    <!-- ── Barra de navegación inferior (solo móvil) ────────────────────────
+         Primarias: Inicio · Historial · Análisis · Premium. Siempre visibles, al
+         alcance del pulgar. Admin y Salir/Entrar se quedan en la hamburguesa.
+         Se oculta en desktop (md:hidden). Incluye safe-area para notches. ── -->
+    <nav
+      class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-brand-dark text-white shadow-[0_-2px_8px_rgba(0,0,0,0.15)] md:hidden"
+      aria-label="Navegación inferior"
+    >
+      <div class="flex items-stretch justify-around px-1 pb-[env(safe-area-inset-bottom)]">
+        {[
+          { href: "/", key: "dashboard", label: "Inicio", icon: "M3 10.5L12 3l9 7.5M5 9.5V21h5v-6h4v6h5V9.5" },
+          { href: "/history", key: "history", label: "Historial", icon: "M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z" },
+          { href: "/patrones", key: "patrones", label: "Análisis", icon: "M3 12h4l2-6 4 12 2-6h4" },
+          { href: "/premium", key: "premium", label: "Premium", icon: "M12 3l2.35 4.76 5.26.77-3.8 3.7.9 5.24L12 16.25 7.29 17.47l.9-5.24-3.8-3.7 5.26-.77z" },
+        ].map(({ href, key, label, icon }) => (
+          <a
+            href={href}
+            aria-current={active === key ? "page" : undefined}
+            class:list={[
+              "flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[11px] leading-none transition",
+              active === key ? "bg-white/15 font-semibold" : "opacity-80 hover:opacity-100",
+            ]}
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d={icon} />
+            </svg>
+            <span>{label}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+
+    <!-- ── Barra publicitaria sticky (sub-header) ──────────────────────────
+         Visible permanentemente al hacer scroll. Solo usuarios no-premium.
+         En producción muestra el anuncio de AdSense; en dev, placeholder.
+         z-20 → debajo del header (z-30) pero encima del contenido.
+    ──────────────────────────────────────────────────────────────────── -->
+    {(showAds || isDev) && !isPremium && (
+      <div
+        id="ad-subheader"
+        class="sticky top-[60px] z-20 w-full border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-sm"
+        aria-label="Publicidad"
+      >
+        <div class="mx-auto flex max-w-5xl items-center justify-center px-4 py-1">
+          {showAds && adsenseId ? (
+            <div class="w-full overflow-hidden" style="min-height:50px;max-height:90px">
+              <ins
+                class="adsbygoogle"
+                style="display:block;width:100%;height:50px"
+                data-ad-client={adsenseId}
+                data-ad-slot={adSlotBar}
+                data-ad-format="horizontal"
+                data-full-width-responsive="true"
+              />
+              <script is:inline>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
+            </div>
+          ) : (
+            <!-- Placeholder visible en desarrollo -->
+            <div
+              class="flex h-[50px] w-full items-center justify-center rounded border-2 border-dashed border-slate-300 bg-slate-50 text-xs text-slate-400"
+              data-ad-slot={adSlotBar}
+              aria-hidden="true"
+            >
+              📢 Banner publicitario horizontal — slot {adSlotBar}
+              <button
+                id="close-ad-bar"
+                class="ml-3 rounded px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-slate-100"
+                aria-label="Cerrar barra de anuncio"
+                type="button"
+              >✕</button>
+            </div>
+          )}
+          {showAds && (
+            <button
+              id="close-ad-bar"
+              class="ml-2 shrink-0 rounded p-1 text-slate-400 hover:bg-slate-100"
+              aria-label="Cerrar barra de anuncio"
+              type="button"
+              title="Cerrar"
+            >
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+    )}
+
+    <main class="mx-auto max-w-5xl px-4 pb-24 pt-6 md:pb-6">
+      <h1 class="mb-4 text-2xl font-bold">{title}</h1>
+      <slot />
+    </main>
+
+    <footer class="mx-auto max-w-5xl px-4 py-8 text-center text-xs text-slate-400">
+      Loto Honduras Analytics — análisis con fines informativos. Jugar es responsabilidad de cada persona.
+    </footer>
+
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+      // Cerrar barra publicitaria con el botón ✕
+      const closeBtn = document.getElementById('close-ad-bar');
+      const adBar    = document.getElementById('ad-subheader');
+      if (closeBtn && adBar) {
+        closeBtn.addEventListener('click', () => {
+          adBar.style.display = 'none';
+          // Recordar por sesión para no molestar en cada recarga
+          try { sessionStorage.setItem('ad-bar-closed', '1'); } catch {}
+        });
+        // Si ya fue cerrado en esta sesión, ocultar de inmediato
+        try {
+          if (sessionStorage.getItem('ad-bar-closed') === '1') adBar.style.display = 'none';
+        } catch {}
+      }
+    </script>
+    <script is:inline>
+      const btn = document.getElementById('menu-btn');
+      const nav = document.getElementById('mobile-nav');
+      const iconMenu = document.getElementById('icon-menu');
+      const iconClose = document.getElementById('icon-close');
+      if (btn && nav) {
+        btn.addEventListener('click', () => {
+          const open = nav.classList.toggle('hidden');
+          btn.setAttribute('aria-expanded', String(!open));
+          iconMenu.classList.toggle('hidden', !open);
+          iconClose.classList.toggle('hidden', open);
+        });
+        // Cerrar el menú al navegar (mejor UX en móvil)
+        nav.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => {
+            nav.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            iconMenu.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

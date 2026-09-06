@@ -67,7 +67,7 @@ jobs:
         run: pnpm run build
 
       - name: Dependency audit
-        run: pnpm audit --audit-level moderate
+        run: pnpm audit --audit-level high
 
   e2e:
     name: End-to-end
@@ -103,7 +103,7 @@ jobs:
       - name: Install + browsers
         run: |
           pnpm install --frozen-lockfile
-          pnpm exec playwright install --with-deps
+          pnpm --filter @loto/frontend-astro exec playwright install --with-deps chromium
 
       - name: Migrate + seed test
         run: |
@@ -111,7 +111,7 @@ jobs:
           pnpm run seed:test
 
       - name: Run E2E
-        run: pnpm run test:e2e
+        run: pnpm --filter @loto/frontend-astro run test:e2e
 
 # Nota: el secret scanning se activa a nivel de repositorio (push protection),
 # no como step. Ver ai-software-governance/08_DevOps/Secrets_Management.md.

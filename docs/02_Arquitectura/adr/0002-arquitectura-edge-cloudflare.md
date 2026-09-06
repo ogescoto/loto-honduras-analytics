@@ -1,7 +1,7 @@
 ---
 tipo: adr
 estado: aceptado
-actualizado: 2026-06-20
+actualizado: 2026-06-25
 ---
 
 # ADR-0002: Arquitectura edge en Cloudflare
@@ -34,11 +34,12 @@ Usaremos una **arquitectura edge sobre Cloudflare**:
 - (+) Un solo ecosistema (Pages + Workers + cron) reduce la complejidad de despliegue.
 - (−) Restricciones del runtime edge: sin APIs Node completas; las librerías deben ser compatibles con Workers.
 - (−) Acceso a BD vía driver serverless (HTTP/WebSocket), no conexiones TCP persistentes tradicionales.
-- (−) El scraping requiere infraestructura adicional (Scrapoxy) para evitar bloqueos por reputación de IP.
+- (−) La ingestión requiere un proxy rotativo para evitar bloqueos por reputación de IP. *(La decisión sobre proxy e infraestructura de ingestión quedó **superada** por [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]]: la ingestión principal corre en **GitHub Actions** con **WebShare**; este Worker pasa a **respaldo**. La vía Scrapoxy/Decodo se anuló.)*
 - **Impacto en:** todos los módulos backend, el scraper y la capa de datos.
 - **Reversibilidad:** media — migrar a un backend tradicional exigiría reescribir adaptadores de runtime y la capa de conexión a BD.
 
 ## Seguimiento
 - [x] Andamiar `backend-hono`, `scraper-cron` y `client.ts` con driver Neon.
-- [ ] Implementar verificación JWT en el edge (hoy `userId` por query es andamiaje).
-- [ ] Configurar Scrapoxy y el trigger cron reales.
+- [x] Implementar verificación JWT en el edge (`requireAuth` con `hono/jwt`; identidad desde el JWT).
+- [x] Trigger cron real del scraper con fetch + upsert idempotente.
+- [x] Ingestión definida en [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]]: principal en GitHub Actions (WebShare) + endpoint de ingestión; el Worker queda como respaldo. Supersede la ingestión-en-Worker de este ADR y anula la vía Decodo.

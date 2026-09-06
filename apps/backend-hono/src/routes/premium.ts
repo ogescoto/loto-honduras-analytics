@@ -1,14 +1,13 @@
 /**
- * Rutas premium: meta-patrones. Protegidas por suscripción activa y vigente.
+ * Rutas premium: meta-patrones.
+ * El control de acceso (requireAuth + requireActiveSubscription) se aplica
+ * en index.ts sobre el prefijo /api/v1/premium/*.
  */
 import { Hono } from "hono";
 import type { Database } from "../db/client.js";
 import { metaPatterns } from "../db/schema.js";
-import { requireActiveSubscription } from "../middlewares/require-active-subscription.js";
 
 export const premiumRoutes = new Hono<{ Variables: { db: Database } }>();
-
-premiumRoutes.use("*", requireActiveSubscription);
 
 // GET /api/v1/premium/meta-patterns — solo suscriptores vigentes.
 premiumRoutes.get("/meta-patterns", async (c) => {

@@ -1,0 +1,9205 @@
+[
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "3:00 PM",
+    "fecha": "2026-06-25T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "15"
+    ],
+    "signos": [
+      "32",
+      "15"
+    ],
+    "rawScore": [
+      "32",
+      "15"
+    ],
+    "sessionId": "6a3d9751f189b671962eb9ef",
+    "scrapedAt": "2026-06-26T01:59:57.987Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "3:00 PM",
+    "fecha": "2026-06-24T04:00:00.000Z",
+    "numeros": [
+      "14",
+      "95"
+    ],
+    "signos": [
+      "14",
+      "95"
+    ],
+    "rawScore": [
+      "14",
+      "95"
+    ],
+    "sessionId": "6a3c46110e3e68a5a23063db",
+    "scrapedAt": "2026-06-26T01:59:57.987Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-23T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "35"
+    ],
+    "sessionId": "6a3af43b669e522d0476443c",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-22T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "04"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "04"
+    ],
+    "sessionId": "6a39a2dd21b21351e8ab275e",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-21T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "53"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "53"
+    ],
+    "sessionId": "6a38514621b21351e8ab2589",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-20T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "83"
+    ],
+    "sessionId": "6a37006e21b21351e8ab2391",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-19T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "86"
+    ],
+    "sessionId": "6a35ae5221b21351e8ab215a",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-18T04:00:00.000Z",
+    "numeros": [
+      "35",
+      "50"
+    ],
+    "signos": [],
+    "rawScore": [
+      "35",
+      "50"
+    ],
+    "sessionId": "6a345cc121b21351e8ab1f7e",
+    "scrapedAt": "2026-06-23T21:16:59.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-17T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "65"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "65"
+    ],
+    "sessionId": "6a330b5f21b21351e8ab1d79",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-16T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "49"
+    ],
+    "sessionId": "6a31b9d321b21351e8ab1b98",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-15T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "79"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "79"
+    ],
+    "sessionId": "6a30685a21b21351e8ab198f",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-14T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "45"
+    ],
+    "sessionId": "6a2f16cd21b21351e8ab17cd",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-13T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "94"
+    ],
+    "sessionId": "6a2dc5a221b21351e8ab15b9",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-12T04:00:00.000Z",
+    "numeros": [
+      "90",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "90",
+      "93"
+    ],
+    "sessionId": "6a2c73c521b21351e8ab13a8",
+    "scrapedAt": "2026-06-23T21:17:00.833Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-11T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "53"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "53"
+    ],
+    "sessionId": "6a2b26f7d5e8e0174bb8d60c",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-10T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "72"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "72"
+    ],
+    "sessionId": "6a29d120ef3b455b865ef4ae",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-09T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "52"
+    ],
+    "sessionId": "6a287f42ef3b455b865ef3b4",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-08T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "19"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "19"
+    ],
+    "sessionId": "6a272ea5ef3b455b865ef2d9",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-07T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "09"
+    ],
+    "sessionId": "6a25dc61ef3b455b865ef207",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-06T04:00:00.000Z",
+    "numeros": [
+      "04",
+      "59"
+    ],
+    "signos": [],
+    "rawScore": [
+      "04",
+      "59"
+    ],
+    "sessionId": "6a248ac7ef3b455b865ef11e",
+    "scrapedAt": "2026-06-23T21:17:01.931Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-05T04:00:00.000Z",
+    "numeros": [
+      "17",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "17",
+      "81"
+    ],
+    "sessionId": "6a23397cef3b455b865ef016",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-04T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "02"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "02"
+    ],
+    "sessionId": "6a21e7daef3b455b865eef44",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-03T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "72"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "72"
+    ],
+    "sessionId": "6a20966cef3b455b865eee5e",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-02T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "24"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "24"
+    ],
+    "sessionId": "6a1f44c9ef3b455b865eed7a",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-06-01T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "56"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "56"
+    ],
+    "sessionId": "6a1df367ef3b455b865eec90",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-31T04:00:00.000Z",
+    "numeros": [
+      "60",
+      "30"
+    ],
+    "signos": [],
+    "rawScore": [
+      "60",
+      "30"
+    ],
+    "sessionId": "6a1ca1e6ef3b455b865eebb7",
+    "scrapedAt": "2026-06-23T21:17:03.016Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-30T04:00:00.000Z",
+    "numeros": [
+      "64",
+      "95"
+    ],
+    "signos": [],
+    "rawScore": [
+      "64",
+      "95"
+    ],
+    "sessionId": "6a1b50a7ef3b455b865eeae6",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-29T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "99"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "99"
+    ],
+    "sessionId": "6a19fee5ef3b455b865ee9e7",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-28T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "35"
+    ],
+    "sessionId": "6a18ad88ef3b455b865ee918",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-27T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "98"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "98"
+    ],
+    "sessionId": "6a175bc8ef3b455b865ee82e",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-26T04:00:00.000Z",
+    "numeros": [
+      "81",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "81",
+      "49"
+    ],
+    "sessionId": "6a160a62ef3b455b865ee750",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-25T04:00:00.000Z",
+    "numeros": [
+      "46",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "46",
+      "06"
+    ],
+    "sessionId": "6a14b8caef3b455b865ee67b",
+    "scrapedAt": "2026-06-23T21:17:04.101Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-24T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "09"
+    ],
+    "sessionId": "6a13673def3b455b865ee5a4",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-23T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "81"
+    ],
+    "sessionId": "6a121617ef3b455b865ee4cc",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-22T04:00:00.000Z",
+    "numeros": [
+      "64",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "64",
+      "94"
+    ],
+    "sessionId": "6a10c451ef3b455b865ee3b4",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-21T04:00:00.000Z",
+    "numeros": [
+      "24",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "24",
+      "44"
+    ],
+    "sessionId": "6a0f72e0ef3b455b865ee2e0",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-20T04:00:00.000Z",
+    "numeros": [
+      "41",
+      "00"
+    ],
+    "signos": [],
+    "rawScore": [
+      "41",
+      "00"
+    ],
+    "sessionId": "6a0e215423e098ddf49c2408",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-19T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "10"
+    ],
+    "sessionId": "6a0ccfcc23e098ddf49c2320",
+    "scrapedAt": "2026-06-23T21:17:05.185Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-18T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "71"
+    ],
+    "sessionId": "6a0b7e6123e098ddf49c224a",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-17T04:00:00.000Z",
+    "numeros": [
+      "67",
+      "08"
+    ],
+    "signos": [],
+    "rawScore": [
+      "67",
+      "08"
+    ],
+    "sessionId": "6a0a2cd823e098ddf49c216f",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-16T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "00"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "00"
+    ],
+    "sessionId": "6a08db5c23e098ddf49c2097",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-15T04:00:00.000Z",
+    "numeros": [
+      "14",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "14",
+      "14"
+    ],
+    "sessionId": "6a0789e123e098ddf49c1f9f",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-14T04:00:00.000Z",
+    "numeros": [
+      "03",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "03",
+      "75"
+    ],
+    "sessionId": "6a06383b23e098ddf49c1ece",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-13T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "44"
+    ],
+    "sessionId": "6a04e6c823e098ddf49c1dec",
+    "scrapedAt": "2026-06-23T21:17:06.278Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-12T04:00:00.000Z",
+    "numeros": [
+      "60",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "60",
+      "58"
+    ],
+    "sessionId": "6a0395be23e098ddf49c1d25",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-11T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "29"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "29"
+    ],
+    "sessionId": "6a0243be23e098ddf49c1c39",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-10T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "00"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "00"
+    ],
+    "sessionId": "6a00f25423e098ddf49c1b6b",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-09T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "92"
+    ],
+    "sessionId": "69ffa0e123e098ddf49c1a92",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-08T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "97"
+    ],
+    "sessionId": "69fe4f6123e098ddf49c19b3",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-07T04:00:00.000Z",
+    "numeros": [
+      "67",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "67",
+      "86"
+    ],
+    "sessionId": "69fcfde623e098ddf49c18e4",
+    "scrapedAt": "2026-06-23T21:17:07.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-06T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "65"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "65"
+    ],
+    "sessionId": "69fbac363e5e00a089086b2a",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-05T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "86"
+    ],
+    "sessionId": "69fa5ad43e5e00a089086a51",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-04T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "31"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "31"
+    ],
+    "sessionId": "69f90938f23ba37a67bf4f93",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-03T04:00:00.000Z",
+    "numeros": [
+      "96",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "96",
+      "17"
+    ],
+    "sessionId": "69f7b7def23ba37a67bf4ead",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-02T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "18"
+    ],
+    "sessionId": "69f66686f23ba37a67bf4dd7",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-05-01T04:00:00.000Z",
+    "numeros": [
+      "41",
+      "78"
+    ],
+    "signos": [],
+    "rawScore": [
+      "41",
+      "78"
+    ],
+    "sessionId": "69f514c8f23ba37a67bf4cd8",
+    "scrapedAt": "2026-06-23T21:17:08.462Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-30T04:00:00.000Z",
+    "numeros": [
+      "26",
+      "88"
+    ],
+    "signos": [],
+    "rawScore": [
+      "26",
+      "88"
+    ],
+    "sessionId": "69f3c3e6f23ba37a67bf4c2a",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-29T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "61"
+    ],
+    "sessionId": "69f271d7f23ba37a67bf4b3d",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-28T04:00:00.000Z",
+    "numeros": [
+      "06",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "06",
+      "81"
+    ],
+    "sessionId": "69f12058f23ba37a67bf4a5e",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-27T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "86"
+    ],
+    "sessionId": "69efcf4bf23ba37a67bf4992",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-26T04:00:00.000Z",
+    "numeros": [
+      "03",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "03",
+      "86"
+    ],
+    "sessionId": "69ee7d68f23ba37a67bf489d",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-25T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "93"
+    ],
+    "sessionId": "69ed2c55f23ba37a67bf47cc",
+    "scrapedAt": "2026-06-23T21:17:09.549Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-24T04:00:00.000Z",
+    "numeros": [
+      "40",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "40",
+      "63"
+    ],
+    "sessionId": "69ebda4bf23ba37a67bf46c0",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-23T04:00:00.000Z",
+    "numeros": [
+      "17",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "17",
+      "55"
+    ],
+    "sessionId": "69ea8953f23ba37a67bf4601",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-22T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "45"
+    ],
+    "sessionId": "69e93749f23ba37a67bf450e",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-21T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "84"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "84"
+    ],
+    "sessionId": "69e7e5d7f23ba37a67bf4441",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-20T04:00:00.000Z",
+    "numeros": [
+      "53",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "53",
+      "67"
+    ],
+    "sessionId": "69e69441f23ba37a67bf436a",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-19T04:00:00.000Z",
+    "numeros": [
+      "17",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "17",
+      "23"
+    ],
+    "sessionId": "69e542bcf23ba37a67bf4289",
+    "scrapedAt": "2026-06-23T21:17:10.634Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-18T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "36"
+    ],
+    "sessionId": "69e3f4c4f23ba37a67bf41c3",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-17T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "21"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "21"
+    ],
+    "sessionId": "69e2a051f23ba37a67bf40af",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-16T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "39"
+    ],
+    "sessionId": "69e14e49f23ba37a67bf3fd2",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-15T04:00:00.000Z",
+    "numeros": [
+      "92",
+      "77"
+    ],
+    "signos": [],
+    "rawScore": [
+      "92",
+      "77"
+    ],
+    "sessionId": "69dffcd3f23ba37a67bf3ef2",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-14T04:00:00.000Z",
+    "numeros": [
+      "41",
+      "01"
+    ],
+    "signos": [],
+    "rawScore": [
+      "41",
+      "01"
+    ],
+    "sessionId": "69deab41f23ba37a67bf3e16",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-13T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "70"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "70"
+    ],
+    "sessionId": "69dd59ddf23ba37a67bf3d38",
+    "scrapedAt": "2026-06-23T21:17:11.719Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-12T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "40"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "40"
+    ],
+    "sessionId": "69dc0842f23ba37a67bf3c46",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-11T04:00:00.000Z",
+    "numeros": [
+      "94",
+      "76"
+    ],
+    "signos": [],
+    "rawScore": [
+      "94",
+      "76"
+    ],
+    "sessionId": "69dab6d4f23ba37a67bf3b6e",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-10T04:00:00.000Z",
+    "numeros": [
+      "14",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "14",
+      "27"
+    ],
+    "sessionId": "69d96558f23ba37a67bf3a47",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-09T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "03"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "03"
+    ],
+    "sessionId": "69d813c0f23ba37a67bf396d",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-08T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "26"
+    ],
+    "sessionId": "69d6c28929347c6abf49415d",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-07T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "39"
+    ],
+    "sessionId": "69d570d629347c6abf494086",
+    "scrapedAt": "2026-06-23T21:17:12.811Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-06T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "95"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "95"
+    ],
+    "sessionId": "69d41f5829347c6abf493fac",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-05T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "80"
+    ],
+    "sessionId": "69d2cdd529347c6abf493ed7",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-04T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "33"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "33"
+    ],
+    "sessionId": "69d17c5229347c6abf493def",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-03T04:00:00.000Z",
+    "numeros": [
+      "35",
+      "31"
+    ],
+    "signos": [],
+    "rawScore": [
+      "35",
+      "31"
+    ],
+    "sessionId": "69d02adc29347c6abf493d21",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-02T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "67"
+    ],
+    "sessionId": "69ced98229347c6abf493c6f",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-04-01T04:00:00.000Z",
+    "numeros": [
+      "97",
+      "00"
+    ],
+    "signos": [],
+    "rawScore": [
+      "97",
+      "00"
+    ],
+    "sessionId": "69cd87c229347c6abf493bba",
+    "scrapedAt": "2026-06-23T21:17:13.913Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-31T04:00:00.000Z",
+    "numeros": [
+      "69",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "69",
+      "06"
+    ],
+    "sessionId": "69cc364d29347c6abf493ad7",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-30T04:00:00.000Z",
+    "numeros": [
+      "79",
+      "21"
+    ],
+    "signos": [],
+    "rawScore": [
+      "79",
+      "21"
+    ],
+    "sessionId": "69cae4d329347c6abf493a02",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-29T04:00:00.000Z",
+    "numeros": [
+      "46",
+      "13"
+    ],
+    "signos": [],
+    "rawScore": [
+      "46",
+      "13"
+    ],
+    "sessionId": "69c9936429347c6abf493915",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-28T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "52"
+    ],
+    "sessionId": "69c842b529347c6abf493842",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-27T04:00:00.000Z",
+    "numeros": [
+      "95",
+      "68"
+    ],
+    "signos": [],
+    "rawScore": [
+      "95",
+      "68"
+    ],
+    "sessionId": "69c6f05229347c6abf49374d",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-26T04:00:00.000Z",
+    "numeros": [
+      "04",
+      "19"
+    ],
+    "signos": [],
+    "rawScore": [
+      "04",
+      "19"
+    ],
+    "sessionId": "69c59ec229347c6abf493679",
+    "scrapedAt": "2026-06-23T21:17:15.007Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-25T04:00:00.000Z",
+    "numeros": [
+      "79",
+      "33"
+    ],
+    "signos": [],
+    "rawScore": [
+      "79",
+      "33"
+    ],
+    "sessionId": "69c44e9929347c6abf4935a4",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-24T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "02"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "02"
+    ],
+    "sessionId": "69c2fbbb29347c6abf4934a0",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-23T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "27"
+    ],
+    "sessionId": "69c1aa4629347c6abf4933c4",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-22T04:00:00.000Z",
+    "numeros": [
+      "43",
+      "30"
+    ],
+    "signos": [],
+    "rawScore": [
+      "43",
+      "30"
+    ],
+    "sessionId": "69c058e229347c6abf4932f2",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-21T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "91"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "91"
+    ],
+    "sessionId": "69bf07a229347c6abf49321c",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-20T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "25"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "25"
+    ],
+    "sessionId": "69bdb5d86fb36783a49964c5",
+    "scrapedAt": "2026-06-23T21:17:16.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-19T04:00:00.000Z",
+    "numeros": [
+      "17",
+      "53"
+    ],
+    "signos": [],
+    "rawScore": [
+      "17",
+      "53"
+    ],
+    "sessionId": "69bc64686fb36783a49963ec",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-18T04:00:00.000Z",
+    "numeros": [
+      "23",
+      "72"
+    ],
+    "signos": [],
+    "rawScore": [
+      "23",
+      "72"
+    ],
+    "sessionId": "69bb12f26fb36783a499630f",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-17T04:00:00.000Z",
+    "numeros": [
+      "58",
+      "21"
+    ],
+    "signos": [],
+    "rawScore": [
+      "58",
+      "21"
+    ],
+    "sessionId": "69b9c1456fb36783a4996229",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-16T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "94"
+    ],
+    "sessionId": "69b87004acd36ee67a75e86f",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-15T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "41"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "41"
+    ],
+    "sessionId": "69b71e7aacd36ee67a75e782",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-14T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "01"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "01"
+    ],
+    "sessionId": "69b5ccfdacd36ee67a75e69a",
+    "scrapedAt": "2026-06-23T21:17:17.201Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-13T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "36"
+    ],
+    "sessionId": "69b47b69acd36ee67a75e579",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-12T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "15"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "15"
+    ],
+    "sessionId": "69b329e46104ed466933c676",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-11T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "92"
+    ],
+    "sessionId": "69b1d85a6104ed466933c594",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-10T04:00:00.000Z",
+    "numeros": [
+      "28",
+      "64"
+    ],
+    "signos": [],
+    "rawScore": [
+      "28",
+      "64"
+    ],
+    "sessionId": "69b086ca6104ed466933c4b6",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-09T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "26"
+    ],
+    "sessionId": "69af354e38687115a1148544",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-08T04:00:00.000Z",
+    "numeros": [
+      "10",
+      "42"
+    ],
+    "signos": [],
+    "rawScore": [
+      "10",
+      "42"
+    ],
+    "sessionId": "69ade4e46104ed466933c2fb",
+    "scrapedAt": "2026-06-23T21:17:18.294Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-07T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "49"
+    ],
+    "sessionId": "69ac92936104ed466933c201",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-06T04:00:00.000Z",
+    "numeros": [
+      "83",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "83",
+      "44"
+    ],
+    "sessionId": "69ab40ef6104ed466933c0ed",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-05T04:00:00.000Z",
+    "numeros": [
+      "21",
+      "40"
+    ],
+    "signos": [],
+    "rawScore": [
+      "21",
+      "40"
+    ],
+    "sessionId": "69a9ef716104ed466933c052",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-04T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "84"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "84"
+    ],
+    "sessionId": "69a89dc96104ed466933bff4",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-03T04:00:00.000Z",
+    "numeros": [
+      "81",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "81",
+      "45"
+    ],
+    "sessionId": "69a74c516104ed466933bfa6",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-02T04:00:00.000Z",
+    "numeros": [
+      "05",
+      "98"
+    ],
+    "signos": [],
+    "rawScore": [
+      "05",
+      "98"
+    ],
+    "sessionId": "69a5fad96104ed466933bf45",
+    "scrapedAt": "2026-06-23T21:17:19.388Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-03-01T04:00:00.000Z",
+    "numeros": [
+      "35",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "35",
+      "18"
+    ],
+    "sessionId": "69a4a9716104ed466933bef2",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-28T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "08"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "08"
+    ],
+    "sessionId": "69a358b26104ed466933be9c",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-27T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "72"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "72"
+    ],
+    "sessionId": "69a206e76104ed466933be52",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-26T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "59"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "59"
+    ],
+    "sessionId": "69a0b4dea11f97758bf66475",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-25T04:00:00.000Z",
+    "numeros": [
+      "69",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "69",
+      "39"
+    ],
+    "sessionId": "699f635ec8311657b61d7dd8",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-24T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "22"
+    ],
+    "sessionId": "699e11bbc8311657b61d7d80",
+    "scrapedAt": "2026-06-23T21:17:20.485Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-23T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "75"
+    ],
+    "sessionId": "699cc045c8311657b61d7d2d",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-22T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "68"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "68"
+    ],
+    "sessionId": "699b6ebac8311657b61d7cdb",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-21T04:00:00.000Z",
+    "numeros": [
+      "78",
+      "21"
+    ],
+    "signos": [],
+    "rawScore": [
+      "78",
+      "21"
+    ],
+    "sessionId": "699a1dcec8311657b61d7c87",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-20T04:00:00.000Z",
+    "numeros": [
+      "83",
+      "43"
+    ],
+    "signos": [],
+    "rawScore": [
+      "83",
+      "43"
+    ],
+    "sessionId": "6998cc8fc8311657b61d7c3a",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-19T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "52"
+    ],
+    "sessionId": "69977a59a318923ce0b0a700",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-18T04:00:00.000Z",
+    "numeros": [
+      "43",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "43",
+      "35"
+    ],
+    "sessionId": "699628dda318923ce0b0a6ae",
+    "scrapedAt": "2026-06-23T21:17:21.577Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-17T04:00:00.000Z",
+    "numeros": [
+      "39",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "39",
+      "61"
+    ],
+    "sessionId": "6994d76408916d31882362c5",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-16T04:00:00.000Z",
+    "numeros": [
+      "93",
+      "46"
+    ],
+    "signos": [],
+    "rawScore": [
+      "93",
+      "46"
+    ],
+    "sessionId": "69943be963e6325ee125706f",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-15T04:00:00.000Z",
+    "numeros": [
+      "97",
+      "01"
+    ],
+    "signos": [],
+    "rawScore": [
+      "97",
+      "01"
+    ],
+    "sessionId": "69943be963e6325ee125706d",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-14T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "41"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "41"
+    ],
+    "sessionId": "69943be963e6325ee125706b",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-13T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "09"
+    ],
+    "sessionId": "69943be963e6325ee1257069",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-12T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "26"
+    ],
+    "sessionId": "69943be963e6325ee1257067",
+    "scrapedAt": "2026-06-23T21:17:22.668Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-11T04:00:00.000Z",
+    "numeros": [
+      "40",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "40",
+      "18"
+    ],
+    "sessionId": "69943be963e6325ee1257065",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-10T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "39"
+    ],
+    "sessionId": "69943be963e6325ee1257063",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-09T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "90"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "90"
+    ],
+    "sessionId": "69943be963e6325ee1257061",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-08T04:00:00.000Z",
+    "numeros": [
+      "59",
+      "82"
+    ],
+    "signos": [],
+    "rawScore": [
+      "59",
+      "82"
+    ],
+    "sessionId": "69943be963e6325ee125705f",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-07T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "36"
+    ],
+    "sessionId": "69943be963e6325ee125705d",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-06T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "92"
+    ],
+    "sessionId": "69943be963e6325ee125705b",
+    "scrapedAt": "2026-06-23T21:17:23.765Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-05T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "95"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "95"
+    ],
+    "sessionId": "69943be963e6325ee1257059",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-04T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "56"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "56"
+    ],
+    "sessionId": "69943be963e6325ee1257057",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-03T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "83"
+    ],
+    "sessionId": "69943be963e6325ee1257055",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-02T04:00:00.000Z",
+    "numeros": [
+      "73",
+      "21"
+    ],
+    "signos": [],
+    "rawScore": [
+      "73",
+      "21"
+    ],
+    "sessionId": "69943be963e6325ee1257053",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-02-01T04:00:00.000Z",
+    "numeros": [
+      "24",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "24",
+      "11"
+    ],
+    "sessionId": "69943be963e6325ee1257051",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-31T04:00:00.000Z",
+    "numeros": [
+      "14",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "14",
+      "96"
+    ],
+    "sessionId": "69943be963e6325ee125704f",
+    "scrapedAt": "2026-06-23T21:17:24.867Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-30T04:00:00.000Z",
+    "numeros": [
+      "72",
+      "38"
+    ],
+    "signos": [],
+    "rawScore": [
+      "72",
+      "38"
+    ],
+    "sessionId": "69943be963e6325ee125704d",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-29T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "93"
+    ],
+    "sessionId": "69943be963e6325ee125704b",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-28T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "92"
+    ],
+    "sessionId": "69943be963e6325ee1257049",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-27T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "34"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "34"
+    ],
+    "sessionId": "69943be963e6325ee1257047",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-26T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "66"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "66"
+    ],
+    "sessionId": "69943be963e6325ee1257045",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-25T04:00:00.000Z",
+    "numeros": [
+      "72",
+      "30"
+    ],
+    "signos": [],
+    "rawScore": [
+      "72",
+      "30"
+    ],
+    "sessionId": "69943be963e6325ee1257043",
+    "scrapedAt": "2026-06-23T21:17:25.950Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-24T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "18"
+    ],
+    "sessionId": "69943be963e6325ee1257041",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-23T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "36"
+    ],
+    "sessionId": "69943be963e6325ee125703f",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-22T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "51"
+    ],
+    "sessionId": "69943be963e6325ee125703d",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-21T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "34"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "34"
+    ],
+    "sessionId": "69943be963e6325ee125703b",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-20T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "75"
+    ],
+    "sessionId": "69943be963e6325ee1257039",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-19T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "22"
+    ],
+    "sessionId": "69943be963e6325ee1257037",
+    "scrapedAt": "2026-06-23T21:17:27.066Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-18T04:00:00.000Z",
+    "numeros": [
+      "94",
+      "03"
+    ],
+    "signos": [],
+    "rawScore": [
+      "94",
+      "03"
+    ],
+    "sessionId": "69943be963e6325ee1257035",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-17T04:00:00.000Z",
+    "numeros": [
+      "59",
+      "16"
+    ],
+    "signos": [],
+    "rawScore": [
+      "59",
+      "16"
+    ],
+    "sessionId": "69943be963e6325ee1257033",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-16T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "28"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "28"
+    ],
+    "sessionId": "69943be963e6325ee1257031",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-15T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "69"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "69"
+    ],
+    "sessionId": "69943be963e6325ee125702f",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-14T04:00:00.000Z",
+    "numeros": [
+      "64",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "64",
+      "06"
+    ],
+    "sessionId": "69943be963e6325ee125702d",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-13T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "58"
+    ],
+    "sessionId": "69943be963e6325ee125702b",
+    "scrapedAt": "2026-06-23T21:17:28.174Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-12T04:00:00.000Z",
+    "numeros": [
+      "40",
+      "40"
+    ],
+    "signos": [],
+    "rawScore": [
+      "40",
+      "40"
+    ],
+    "sessionId": "69943be963e6325ee1257029",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-11T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "32"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "32"
+    ],
+    "sessionId": "69943be963e6325ee1257027",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-10T04:00:00.000Z",
+    "numeros": [
+      "13",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "13",
+      "71"
+    ],
+    "sessionId": "69943be963e6325ee1257025",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-09T04:00:00.000Z",
+    "numeros": [
+      "82",
+      "57"
+    ],
+    "signos": [],
+    "rawScore": [
+      "82",
+      "57"
+    ],
+    "sessionId": "69943be963e6325ee1257023",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-08T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "67"
+    ],
+    "sessionId": "69943be963e6325ee1257021",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-07T04:00:00.000Z",
+    "numeros": [
+      "53",
+      "78"
+    ],
+    "signos": [],
+    "rawScore": [
+      "53",
+      "78"
+    ],
+    "sessionId": "69943be963e6325ee125701f",
+    "scrapedAt": "2026-06-23T21:17:29.273Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-06T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "35"
+    ],
+    "sessionId": "69943be963e6325ee125701d",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-05T04:00:00.000Z",
+    "numeros": [
+      "16",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "16",
+      "54"
+    ],
+    "sessionId": "69943be963e6325ee125701b",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-04T04:00:00.000Z",
+    "numeros": [
+      "10",
+      "98"
+    ],
+    "signos": [],
+    "rawScore": [
+      "10",
+      "98"
+    ],
+    "sessionId": "69943be963e6325ee1257019",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-03T04:00:00.000Z",
+    "numeros": [
+      "46",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "46",
+      "26"
+    ],
+    "sessionId": "69943be963e6325ee1257017",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-02T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "92"
+    ],
+    "sessionId": "69943be963e6325ee1257015",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2026-01-01T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "39"
+    ],
+    "sessionId": "69943be963e6325ee1257013",
+    "scrapedAt": "2026-06-23T21:17:30.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-31T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "51"
+    ],
+    "sessionId": "69943be963e6325ee1257011",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-30T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "63"
+    ],
+    "sessionId": "69943be963e6325ee125700f",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-29T04:00:00.000Z",
+    "numeros": [
+      "06",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "06",
+      "23"
+    ],
+    "sessionId": "69943be963e6325ee125700d",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-28T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "23"
+    ],
+    "sessionId": "69943be963e6325ee125700b",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-27T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "39"
+    ],
+    "sessionId": "69943be963e6325ee1257009",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-26T04:00:00.000Z",
+    "numeros": [
+      "97",
+      "25"
+    ],
+    "signos": [],
+    "rawScore": [
+      "97",
+      "25"
+    ],
+    "sessionId": "69943be963e6325ee1257007",
+    "scrapedAt": "2026-06-23T21:17:31.467Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-25T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "61"
+    ],
+    "sessionId": "69943be963e6325ee1257005",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-24T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "12"
+    ],
+    "sessionId": "69943be963e6325ee1257003",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-23T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "29"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "29"
+    ],
+    "sessionId": "69943be963e6325ee1257001",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-22T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "77"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "77"
+    ],
+    "sessionId": "69943be963e6325ee1256fff",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-21T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "91"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "91"
+    ],
+    "sessionId": "69943be963e6325ee1256ffd",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-20T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "09"
+    ],
+    "sessionId": "69943be963e6325ee1256ffb",
+    "scrapedAt": "2026-06-23T21:17:32.572Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-19T04:00:00.000Z",
+    "numeros": [
+      "39",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "39",
+      "44"
+    ],
+    "sessionId": "69943be963e6325ee1256ff9",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-18T04:00:00.000Z",
+    "numeros": [
+      "72",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "72",
+      "14"
+    ],
+    "sessionId": "69943be963e6325ee1256ff7",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-17T04:00:00.000Z",
+    "numeros": [
+      "93",
+      "05"
+    ],
+    "signos": [],
+    "rawScore": [
+      "93",
+      "05"
+    ],
+    "sessionId": "69943be963e6325ee1256ff5",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-16T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "06"
+    ],
+    "sessionId": "69943be963e6325ee1256ff3",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-15T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "71"
+    ],
+    "sessionId": "69943be963e6325ee1256ff1",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-14T04:00:00.000Z",
+    "numeros": [
+      "26",
+      "25"
+    ],
+    "signos": [],
+    "rawScore": [
+      "26",
+      "25"
+    ],
+    "sessionId": "69943be963e6325ee1256fef",
+    "scrapedAt": "2026-06-23T21:17:33.677Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-13T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "16"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "16"
+    ],
+    "sessionId": "69943be963e6325ee1256fed",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-12T04:00:00.000Z",
+    "numeros": [
+      "05",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "05",
+      "54"
+    ],
+    "sessionId": "69943be963e6325ee1256feb",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-11T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "35"
+    ],
+    "sessionId": "69943be963e6325ee1256fe9",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-10T04:00:00.000Z",
+    "numeros": [
+      "79",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "79",
+      "36"
+    ],
+    "sessionId": "69943be963e6325ee1256fe7",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-09T04:00:00.000Z",
+    "numeros": [
+      "23",
+      "38"
+    ],
+    "signos": [],
+    "rawScore": [
+      "23",
+      "38"
+    ],
+    "sessionId": "69943be963e6325ee1256fe5",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-08T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "49"
+    ],
+    "sessionId": "69943be963e6325ee1256fe3",
+    "scrapedAt": "2026-06-23T21:17:34.761Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-07T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "44"
+    ],
+    "sessionId": "69943be963e6325ee1256fe1",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-06T04:00:00.000Z",
+    "numeros": [
+      "78",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "78",
+      "74"
+    ],
+    "sessionId": "69943be963e6325ee1256fdf",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-05T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "09"
+    ],
+    "sessionId": "69943be963e6325ee1256fdd",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-04T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "50"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "50"
+    ],
+    "sessionId": "69943be963e6325ee1256fdb",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-03T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "24"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "24"
+    ],
+    "sessionId": "69943be963e6325ee1256fd9",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-02T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "62"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "62"
+    ],
+    "sessionId": "69943be963e6325ee1256fd7",
+    "scrapedAt": "2026-06-23T21:17:35.869Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-12-01T04:00:00.000Z",
+    "numeros": [
+      "91",
+      "65"
+    ],
+    "signos": [],
+    "rawScore": [
+      "91",
+      "65"
+    ],
+    "sessionId": "69943be963e6325ee1256fd5",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-30T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "17"
+    ],
+    "sessionId": "69943be963e6325ee1256fd3",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-29T04:00:00.000Z",
+    "numeros": [
+      "28",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "28",
+      "83"
+    ],
+    "sessionId": "69943be963e6325ee1256fd1",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-28T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "18"
+    ],
+    "sessionId": "69943be963e6325ee1256fcf",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-27T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "29"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "29"
+    ],
+    "sessionId": "69943be963e6325ee1256fcd",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-26T04:00:00.000Z",
+    "numeros": [
+      "86",
+      "78"
+    ],
+    "signos": [],
+    "rawScore": [
+      "86",
+      "78"
+    ],
+    "sessionId": "69943be963e6325ee1256fcb",
+    "scrapedAt": "2026-06-23T21:17:36.951Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-25T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "96"
+    ],
+    "sessionId": "69943be963e6325ee1256fc9",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-24T04:00:00.000Z",
+    "numeros": [
+      "91",
+      "77"
+    ],
+    "signos": [],
+    "rawScore": [
+      "91",
+      "77"
+    ],
+    "sessionId": "69943be963e6325ee1256fc7",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-23T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "42"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "42"
+    ],
+    "sessionId": "69943be963e6325ee1256fc5",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-22T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "63"
+    ],
+    "sessionId": "69943be963e6325ee1256fc3",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-21T04:00:00.000Z",
+    "numeros": [
+      "04",
+      "69"
+    ],
+    "signos": [],
+    "rawScore": [
+      "04",
+      "69"
+    ],
+    "sessionId": "69943be963e6325ee1256fc1",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-20T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "74"
+    ],
+    "sessionId": "69943be963e6325ee1256fbf",
+    "scrapedAt": "2026-06-23T21:17:38.044Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-19T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "20"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "20"
+    ],
+    "sessionId": "69943be963e6325ee1256fbd",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-18T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "82"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "82"
+    ],
+    "sessionId": "69943be963e6325ee1256fbb",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-17T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "26"
+    ],
+    "sessionId": "69943be963e6325ee1256fb9",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-16T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "73"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "73"
+    ],
+    "sessionId": "69943be963e6325ee1256fb7",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-15T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "94"
+    ],
+    "sessionId": "69943be963e6325ee1256fb5",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-14T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "03"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "03"
+    ],
+    "sessionId": "69943be963e6325ee1256fb3",
+    "scrapedAt": "2026-06-23T21:17:39.144Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-13T04:00:00.000Z",
+    "numeros": [
+      "77",
+      "60"
+    ],
+    "signos": [],
+    "rawScore": [
+      "77",
+      "60"
+    ],
+    "sessionId": "69943be963e6325ee1256fb1",
+    "scrapedAt": "2026-06-23T21:17:40.291Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-12T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "75"
+    ],
+    "sessionId": "69943be963e6325ee1256faf",
+    "scrapedAt": "2026-06-23T21:17:40.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-11T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "79"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "79"
+    ],
+    "sessionId": "69943be963e6325ee1256fad",
+    "scrapedAt": "2026-06-23T21:17:40.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-10T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "69"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "69"
+    ],
+    "sessionId": "69943be963e6325ee1256fab",
+    "scrapedAt": "2026-06-23T21:17:40.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-09T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "64"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "64"
+    ],
+    "sessionId": "69943be963e6325ee1256fa9",
+    "scrapedAt": "2026-06-23T21:17:40.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-08T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "79"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "79"
+    ],
+    "sessionId": "69943be963e6325ee1256fa7",
+    "scrapedAt": "2026-06-23T21:17:40.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-07T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "50"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "50"
+    ],
+    "sessionId": "69943be963e6325ee1256fa5",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-06T04:00:00.000Z",
+    "numeros": [
+      "18",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "18",
+      "52"
+    ],
+    "sessionId": "69943be963e6325ee1256fa3",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-05T04:00:00.000Z",
+    "numeros": [
+      "23",
+      "99"
+    ],
+    "signos": [],
+    "rawScore": [
+      "23",
+      "99"
+    ],
+    "sessionId": "69943be963e6325ee1256fa1",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-04T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "12"
+    ],
+    "sessionId": "69943be963e6325ee1256f9f",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-03T04:00:00.000Z",
+    "numeros": [
+      "59",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "59",
+      "55"
+    ],
+    "sessionId": "69943be963e6325ee1256f9d",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-02T04:00:00.000Z",
+    "numeros": [
+      "90",
+      "37"
+    ],
+    "signos": [],
+    "rawScore": [
+      "90",
+      "37"
+    ],
+    "sessionId": "69943be963e6325ee1256f9b",
+    "scrapedAt": "2026-06-23T21:17:41.380Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-11-01T04:00:00.000Z",
+    "numeros": [
+      "27",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "27",
+      "10"
+    ],
+    "sessionId": "69943be963e6325ee1256f99",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-31T04:00:00.000Z",
+    "numeros": [
+      "39",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "39",
+      "11"
+    ],
+    "sessionId": "69943be963e6325ee1256f97",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-30T04:00:00.000Z",
+    "numeros": [
+      "82",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "82",
+      "94"
+    ],
+    "sessionId": "69943be963e6325ee1256f95",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-29T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "05"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "05"
+    ],
+    "sessionId": "69943be963e6325ee1256f93",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-28T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "71"
+    ],
+    "sessionId": "69943be963e6325ee1256f91",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-27T04:00:00.000Z",
+    "numeros": [
+      "43",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "43",
+      "26"
+    ],
+    "sessionId": "69943be963e6325ee1256f8f",
+    "scrapedAt": "2026-06-23T21:17:42.476Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-26T04:00:00.000Z",
+    "numeros": [
+      "14",
+      "13"
+    ],
+    "signos": [],
+    "rawScore": [
+      "14",
+      "13"
+    ],
+    "sessionId": "69943be963e6325ee1256f8d",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-25T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "99"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "99"
+    ],
+    "sessionId": "69943be963e6325ee1256f8b",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-24T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "60"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "60"
+    ],
+    "sessionId": "69943be963e6325ee1256f89",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-23T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "11"
+    ],
+    "sessionId": "69943be963e6325ee1256f87",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-22T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "27"
+    ],
+    "sessionId": "69943be963e6325ee1256f85",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-21T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "43"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "43"
+    ],
+    "sessionId": "69943be963e6325ee1256f83",
+    "scrapedAt": "2026-06-23T21:17:43.566Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-20T04:00:00.000Z",
+    "numeros": [
+      "83",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "83",
+      "80"
+    ],
+    "sessionId": "69943be963e6325ee1256f81",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-19T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "39"
+    ],
+    "sessionId": "69943be963e6325ee1256f7f",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-18T04:00:00.000Z",
+    "numeros": [
+      "29",
+      "31"
+    ],
+    "signos": [],
+    "rawScore": [
+      "29",
+      "31"
+    ],
+    "sessionId": "69943be963e6325ee1256f7d",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-17T04:00:00.000Z",
+    "numeros": [
+      "74",
+      "65"
+    ],
+    "signos": [],
+    "rawScore": [
+      "74",
+      "65"
+    ],
+    "sessionId": "69943be963e6325ee1256f7b",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-16T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "22"
+    ],
+    "sessionId": "69943be963e6325ee1256f79",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-15T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "71"
+    ],
+    "sessionId": "69943be863e6325ee1256f77",
+    "scrapedAt": "2026-06-23T21:17:44.660Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-14T04:00:00.000Z",
+    "numeros": [
+      "17",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "17",
+      "86"
+    ],
+    "sessionId": "69943be863e6325ee1256f75",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-13T04:00:00.000Z",
+    "numeros": [
+      "44",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "44",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256f73",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-12T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "73"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "73"
+    ],
+    "sessionId": "69943be863e6325ee1256f71",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-11T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "73"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "73"
+    ],
+    "sessionId": "69943be863e6325ee1256f6f",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-10T04:00:00.000Z",
+    "numeros": [
+      "92",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "92",
+      "11"
+    ],
+    "sessionId": "69943be863e6325ee1256f6d",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-09T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "14"
+    ],
+    "sessionId": "69943be863e6325ee1256f6b",
+    "scrapedAt": "2026-06-23T21:17:45.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-08T04:00:00.000Z",
+    "numeros": [
+      "92",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "92",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256f69",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-07T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256f67",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-06T04:00:00.000Z",
+    "numeros": [
+      "44",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "44",
+      "96"
+    ],
+    "sessionId": "69943be863e6325ee1256f65",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-05T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "81"
+    ],
+    "sessionId": "69943be863e6325ee1256f63",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-04T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "08"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "08"
+    ],
+    "sessionId": "69943be863e6325ee1256f61",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-03T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "93"
+    ],
+    "sessionId": "69943be863e6325ee1256f5f",
+    "scrapedAt": "2026-06-23T21:17:46.823Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-02T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "92"
+    ],
+    "sessionId": "69943be863e6325ee1256f5d",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-10-01T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "72"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "72"
+    ],
+    "sessionId": "69943be863e6325ee1256f5b",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-30T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "08"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "08"
+    ],
+    "sessionId": "69943be863e6325ee1256f59",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-29T04:00:00.000Z",
+    "numeros": [
+      "05",
+      "76"
+    ],
+    "signos": [],
+    "rawScore": [
+      "05",
+      "76"
+    ],
+    "sessionId": "69943be863e6325ee1256f57",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-28T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "91"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "91"
+    ],
+    "sessionId": "69943be863e6325ee1256f55",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-27T04:00:00.000Z",
+    "numeros": [
+      "46",
+      "20"
+    ],
+    "signos": [],
+    "rawScore": [
+      "46",
+      "20"
+    ],
+    "sessionId": "69943be863e6325ee1256f53",
+    "scrapedAt": "2026-06-23T21:17:47.921Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-26T04:00:00.000Z",
+    "numeros": [
+      "82",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "82",
+      "74"
+    ],
+    "sessionId": "69943be863e6325ee1256f51",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-25T04:00:00.000Z",
+    "numeros": [
+      "73",
+      "34"
+    ],
+    "signos": [],
+    "rawScore": [
+      "73",
+      "34"
+    ],
+    "sessionId": "69943be863e6325ee1256f4f",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-24T04:00:00.000Z",
+    "numeros": [
+      "73",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "73",
+      "58"
+    ],
+    "sessionId": "69943be863e6325ee1256f4d",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-23T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "55"
+    ],
+    "sessionId": "69943be863e6325ee1256f4b",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-22T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "57"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "57"
+    ],
+    "sessionId": "69943be863e6325ee1256f49",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-21T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "52"
+    ],
+    "sessionId": "69943be863e6325ee1256f47",
+    "scrapedAt": "2026-06-23T21:17:49.006Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-20T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "17"
+    ],
+    "sessionId": "69943be863e6325ee1256f45",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-19T04:00:00.000Z",
+    "numeros": [
+      "74",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "74",
+      "10"
+    ],
+    "sessionId": "69943be863e6325ee1256f43",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-18T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "48"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "48"
+    ],
+    "sessionId": "69943be863e6325ee1256f41",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-17T04:00:00.000Z",
+    "numeros": [
+      "82",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "82",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256f3f",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-16T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "32"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "32"
+    ],
+    "sessionId": "69943be863e6325ee1256f3d",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-15T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256f3b",
+    "scrapedAt": "2026-06-23T21:17:50.097Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-14T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "68"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "68"
+    ],
+    "sessionId": "69943be863e6325ee1256f39",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-13T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256f37",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-12T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "80"
+    ],
+    "sessionId": "69943be863e6325ee1256f35",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-11T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "17"
+    ],
+    "sessionId": "69943be863e6325ee1256f33",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-10T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "87"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "87"
+    ],
+    "sessionId": "69943be863e6325ee1256f31",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-09T04:00:00.000Z",
+    "numeros": [
+      "21",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "21",
+      "26"
+    ],
+    "sessionId": "69943be863e6325ee1256f2f",
+    "scrapedAt": "2026-06-23T21:17:51.182Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-08T04:00:00.000Z",
+    "numeros": [
+      "23",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "23",
+      "51"
+    ],
+    "sessionId": "69943be863e6325ee1256f2d",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-07T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "14"
+    ],
+    "sessionId": "69943be863e6325ee1256f2b",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-06T04:00:00.000Z",
+    "numeros": [
+      "50",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "50",
+      "92"
+    ],
+    "sessionId": "69943be863e6325ee1256f29",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-05T04:00:00.000Z",
+    "numeros": [
+      "41",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "41",
+      "39"
+    ],
+    "sessionId": "69943be863e6325ee1256f27",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-04T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "70"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "70"
+    ],
+    "sessionId": "69943be863e6325ee1256f25",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-03T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "96"
+    ],
+    "sessionId": "69943be863e6325ee1256f23",
+    "scrapedAt": "2026-06-23T21:17:52.272Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-02T04:00:00.000Z",
+    "numeros": [
+      "72",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "72",
+      "12"
+    ],
+    "sessionId": "69943be863e6325ee1256f21",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-09-01T04:00:00.000Z",
+    "numeros": [
+      "29",
+      "16"
+    ],
+    "signos": [],
+    "rawScore": [
+      "29",
+      "16"
+    ],
+    "sessionId": "69943be863e6325ee1256f1f",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-31T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "18"
+    ],
+    "sessionId": "69943be863e6325ee1256f1d",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-30T04:00:00.000Z",
+    "numeros": [
+      "39",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "39",
+      "54"
+    ],
+    "sessionId": "69943be863e6325ee1256f1b",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-29T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256f19",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-28T04:00:00.000Z",
+    "numeros": [
+      "09",
+      "31"
+    ],
+    "signos": [],
+    "rawScore": [
+      "09",
+      "31"
+    ],
+    "sessionId": "69943be863e6325ee1256f17",
+    "scrapedAt": "2026-06-23T21:17:53.370Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-27T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "41"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "41"
+    ],
+    "sessionId": "69943be863e6325ee1256f15",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-26T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "47"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "47"
+    ],
+    "sessionId": "69943be863e6325ee1256f13",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-25T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "36"
+    ],
+    "sessionId": "69943be863e6325ee1256f11",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-24T04:00:00.000Z",
+    "numeros": [
+      "23",
+      "62"
+    ],
+    "signos": [],
+    "rawScore": [
+      "23",
+      "62"
+    ],
+    "sessionId": "69943be863e6325ee1256f0f",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-23T04:00:00.000Z",
+    "numeros": [
+      "78",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "78",
+      "97"
+    ],
+    "sessionId": "69943be863e6325ee1256f0d",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-22T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256f0b",
+    "scrapedAt": "2026-06-23T21:17:54.455Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-21T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "39"
+    ],
+    "sessionId": "69943be863e6325ee1256f09",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-20T04:00:00.000Z",
+    "numeros": [
+      "67",
+      "20"
+    ],
+    "signos": [],
+    "rawScore": [
+      "67",
+      "20"
+    ],
+    "sessionId": "69943be863e6325ee1256f07",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-19T04:00:00.000Z",
+    "numeros": [
+      "93",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "93",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256f05",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-18T04:00:00.000Z",
+    "numeros": [
+      "92",
+      "42"
+    ],
+    "signos": [],
+    "rawScore": [
+      "92",
+      "42"
+    ],
+    "sessionId": "69943be863e6325ee1256f03",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-17T04:00:00.000Z",
+    "numeros": [
+      "58",
+      "53"
+    ],
+    "signos": [],
+    "rawScore": [
+      "58",
+      "53"
+    ],
+    "sessionId": "69943be863e6325ee1256f01",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-16T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "50"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "50"
+    ],
+    "sessionId": "69943be863e6325ee1256eff",
+    "scrapedAt": "2026-06-23T21:17:55.559Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-15T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "80"
+    ],
+    "sessionId": "69943be863e6325ee1256efd",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-14T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256efb",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-13T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "05"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "05"
+    ],
+    "sessionId": "69943be863e6325ee1256ef9",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-12T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "54"
+    ],
+    "sessionId": "69943be863e6325ee1256ef7",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-11T04:00:00.000Z",
+    "numeros": [
+      "86",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "86",
+      "10"
+    ],
+    "sessionId": "69943be863e6325ee1256ef5",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-10T04:00:00.000Z",
+    "numeros": [
+      "44",
+      "76"
+    ],
+    "signos": [],
+    "rawScore": [
+      "44",
+      "76"
+    ],
+    "sessionId": "69943be863e6325ee1256ef3",
+    "scrapedAt": "2026-06-23T21:17:56.654Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-09T04:00:00.000Z",
+    "numeros": [
+      "42",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "42",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256ef1",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-08T04:00:00.000Z",
+    "numeros": [
+      "90",
+      "33"
+    ],
+    "signos": [],
+    "rawScore": [
+      "90",
+      "33"
+    ],
+    "sessionId": "69943be863e6325ee1256eef",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-07T04:00:00.000Z",
+    "numeros": [
+      "00",
+      "04"
+    ],
+    "signos": [],
+    "rawScore": [
+      "00",
+      "04"
+    ],
+    "sessionId": "69943be863e6325ee1256eed",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-06T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "90"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "90"
+    ],
+    "sessionId": "69943be863e6325ee1256eeb",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-05T04:00:00.000Z",
+    "numeros": [
+      "53",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "53",
+      "63"
+    ],
+    "sessionId": "69943be863e6325ee1256ee9",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-04T04:00:00.000Z",
+    "numeros": [
+      "96",
+      "95"
+    ],
+    "signos": [],
+    "rawScore": [
+      "96",
+      "95"
+    ],
+    "sessionId": "69943be863e6325ee1256ee7",
+    "scrapedAt": "2026-06-23T21:17:57.741Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-03T04:00:00.000Z",
+    "numeros": [
+      "59",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "59",
+      "83"
+    ],
+    "sessionId": "69943be863e6325ee1256ee5",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-02T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "38"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "38"
+    ],
+    "sessionId": "69943be863e6325ee1256ee3",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-08-01T04:00:00.000Z",
+    "numeros": [
+      "83",
+      "94"
+    ],
+    "signos": [],
+    "rawScore": [
+      "83",
+      "94"
+    ],
+    "sessionId": "69943be863e6325ee1256ee1",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-31T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "70"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "70"
+    ],
+    "sessionId": "69943be863e6325ee1256edf",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-30T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "99"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "99"
+    ],
+    "sessionId": "69943be863e6325ee1256edd",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-29T04:00:00.000Z",
+    "numeros": [
+      "38",
+      "46"
+    ],
+    "signos": [],
+    "rawScore": [
+      "38",
+      "46"
+    ],
+    "sessionId": "69943be863e6325ee1256edb",
+    "scrapedAt": "2026-06-23T21:17:58.834Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-28T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "60"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "60"
+    ],
+    "sessionId": "69943be863e6325ee1256ed9",
+    "scrapedAt": "2026-06-23T21:17:59.933Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-27T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "58"
+    ],
+    "sessionId": "69943be863e6325ee1256ed7",
+    "scrapedAt": "2026-06-23T21:17:59.933Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-26T04:00:00.000Z",
+    "numeros": [
+      "94",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "94",
+      "26"
+    ],
+    "sessionId": "69943be863e6325ee1256ed5",
+    "scrapedAt": "2026-06-23T21:17:59.934Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-25T04:00:00.000Z",
+    "numeros": [
+      "00",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "00",
+      "74"
+    ],
+    "sessionId": "69943be863e6325ee1256ed3",
+    "scrapedAt": "2026-06-23T21:17:59.934Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-24T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "86"
+    ],
+    "sessionId": "69943be863e6325ee1256ed1",
+    "scrapedAt": "2026-06-23T21:17:59.934Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-23T04:00:00.000Z",
+    "numeros": [
+      "73",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "73",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256ecf",
+    "scrapedAt": "2026-06-23T21:17:59.934Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-22T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "04"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "04"
+    ],
+    "sessionId": "69943be863e6325ee1256ecd",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-21T04:00:00.000Z",
+    "numeros": [
+      "31",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "31",
+      "83"
+    ],
+    "sessionId": "69943be863e6325ee1256ecb",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-20T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256ec9",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-19T04:00:00.000Z",
+    "numeros": [
+      "44",
+      "47"
+    ],
+    "signos": [],
+    "rawScore": [
+      "44",
+      "47"
+    ],
+    "sessionId": "69943be863e6325ee1256ec7",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-18T04:00:00.000Z",
+    "numeros": [
+      "28",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "28",
+      "17"
+    ],
+    "sessionId": "69943be863e6325ee1256ec5",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-17T04:00:00.000Z",
+    "numeros": [
+      "00",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "00",
+      "67"
+    ],
+    "sessionId": "69943be863e6325ee1256ec3",
+    "scrapedAt": "2026-06-23T21:18:01.028Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-16T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "11"
+    ],
+    "sessionId": "69943be863e6325ee1256ec1",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-15T04:00:00.000Z",
+    "numeros": [
+      "86",
+      "01"
+    ],
+    "signos": [],
+    "rawScore": [
+      "86",
+      "01"
+    ],
+    "sessionId": "69943be863e6325ee1256ebf",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-14T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "12"
+    ],
+    "sessionId": "69943be863e6325ee1256ebd",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-13T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "83"
+    ],
+    "sessionId": "69943be863e6325ee1256ebb",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-12T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "68"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "68"
+    ],
+    "sessionId": "69943be863e6325ee1256eb9",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-11T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "10"
+    ],
+    "sessionId": "69943be863e6325ee1256eb7",
+    "scrapedAt": "2026-06-23T21:18:02.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-10T04:00:00.000Z",
+    "numeros": [
+      "74",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "74",
+      "80"
+    ],
+    "sessionId": "69943be863e6325ee1256eb5",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-09T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "61"
+    ],
+    "sessionId": "69943be863e6325ee1256eb3",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-08T04:00:00.000Z",
+    "numeros": [
+      "94",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "94",
+      "71"
+    ],
+    "sessionId": "69943be863e6325ee1256eb1",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-07T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "67"
+    ],
+    "sessionId": "69943be863e6325ee1256eaf",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-06T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "96"
+    ],
+    "sessionId": "69943be863e6325ee1256ead",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-05T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "14"
+    ],
+    "sessionId": "69943be863e6325ee1256eab",
+    "scrapedAt": "2026-06-23T21:18:03.208Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-04T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "60"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "60"
+    ],
+    "sessionId": "69943be863e6325ee1256ea9",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-03T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "05"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "05"
+    ],
+    "sessionId": "69943be863e6325ee1256ea7",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-02T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "56"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "56"
+    ],
+    "sessionId": "69943be863e6325ee1256ea5",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-07-01T04:00:00.000Z",
+    "numeros": [
+      "95",
+      "59"
+    ],
+    "signos": [],
+    "rawScore": [
+      "95",
+      "59"
+    ],
+    "sessionId": "69943be863e6325ee1256ea3",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-30T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "85"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "85"
+    ],
+    "sessionId": "69943be863e6325ee1256ea1",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-29T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "06"
+    ],
+    "sessionId": "69943be863e6325ee1256e9f",
+    "scrapedAt": "2026-06-23T21:18:04.315Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-28T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "86"
+    ],
+    "sessionId": "69943be863e6325ee1256e9d",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-27T04:00:00.000Z",
+    "numeros": [
+      "11",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "11",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256e9b",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-26T04:00:00.000Z",
+    "numeros": [
+      "96",
+      "41"
+    ],
+    "signos": [],
+    "rawScore": [
+      "96",
+      "41"
+    ],
+    "sessionId": "69943be863e6325ee1256e99",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-25T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "13"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "13"
+    ],
+    "sessionId": "69943be863e6325ee1256e97",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-24T04:00:00.000Z",
+    "numeros": [
+      "42",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "42",
+      "86"
+    ],
+    "sessionId": "69943be863e6325ee1256e95",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-23T04:00:00.000Z",
+    "numeros": [
+      "86",
+      "15"
+    ],
+    "signos": [],
+    "rawScore": [
+      "86",
+      "15"
+    ],
+    "sessionId": "69943be863e6325ee1256e93",
+    "scrapedAt": "2026-06-23T21:18:05.398Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-22T04:00:00.000Z",
+    "numeros": [
+      "18",
+      "16"
+    ],
+    "signos": [],
+    "rawScore": [
+      "18",
+      "16"
+    ],
+    "sessionId": "69943be863e6325ee1256e91",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-21T04:00:00.000Z",
+    "numeros": [
+      "24",
+      "28"
+    ],
+    "signos": [],
+    "rawScore": [
+      "24",
+      "28"
+    ],
+    "sessionId": "69943be863e6325ee1256e8f",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-20T04:00:00.000Z",
+    "numeros": [
+      "73",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "73",
+      "11"
+    ],
+    "sessionId": "69943be863e6325ee1256e8d",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-19T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "18"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "18"
+    ],
+    "sessionId": "69943be863e6325ee1256e8b",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-18T04:00:00.000Z",
+    "numeros": [
+      "62",
+      "04"
+    ],
+    "signos": [],
+    "rawScore": [
+      "62",
+      "04"
+    ],
+    "sessionId": "69943be863e6325ee1256e89",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-17T04:00:00.000Z",
+    "numeros": [
+      "42",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "42",
+      "35"
+    ],
+    "sessionId": "69943be863e6325ee1256e87",
+    "scrapedAt": "2026-06-23T21:18:06.495Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-16T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "49"
+    ],
+    "sessionId": "69943be863e6325ee1256e85",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-15T04:00:00.000Z",
+    "numeros": [
+      "58",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "58",
+      "26"
+    ],
+    "sessionId": "69943be863e6325ee1256e83",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-14T04:00:00.000Z",
+    "numeros": [
+      "04",
+      "70"
+    ],
+    "signos": [],
+    "rawScore": [
+      "04",
+      "70"
+    ],
+    "sessionId": "69943be863e6325ee1256e81",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-13T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "17"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "17"
+    ],
+    "sessionId": "69943be863e6325ee1256e7f",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-12T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "30"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "30"
+    ],
+    "sessionId": "69943be863e6325ee1256e7d",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-11T04:00:00.000Z",
+    "numeros": [
+      "21",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "21",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256e7b",
+    "scrapedAt": "2026-06-23T21:18:07.589Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-10T04:00:00.000Z",
+    "numeros": [
+      "29",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "29",
+      "12"
+    ],
+    "sessionId": "69943be863e6325ee1256e79",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-09T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "75"
+    ],
+    "sessionId": "69943be863e6325ee1256e77",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-08T04:00:00.000Z",
+    "numeros": [
+      "66",
+      "30"
+    ],
+    "signos": [],
+    "rawScore": [
+      "66",
+      "30"
+    ],
+    "sessionId": "69943be863e6325ee1256e75",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-07T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "33"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "33"
+    ],
+    "sessionId": "69943be863e6325ee1256e73",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-06T04:00:00.000Z",
+    "numeros": [
+      "45",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "45",
+      "74"
+    ],
+    "sessionId": "69943be863e6325ee1256e71",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-05T04:00:00.000Z",
+    "numeros": [
+      "80",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "80",
+      "93"
+    ],
+    "sessionId": "69943be863e6325ee1256e6f",
+    "scrapedAt": "2026-06-23T21:18:08.670Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-04T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "97"
+    ],
+    "sessionId": "69943be863e6325ee1256e6d",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-03T04:00:00.000Z",
+    "numeros": [
+      "45",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "45",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256e6b",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-02T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256e69",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-06-01T04:00:00.000Z",
+    "numeros": [
+      "50",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "50",
+      "97"
+    ],
+    "sessionId": "69943be863e6325ee1256e67",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-31T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "03"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "03"
+    ],
+    "sessionId": "69943be863e6325ee1256e65",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-30T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "87"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "87"
+    ],
+    "sessionId": "69943be863e6325ee1256e63",
+    "scrapedAt": "2026-06-23T21:18:09.754Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-29T04:00:00.000Z",
+    "numeros": [
+      "40",
+      "91"
+    ],
+    "signos": [],
+    "rawScore": [
+      "40",
+      "91"
+    ],
+    "sessionId": "69943be863e6325ee1256e61",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-28T04:00:00.000Z",
+    "numeros": [
+      "16",
+      "88"
+    ],
+    "signos": [],
+    "rawScore": [
+      "16",
+      "88"
+    ],
+    "sessionId": "69943be863e6325ee1256e5f",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-27T04:00:00.000Z",
+    "numeros": [
+      "13",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "13",
+      "36"
+    ],
+    "sessionId": "69943be863e6325ee1256e5d",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-26T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "96"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "96"
+    ],
+    "sessionId": "69943be863e6325ee1256e5b",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-25T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256e59",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-24T04:00:00.000Z",
+    "numeros": [
+      "10",
+      "69"
+    ],
+    "signos": [],
+    "rawScore": [
+      "10",
+      "69"
+    ],
+    "sessionId": "69943be863e6325ee1256e57",
+    "scrapedAt": "2026-06-23T21:18:10.851Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-23T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "74"
+    ],
+    "sessionId": "69943be863e6325ee1256e55",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-22T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "68"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "68"
+    ],
+    "sessionId": "69943be863e6325ee1256e53",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-21T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "03"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "03"
+    ],
+    "sessionId": "69943be863e6325ee1256e51",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-20T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "48"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "48"
+    ],
+    "sessionId": "69943be863e6325ee1256e4f",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-19T04:00:00.000Z",
+    "numeros": [
+      "80",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "80",
+      "51"
+    ],
+    "sessionId": "69943be863e6325ee1256e4d",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-18T04:00:00.000Z",
+    "numeros": [
+      "83",
+      "02"
+    ],
+    "signos": [],
+    "rawScore": [
+      "83",
+      "02"
+    ],
+    "sessionId": "69943be863e6325ee1256e4b",
+    "scrapedAt": "2026-06-23T21:18:11.947Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-17T04:00:00.000Z",
+    "numeros": [
+      "48",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "48",
+      "39"
+    ],
+    "sessionId": "69943be863e6325ee1256e49",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-16T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "90"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "90"
+    ],
+    "sessionId": "69943be863e6325ee1256e47",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-15T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "43"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "43"
+    ],
+    "sessionId": "69943be863e6325ee1256e45",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-14T04:00:00.000Z",
+    "numeros": [
+      "78",
+      "48"
+    ],
+    "signos": [],
+    "rawScore": [
+      "78",
+      "48"
+    ],
+    "sessionId": "69943be863e6325ee1256e43",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-13T04:00:00.000Z",
+    "numeros": [
+      "95",
+      "07"
+    ],
+    "signos": [],
+    "rawScore": [
+      "95",
+      "07"
+    ],
+    "sessionId": "69943be863e6325ee1256e41",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-12T04:00:00.000Z",
+    "numeros": [
+      "92",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "92",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256e3f",
+    "scrapedAt": "2026-06-23T21:18:13.037Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-11T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "55"
+    ],
+    "sessionId": "69943be863e6325ee1256e3d",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-10T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256e3b",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-09T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "64"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "64"
+    ],
+    "sessionId": "69943be863e6325ee1256e39",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-08T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "49"
+    ],
+    "sessionId": "69943be863e6325ee1256e37",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-07T04:00:00.000Z",
+    "numeros": [
+      "64",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "64",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256e35",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-06T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "81"
+    ],
+    "sessionId": "69943be863e6325ee1256e33",
+    "scrapedAt": "2026-06-23T21:18:14.119Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-05T04:00:00.000Z",
+    "numeros": [
+      "05",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "05",
+      "74"
+    ],
+    "sessionId": "69943be863e6325ee1256e31",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-04T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "55"
+    ],
+    "sessionId": "69943be863e6325ee1256e2f",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-03T04:00:00.000Z",
+    "numeros": [
+      "75",
+      "36"
+    ],
+    "signos": [],
+    "rawScore": [
+      "75",
+      "36"
+    ],
+    "sessionId": "69943be863e6325ee1256e2d",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-02T04:00:00.000Z",
+    "numeros": [
+      "80",
+      "13"
+    ],
+    "signos": [],
+    "rawScore": [
+      "80",
+      "13"
+    ],
+    "sessionId": "69943be863e6325ee1256e2b",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-05-01T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "20"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "20"
+    ],
+    "sessionId": "69943be863e6325ee1256e29",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-30T04:00:00.000Z",
+    "numeros": [
+      "03",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "03",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256e27",
+    "scrapedAt": "2026-06-23T21:18:15.219Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-29T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "98"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "98"
+    ],
+    "sessionId": "69943be863e6325ee1256e25",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-28T04:00:00.000Z",
+    "numeros": [
+      "93",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "93",
+      "22"
+    ],
+    "sessionId": "69943be863e6325ee1256e23",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-27T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256e21",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-26T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "65"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "65"
+    ],
+    "sessionId": "69943be863e6325ee1256e1f",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-25T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "73"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "73"
+    ],
+    "sessionId": "69943be863e6325ee1256e1d",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-24T04:00:00.000Z",
+    "numeros": [
+      "43",
+      "11"
+    ],
+    "signos": [],
+    "rawScore": [
+      "43",
+      "11"
+    ],
+    "sessionId": "69943be863e6325ee1256e1b",
+    "scrapedAt": "2026-06-23T21:18:16.313Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-23T04:00:00.000Z",
+    "numeros": [
+      "40",
+      "19"
+    ],
+    "signos": [],
+    "rawScore": [
+      "40",
+      "19"
+    ],
+    "sessionId": "69943be863e6325ee1256e19",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-22T04:00:00.000Z",
+    "numeros": [
+      "16",
+      "66"
+    ],
+    "signos": [],
+    "rawScore": [
+      "16",
+      "66"
+    ],
+    "sessionId": "69943be863e6325ee1256e17",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-21T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "28"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "28"
+    ],
+    "sessionId": "69943be863e6325ee1256e15",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-20T04:00:00.000Z",
+    "numeros": [
+      "77",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "77",
+      "06"
+    ],
+    "sessionId": "69943be863e6325ee1256e13",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-19T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "67"
+    ],
+    "sessionId": "69943be863e6325ee1256e11",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-18T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "23"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "23"
+    ],
+    "sessionId": "69943be863e6325ee1256e0f",
+    "scrapedAt": "2026-06-23T21:18:17.422Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-17T04:00:00.000Z",
+    "numeros": [
+      "01",
+      "88"
+    ],
+    "signos": [],
+    "rawScore": [
+      "01",
+      "88"
+    ],
+    "sessionId": "69943be863e6325ee1256e0d",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-16T04:00:00.000Z",
+    "numeros": [
+      "45",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "45",
+      "71"
+    ],
+    "sessionId": "69943be863e6325ee1256e0b",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-15T04:00:00.000Z",
+    "numeros": [
+      "16",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "16",
+      "54"
+    ],
+    "sessionId": "69943be863e6325ee1256e09",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-14T04:00:00.000Z",
+    "numeros": [
+      "26",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "26",
+      "61"
+    ],
+    "sessionId": "69943be863e6325ee1256e07",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-13T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "45"
+    ],
+    "sessionId": "69943be863e6325ee1256e05",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-12T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "22"
+    ],
+    "sessionId": "69943be863e6325ee1256e03",
+    "scrapedAt": "2026-06-23T21:18:18.519Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-11T04:00:00.000Z",
+    "numeros": [
+      "03",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "03",
+      "81"
+    ],
+    "sessionId": "69943be863e6325ee1256e01",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-10T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "86"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "86"
+    ],
+    "sessionId": "69943be863e6325ee1256dff",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-09T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "77"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "77"
+    ],
+    "sessionId": "69943be863e6325ee1256dfd",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-08T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "35"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "35"
+    ],
+    "sessionId": "69943be863e6325ee1256dfb",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-07T04:00:00.000Z",
+    "numeros": [
+      "00",
+      "66"
+    ],
+    "signos": [],
+    "rawScore": [
+      "00",
+      "66"
+    ],
+    "sessionId": "69943be863e6325ee1256df9",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-06T04:00:00.000Z",
+    "numeros": [
+      "33",
+      "43"
+    ],
+    "signos": [],
+    "rawScore": [
+      "33",
+      "43"
+    ],
+    "sessionId": "69943be863e6325ee1256df7",
+    "scrapedAt": "2026-06-23T21:18:19.622Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-05T04:00:00.000Z",
+    "numeros": [
+      "95",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "95",
+      "39"
+    ],
+    "sessionId": "69943be863e6325ee1256df5",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-04T04:00:00.000Z",
+    "numeros": [
+      "82",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "82",
+      "44"
+    ],
+    "sessionId": "69943be863e6325ee1256df3",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-03T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "16"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "16"
+    ],
+    "sessionId": "69943be863e6325ee1256df1",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-02T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "71"
+    ],
+    "sessionId": "69943be863e6325ee1256def",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-04-01T04:00:00.000Z",
+    "numeros": [
+      "36",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "36",
+      "22"
+    ],
+    "sessionId": "69943be863e6325ee1256ded",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-31T04:00:00.000Z",
+    "numeros": [
+      "97",
+      "77"
+    ],
+    "signos": [],
+    "rawScore": [
+      "97",
+      "77"
+    ],
+    "sessionId": "69943be863e6325ee1256deb",
+    "scrapedAt": "2026-06-23T21:18:20.714Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-30T04:00:00.000Z",
+    "numeros": [
+      "56",
+      "09"
+    ],
+    "signos": [],
+    "rawScore": [
+      "56",
+      "09"
+    ],
+    "sessionId": "69943be863e6325ee1256de9",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-29T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "63"
+    ],
+    "sessionId": "69943be863e6325ee1256de7",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-28T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "29"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "29"
+    ],
+    "sessionId": "69943be863e6325ee1256de5",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-27T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "58"
+    ],
+    "sessionId": "69943be863e6325ee1256de3",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-26T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "42"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "42"
+    ],
+    "sessionId": "69943be763e6325ee1256de1",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-25T04:00:00.000Z",
+    "numeros": [
+      "27",
+      "07"
+    ],
+    "signos": [],
+    "rawScore": [
+      "27",
+      "07"
+    ],
+    "sessionId": "69943be763e6325ee1256ddf",
+    "scrapedAt": "2026-06-23T21:18:21.806Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-24T04:00:00.000Z",
+    "numeros": [
+      "80",
+      "67"
+    ],
+    "signos": [],
+    "rawScore": [
+      "80",
+      "67"
+    ],
+    "sessionId": "69943be763e6325ee1256ddd",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-23T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "61"
+    ],
+    "sessionId": "69943be763e6325ee1256ddb",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-22T04:00:00.000Z",
+    "numeros": [
+      "54",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "54",
+      "27"
+    ],
+    "sessionId": "69943be763e6325ee1256dd9",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-21T04:00:00.000Z",
+    "numeros": [
+      "13",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "13",
+      "58"
+    ],
+    "sessionId": "69943be763e6325ee1256dd7",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-20T04:00:00.000Z",
+    "numeros": [
+      "06",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "06",
+      "92"
+    ],
+    "sessionId": "69943be763e6325ee1256dd5",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-19T04:00:00.000Z",
+    "numeros": [
+      "53",
+      "01"
+    ],
+    "signos": [],
+    "rawScore": [
+      "53",
+      "01"
+    ],
+    "sessionId": "69943be763e6325ee1256dd3",
+    "scrapedAt": "2026-06-23T21:18:22.894Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-18T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "79"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "79"
+    ],
+    "sessionId": "69943be763e6325ee1256dd1",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-17T04:00:00.000Z",
+    "numeros": [
+      "97",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "97",
+      "10"
+    ],
+    "sessionId": "69943be763e6325ee1256dcf",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-16T04:00:00.000Z",
+    "numeros": [
+      "85",
+      "90"
+    ],
+    "signos": [],
+    "rawScore": [
+      "85",
+      "90"
+    ],
+    "sessionId": "69943be763e6325ee1256dcd",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-15T04:00:00.000Z",
+    "numeros": [
+      "77",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "77",
+      "54"
+    ],
+    "sessionId": "69943be763e6325ee1256dcb",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-14T04:00:00.000Z",
+    "numeros": [
+      "28",
+      "98"
+    ],
+    "signos": [],
+    "rawScore": [
+      "28",
+      "98"
+    ],
+    "sessionId": "69943be763e6325ee1256dc9",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-13T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "59"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "59"
+    ],
+    "sessionId": "69943be763e6325ee1256dc7",
+    "scrapedAt": "2026-06-23T21:18:23.988Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-12T04:00:00.000Z",
+    "numeros": [
+      "80",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "80",
+      "93"
+    ],
+    "sessionId": "69943be763e6325ee1256dc5",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-11T04:00:00.000Z",
+    "numeros": [
+      "52",
+      "87"
+    ],
+    "signos": [],
+    "rawScore": [
+      "52",
+      "87"
+    ],
+    "sessionId": "69943be763e6325ee1256dc3",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-10T04:00:00.000Z",
+    "numeros": [
+      "63",
+      "70"
+    ],
+    "signos": [],
+    "rawScore": [
+      "63",
+      "70"
+    ],
+    "sessionId": "69943be763e6325ee1256dc1",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-09T04:00:00.000Z",
+    "numeros": [
+      "32",
+      "71"
+    ],
+    "signos": [],
+    "rawScore": [
+      "32",
+      "71"
+    ],
+    "sessionId": "69943be763e6325ee1256dbf",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-08T04:00:00.000Z",
+    "numeros": [
+      "55",
+      "15"
+    ],
+    "signos": [],
+    "rawScore": [
+      "55",
+      "15"
+    ],
+    "sessionId": "69943be763e6325ee1256dbd",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-07T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "02"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "02"
+    ],
+    "sessionId": "69943be763e6325ee1256dbb",
+    "scrapedAt": "2026-06-23T21:18:25.077Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-06T04:00:00.000Z",
+    "numeros": [
+      "84",
+      "55"
+    ],
+    "signos": [],
+    "rawScore": [
+      "84",
+      "55"
+    ],
+    "sessionId": "69943be763e6325ee1256db9",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-05T04:00:00.000Z",
+    "numeros": [
+      "02",
+      "38"
+    ],
+    "signos": [],
+    "rawScore": [
+      "02",
+      "38"
+    ],
+    "sessionId": "69943be763e6325ee1256db7",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-04T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "89"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "89"
+    ],
+    "sessionId": "69943be763e6325ee1256db5",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-03T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "56"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "56"
+    ],
+    "sessionId": "69943be763e6325ee1256db3",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-02T04:00:00.000Z",
+    "numeros": [
+      "60",
+      "44"
+    ],
+    "signos": [],
+    "rawScore": [
+      "60",
+      "44"
+    ],
+    "sessionId": "69943be763e6325ee1256db1",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-03-01T04:00:00.000Z",
+    "numeros": [
+      "19",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "19",
+      "51"
+    ],
+    "sessionId": "69943be763e6325ee1256daf",
+    "scrapedAt": "2026-06-23T21:18:26.187Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-28T04:00:00.000Z",
+    "numeros": [
+      "89",
+      "52"
+    ],
+    "signos": [],
+    "rawScore": [
+      "89",
+      "52"
+    ],
+    "sessionId": "69943be763e6325ee1256dad",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-27T04:00:00.000Z",
+    "numeros": [
+      "76",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "76",
+      "12"
+    ],
+    "sessionId": "69943be763e6325ee1256dab",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-26T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "42"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "42"
+    ],
+    "sessionId": "69943be763e6325ee1256da9",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-25T04:00:00.000Z",
+    "numeros": [
+      "98",
+      "78"
+    ],
+    "signos": [],
+    "rawScore": [
+      "98",
+      "78"
+    ],
+    "sessionId": "69943be763e6325ee1256da7",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-24T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "61"
+    ],
+    "sessionId": "69943be763e6325ee1256da5",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-23T04:00:00.000Z",
+    "numeros": [
+      "25",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "25",
+      "39"
+    ],
+    "sessionId": "69943be763e6325ee1256da3",
+    "scrapedAt": "2026-06-23T21:18:27.292Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-22T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "26"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "26"
+    ],
+    "sessionId": "69943be763e6325ee1256da1",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-21T04:00:00.000Z",
+    "numeros": [
+      "58",
+      "28"
+    ],
+    "signos": [],
+    "rawScore": [
+      "58",
+      "28"
+    ],
+    "sessionId": "69943be763e6325ee1256d9f",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-20T04:00:00.000Z",
+    "numeros": [
+      "81",
+      "81"
+    ],
+    "signos": [],
+    "rawScore": [
+      "81",
+      "81"
+    ],
+    "sessionId": "69943be763e6325ee1256d9d",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-19T04:00:00.000Z",
+    "numeros": [
+      "10",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "10",
+      "12"
+    ],
+    "sessionId": "69943be763e6325ee1256d9b",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-18T04:00:00.000Z",
+    "numeros": [
+      "34",
+      "83"
+    ],
+    "signos": [],
+    "rawScore": [
+      "34",
+      "83"
+    ],
+    "sessionId": "69943be763e6325ee1256d99",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-17T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "33"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "33"
+    ],
+    "sessionId": "69943be763e6325ee1256d97",
+    "scrapedAt": "2026-06-23T21:18:28.383Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-16T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "88"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "88"
+    ],
+    "sessionId": "69943be763e6325ee1256d95",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-15T04:00:00.000Z",
+    "numeros": [
+      "42",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "42",
+      "97"
+    ],
+    "sessionId": "69943be763e6325ee1256d93",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-14T04:00:00.000Z",
+    "numeros": [
+      "37",
+      "59"
+    ],
+    "signos": [],
+    "rawScore": [
+      "37",
+      "59"
+    ],
+    "sessionId": "69943be763e6325ee1256d91",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-13T04:00:00.000Z",
+    "numeros": [
+      "88",
+      "92"
+    ],
+    "signos": [],
+    "rawScore": [
+      "88",
+      "92"
+    ],
+    "sessionId": "69943be763e6325ee1256d8f",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-12T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "61"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "61"
+    ],
+    "sessionId": "69943be763e6325ee1256d8d",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-11T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "37"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "37"
+    ],
+    "sessionId": "69943be763e6325ee1256d8b",
+    "scrapedAt": "2026-06-23T21:18:29.466Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-10T04:00:00.000Z",
+    "numeros": [
+      "71",
+      "49"
+    ],
+    "signos": [],
+    "rawScore": [
+      "71",
+      "49"
+    ],
+    "sessionId": "69943be763e6325ee1256d89",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-09T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "27"
+    ],
+    "sessionId": "69943be763e6325ee1256d87",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-08T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "93"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "93"
+    ],
+    "sessionId": "69943be763e6325ee1256d85",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-07T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "99"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "99"
+    ],
+    "sessionId": "69943be763e6325ee1256d83",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-06T04:00:00.000Z",
+    "numeros": [
+      "08",
+      "50"
+    ],
+    "signos": [],
+    "rawScore": [
+      "08",
+      "50"
+    ],
+    "sessionId": "69943be763e6325ee1256d81",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-05T04:00:00.000Z",
+    "numeros": [
+      "06",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "06",
+      "74"
+    ],
+    "sessionId": "69943be763e6325ee1256d7f",
+    "scrapedAt": "2026-06-23T21:18:30.545Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-04T04:00:00.000Z",
+    "numeros": [
+      "77",
+      "20"
+    ],
+    "signos": [],
+    "rawScore": [
+      "77",
+      "20"
+    ],
+    "sessionId": "69943be763e6325ee1256d7d",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-03T04:00:00.000Z",
+    "numeros": [
+      "43",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "43",
+      "22"
+    ],
+    "sessionId": "69943be763e6325ee1256d7b",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-02T04:00:00.000Z",
+    "numeros": [
+      "12",
+      "88"
+    ],
+    "signos": [],
+    "rawScore": [
+      "12",
+      "88"
+    ],
+    "sessionId": "69943be763e6325ee1256d79",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-02-01T04:00:00.000Z",
+    "numeros": [
+      "53",
+      "80"
+    ],
+    "signos": [],
+    "rawScore": [
+      "53",
+      "80"
+    ],
+    "sessionId": "69943be763e6325ee1256d77",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-31T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "62"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "62"
+    ],
+    "sessionId": "69943be763e6325ee1256d75",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-30T04:00:00.000Z",
+    "numeros": [
+      "68",
+      "84"
+    ],
+    "signos": [],
+    "rawScore": [
+      "68",
+      "84"
+    ],
+    "sessionId": "69943be763e6325ee1256d73",
+    "scrapedAt": "2026-06-23T21:18:31.651Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-29T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "39"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "39"
+    ],
+    "sessionId": "69943be763e6325ee1256d71",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-28T04:00:00.000Z",
+    "numeros": [
+      "74",
+      "79"
+    ],
+    "signos": [],
+    "rawScore": [
+      "74",
+      "79"
+    ],
+    "sessionId": "69943be763e6325ee1256d6f",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-27T04:00:00.000Z",
+    "numeros": [
+      "28",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "28",
+      "63"
+    ],
+    "sessionId": "69943be763e6325ee1256d6d",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-26T04:00:00.000Z",
+    "numeros": [
+      "61",
+      "91"
+    ],
+    "signos": [],
+    "rawScore": [
+      "61",
+      "91"
+    ],
+    "sessionId": "69943be763e6325ee1256d6b",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-25T04:00:00.000Z",
+    "numeros": [
+      "99",
+      "58"
+    ],
+    "signos": [],
+    "rawScore": [
+      "99",
+      "58"
+    ],
+    "sessionId": "69943be763e6325ee1256d69",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-24T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "69"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "69"
+    ],
+    "sessionId": "69943be763e6325ee1256d67",
+    "scrapedAt": "2026-06-23T21:18:32.742Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-23T04:00:00.000Z",
+    "numeros": [
+      "15",
+      "89"
+    ],
+    "signos": [],
+    "rawScore": [
+      "15",
+      "89"
+    ],
+    "sessionId": "69943be763e6325ee1256d65",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-22T04:00:00.000Z",
+    "numeros": [
+      "03",
+      "38"
+    ],
+    "signos": [],
+    "rawScore": [
+      "03",
+      "38"
+    ],
+    "sessionId": "69943be763e6325ee1256d63",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-21T04:00:00.000Z",
+    "numeros": [
+      "49",
+      "97"
+    ],
+    "signos": [],
+    "rawScore": [
+      "49",
+      "97"
+    ],
+    "sessionId": "69943be763e6325ee1256d61",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-20T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "63"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "63"
+    ],
+    "sessionId": "69943be763e6325ee1256d5f",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-19T04:00:00.000Z",
+    "numeros": [
+      "21",
+      "74"
+    ],
+    "signos": [],
+    "rawScore": [
+      "21",
+      "74"
+    ],
+    "sessionId": "69943be763e6325ee1256d5d",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-18T04:00:00.000Z",
+    "numeros": [
+      "47",
+      "64"
+    ],
+    "signos": [],
+    "rawScore": [
+      "47",
+      "64"
+    ],
+    "sessionId": "69943be763e6325ee1256d5b",
+    "scrapedAt": "2026-06-23T21:18:33.825Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-17T04:00:00.000Z",
+    "numeros": [
+      "48",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "48",
+      "27"
+    ],
+    "sessionId": "69943be763e6325ee1256d59",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-16T04:00:00.000Z",
+    "numeros": [
+      "30",
+      "45"
+    ],
+    "signos": [],
+    "rawScore": [
+      "30",
+      "45"
+    ],
+    "sessionId": "69943be763e6325ee1256d57",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-15T04:00:00.000Z",
+    "numeros": [
+      "35",
+      "51"
+    ],
+    "signos": [],
+    "rawScore": [
+      "35",
+      "51"
+    ],
+    "sessionId": "69943be763e6325ee1256d55",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-14T04:00:00.000Z",
+    "numeros": [
+      "51",
+      "82"
+    ],
+    "signos": [],
+    "rawScore": [
+      "51",
+      "82"
+    ],
+    "sessionId": "69943be763e6325ee1256d53",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-13T04:00:00.000Z",
+    "numeros": [
+      "07",
+      "10"
+    ],
+    "signos": [],
+    "rawScore": [
+      "07",
+      "10"
+    ],
+    "sessionId": "69943be763e6325ee1256d51",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-12T04:00:00.000Z",
+    "numeros": [
+      "70",
+      "14"
+    ],
+    "signos": [],
+    "rawScore": [
+      "70",
+      "14"
+    ],
+    "sessionId": "69943be763e6325ee1256d4f",
+    "scrapedAt": "2026-06-23T21:18:34.919Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-11T04:00:00.000Z",
+    "numeros": [
+      "78",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "78",
+      "06"
+    ],
+    "sessionId": "69943be763e6325ee1256d4d",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-10T04:00:00.000Z",
+    "numeros": [
+      "87",
+      "06"
+    ],
+    "signos": [],
+    "rawScore": [
+      "87",
+      "06"
+    ],
+    "sessionId": "69943be763e6325ee1256d4b",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-09T04:00:00.000Z",
+    "numeros": [
+      "20",
+      "75"
+    ],
+    "signos": [],
+    "rawScore": [
+      "20",
+      "75"
+    ],
+    "sessionId": "69943be763e6325ee1256d49",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-08T04:00:00.000Z",
+    "numeros": [
+      "65",
+      "32"
+    ],
+    "signos": [],
+    "rawScore": [
+      "65",
+      "32"
+    ],
+    "sessionId": "69943be763e6325ee1256d47",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-07T04:00:00.000Z",
+    "numeros": [
+      "45",
+      "22"
+    ],
+    "signos": [],
+    "rawScore": [
+      "45",
+      "22"
+    ],
+    "sessionId": "69943be763e6325ee1256d45",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-06T04:00:00.000Z",
+    "numeros": [
+      "64",
+      "41"
+    ],
+    "signos": [],
+    "rawScore": [
+      "64",
+      "41"
+    ],
+    "sessionId": "69943be763e6325ee1256d43",
+    "scrapedAt": "2026-06-23T21:18:36.003Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-05T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "46"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "46"
+    ],
+    "sessionId": "69943be763e6325ee1256d41",
+    "scrapedAt": "2026-06-23T21:18:37.100Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-04T04:00:00.000Z",
+    "numeros": [
+      "57",
+      "54"
+    ],
+    "signos": [],
+    "rawScore": [
+      "57",
+      "54"
+    ],
+    "sessionId": "69943be763e6325ee1256d3f",
+    "scrapedAt": "2026-06-23T21:18:37.100Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-03T04:00:00.000Z",
+    "numeros": [
+      "22",
+      "27"
+    ],
+    "signos": [],
+    "rawScore": [
+      "22",
+      "27"
+    ],
+    "sessionId": "69943be763e6325ee1256d3d",
+    "scrapedAt": "2026-06-23T21:18:37.100Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-02T04:00:00.000Z",
+    "numeros": [
+      "13",
+      "28"
+    ],
+    "signos": [],
+    "rawScore": [
+      "13",
+      "28"
+    ],
+    "sessionId": "69943be763e6325ee1256d3b",
+    "scrapedAt": "2026-06-23T21:18:37.100Z"
+  },
+  {
+    "siteGameId": "693ae5bbd7b13e9daed23b25",
+    "juego": "Premia 2",
+    "horario": "11:00 AM",
+    "fecha": "2025-01-01T04:00:00.000Z",
+    "numeros": [
+      "24",
+      "12"
+    ],
+    "signos": [],
+    "rawScore": [
+      "24",
+      "12"
+    ],
+    "sessionId": "69943be763e6325ee1256d39",
+    "scrapedAt": "2026-06-23T21:18:37.100Z"
+  }
+]

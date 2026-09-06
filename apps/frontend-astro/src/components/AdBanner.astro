@@ -1,0 +1,41 @@
+---
+interface Props {
+  slot: string;
+  format?: "auto" | "rectangle" | "leaderboard";
+  showAds?: boolean;
+}
+const { slot, format = "rectangle", showAds = true } = Astro.props;
+const publisherId = import.meta.env.PUBLIC_ADSENSE_ID ?? "";
+const isDev = import.meta.env.DEV;
+
+// En producción sin publisher ID, no renderizar nada (no layout shift)
+// En desarrollo sin publisher ID, mostrar placeholder visual para diseño
+---
+
+{showAds && publisherId && (
+  <div class="my-4 overflow-hidden rounded-lg">
+    <ins
+      class="adsbygoogle"
+      style="display:block;width:100%;min-height:90px"
+      data-ad-client={publisherId}
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive="true"
+    />
+    <script is:inline>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
+  </div>
+)}
+
+{showAds && !publisherId && isDev && (
+  <div
+    class="my-4 flex min-h-[90px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-100 text-xs text-slate-400"
+    aria-hidden="true"
+    data-ad-slot={slot}
+  >
+    <span>📢 Espacio publicitario — slot {slot} ({format})</span>
+  </div>
+)}
+
+{(!showAds || (!publisherId && !isDev)) && (
+  <div class="hidden" aria-hidden="true" />
+)}

@@ -1,19 +1,221 @@
 ---
-// Landing / Dashboard inicial. Andamiaje: la UI real se construye como tarea explícita.
-const title = "Loto Honduras Analytics";
+import Shell from "../layouts/Shell.astro";
+import NumberBalls from "../components/NumberBalls.astro";
+import AdBanner from "../components/AdBanner.astro";
+import { apiGetSSR } from "../lib/api.ts";
+import { GAME_LABELS } from "../lib/gameLabels.ts";
+import type { LotteryDraw, GameType } from "@loto/shared-types";
+
+// Traer los últimos 3 días de todos los juegos (una llamada por familia)
+const GAMES_ORDER: GameType[] = [
+  "diaria_11am",  "diaria_3pm",  "diaria_9pm",
+  "pega3_11am",   "pega3_3pm",   "pega3_9pm",
+  "premia2_11am", "premia2_3pm", "premia2_9pm",
+  "juga3_11am",   "juga3_3pm",   "juga3_9pm",
+  "super_premio",
+];
+
+// Una sola llamada: últimos 7 días de todos los juegos (family=all no existe, hacemos una por familia)
+// Para el home: traemos los últimos sorteos de cada juego individual (limit via days=3)
+const results = await Promise.all(
+  GAMES_ORDER.map((game) =>
+    apiGetSSR<LotteryDraw[]>(`/api/v1/history?game=${game}&days=7&order=desc`, Astro.locals),
+  ),
+);
+
+// Construir mapa game → últimos sorteos (máx 5 por juego)
+const drawsByGame: Record<GameType, LotteryDraw[]> = {} as Record<GameType, LotteryDraw[]>;
+for (let i = 0; i < GAMES_ORDER.length; i++) {
+  const game = GAMES_ORDER[i]!;
+  const res = results[i]!;
+  drawsByGame[game] = res.success ? res.data.slice(0, 5) : [];
+}
+
+function formatDate(iso: string): string {
+  // Usar solo la parte de fecha (YYYY-MM-DD) para evitar conversión de timezone
+  const datePart = iso.substring(0, 10);
+  return new Date(`${datePart}T12:00:00`).toLocaleDateString("es-HN", {
+    weekday: "short", day: "2-digit", month: "short",
+  });
+}
+
+const adSlot1 = import.meta.env.PUBLIC_ADSENSE_SLOT_1 ?? "0000000001";
+const adSlot2 = import.meta.env.PUBLIC_ADSENSE_SLOT_2 ?? "0000000002";
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Patrones estadísticos e imaginario popular para la lotería de Honduras.</p>
-    </main>
-  </body>
-</html>
+<Shell
+  title="Últimos Resultados"
+  active="dashboard"
+  ogTitle="Últimos Resultados — Lotería de Honduras"
+  ogDescription="Resultados actualizados de La Diaria, Pega 3, Premia 2, Jugá 3 y Super Premio."
+>
+  <p class="mb-6 text-slate-500 text-sm">
+    Resultados de los últimos 7 días · Datos oficiales de Loterías de Honduras.
+    Los <a href="/premium" class="font-medium text-brand hover:underline">análisis y patrones</a> están en sección Premium.
+  </p>
+
+  <!-- ── La Diaria ──────────────────────────────────────────────────────── -->
+  <section class="mb-8">
+    <h2 class="mb-3 flex items-center gap-2 text-base font-bold text-slate-700">
+      <span class="h-2 w-2 rounded-full bg-brand"></span>
+      La Diaria
+    </h2>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {(["diaria_11am", "diaria_3pm", "diaria_9pm"] as GameType[]).map((game) => {
+        const draws = drawsByGame[game];
+        return (
+          <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-100 px-4 py-2">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                {GAME_LABELS[game].replace("La Diaria ", "")}
+              </span>
+            </div>
+            <div class="divide-y divide-slate-100">
+              {draws.length === 0 ? (
+                <p class="px-4 py-3 text-xs text-slate-400">Sin datos recientes</p>
+              ) : (
+                draws.map((d) => (
+                  <div class="px-4 py-2.5">
+                    <p class="mb-1.5 text-xs text-slate-400">{formatDate(d.drawDate)}</p>
+                    <NumberBalls numbers={d.numbers} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <AdBanner slot={adSlot1} />
+
+  <!-- ── Pega 3 ───────────────────────────────────────────────────────── -->
+  <section class="mb-8 mt-4">
+    <h2 class="mb-3 flex items-center gap-2 text-base font-bold text-slate-700">
+      <span class="h-2 w-2 rounded-full bg-teal-500"></span>
+      Pega 3
+    </h2>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {(["pega3_11am", "pega3_3pm", "pega3_9pm"] as GameType[]).map((game) => {
+        const draws = drawsByGame[game];
+        return (
+          <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-100 px-4 py-2">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                {GAME_LABELS[game].replace("Pega 3 ", "")}
+              </span>
+            </div>
+            <div class="divide-y divide-slate-100">
+              {draws.length === 0 ? (
+                <p class="px-4 py-3 text-xs text-slate-400">Sin datos recientes</p>
+              ) : (
+                draws.map((d) => (
+                  <div class="px-4 py-2.5">
+                    <p class="mb-1.5 text-xs text-slate-400">{formatDate(d.drawDate)}</p>
+                    <NumberBalls numbers={d.numbers} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- ── Premia 2 ──────────────────────────────────────────────────────── -->
+  <section class="mb-8">
+    <h2 class="mb-3 flex items-center gap-2 text-base font-bold text-slate-700">
+      <span class="h-2 w-2 rounded-full bg-violet-500"></span>
+      Premia 2
+    </h2>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {(["premia2_11am", "premia2_3pm", "premia2_9pm"] as GameType[]).map((game) => {
+        const draws = drawsByGame[game];
+        return (
+          <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-100 px-4 py-2">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                {GAME_LABELS[game].replace("Premia 2 ", "")}
+              </span>
+            </div>
+            <div class="divide-y divide-slate-100">
+              {draws.length === 0 ? (
+                <p class="px-4 py-3 text-xs text-slate-400">Sin datos recientes</p>
+              ) : (
+                draws.map((d) => (
+                  <div class="px-4 py-2.5">
+                    <p class="mb-1.5 text-xs text-slate-400">{formatDate(d.drawDate)}</p>
+                    <NumberBalls numbers={d.numbers} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <AdBanner slot={adSlot2} />
+
+  <!-- ── Jugá 3 + Super Premio ─────────────────────────────────────────── -->
+  <section class="mb-8 mt-4">
+    <h2 class="mb-3 flex items-center gap-2 text-base font-bold text-slate-700">
+      <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+      Jugá 3
+    </h2>
+    <div class="grid gap-3 sm:grid-cols-3">
+      {(["juga3_11am", "juga3_3pm", "juga3_9pm"] as GameType[]).map((game) => {
+        const draws = drawsByGame[game];
+        return (
+          <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-100 px-4 py-2">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                {GAME_LABELS[game].replace("Jugá 3 ", "")}
+              </span>
+            </div>
+            <div class="divide-y divide-slate-100">
+              {draws.length === 0 ? (
+                <p class="px-4 py-3 text-xs text-slate-400">Sin datos recientes</p>
+              ) : (
+                draws.map((d) => (
+                  <div class="px-4 py-2.5">
+                    <p class="mb-1.5 text-xs text-slate-400">{formatDate(d.drawDate)}</p>
+                    <NumberBalls numbers={d.numbers} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- ── Super Premio ──────────────────────────────────────────────────── -->
+  <section class="mb-8">
+    <h2 class="mb-3 flex items-center gap-2 text-base font-bold text-slate-700">
+      <span class="h-2 w-2 rounded-full bg-yellow-500"></span>
+      Super Premio
+      <span class="text-xs font-normal text-slate-400">(miércoles y sábados)</span>
+    </h2>
+    <div class="max-w-sm">
+      <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div class="divide-y divide-slate-100">
+          {drawsByGame["super_premio"].length === 0 ? (
+            <p class="px-4 py-3 text-xs text-slate-400">Sin datos recientes</p>
+          ) : (
+            drawsByGame["super_premio"].map((d) => (
+              <div class="px-4 py-2.5">
+                <p class="mb-1.5 text-xs text-slate-400">{formatDate(d.drawDate)}</p>
+                <NumberBalls numbers={d.numbers} />
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+</Shell>

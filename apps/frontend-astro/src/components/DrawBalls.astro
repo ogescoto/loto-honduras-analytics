@@ -1,0 +1,71 @@
+---
+/**
+ * Bolas de un sorteo con el significado completo del número debajo de cada una.
+ *
+ * Para juegos con signo (La Diaria), `signs` trae el texto completo de cada
+ * celda ("15 Ratón"). Se extrae el significado ("Ratón") y se muestra íntegro
+ * bajo la bola del número, evitando la fila duplicada de signos.
+ */
+interface Props {
+  numbers: (string | number)[];
+  signs?: (string | number)[];
+  highlight?: string[];
+}
+const { numbers = [], signs = [], highlight = [] } = Astro.props;
+
+const highlightSet = new Set<string>(highlight.map((n) => n.padStart(2, "0")));
+
+function display(n: number | string): string {
+  const s = String(n);
+  if (/^\d{1,2}$/.test(s)) return s.padStart(2, "0");
+  return s;
+}
+
+function isLong(s: string): boolean {
+  return s.length > 4;
+}
+
+function meaningOf(n: number | string): string {
+  const token = String(n);
+  for (const s of signs) {
+    const t = String(s).trim();
+    if (t === token) continue; // sin nombre representante (comodines JG/2X…)
+    if (t.startsWith(`${token} `)) return t.slice(token.length).trim();
+  }
+  return "";
+}
+---
+
+<div class="flex flex-wrap gap-2.5">
+  {
+    numbers.map((n) => {
+      const shown = display(n);
+      const meaning = meaningOf(n);
+      const padded = String(n).padStart(2, "0");
+      return (
+        <div class="flex flex-col items-center gap-1">
+          <span
+            class:list={[
+              "flex items-center justify-center text-xs font-bold shadow-sm",
+              isLong(shown) ? "h-10 min-w-[2.5rem] px-2" : "h-10 w-10",
+              highlightSet.has(padded)
+                ? "rounded-full bg-brand text-white ring-2 ring-brand/40"
+                : "rounded-full bg-white text-brand-dark ring-1 ring-brand/30",
+            ]}
+            title={meaning ? `${shown} — ${meaning}` : shown}
+          >
+            {shown.length > 6 ? shown.slice(0, 6) + "…" : shown}
+          </span>
+          {meaning && (
+            <span
+              class="max-w-[4.5rem] truncate text-center text-[10px] font-medium leading-tight text-slate-400"
+              title={meaning}
+            >
+              {meaning}
+            </span>
+          )}
+        </div>
+      );
+    })
+  }
+</div>

@@ -1,6 +1,6 @@
 # Receta: proteger la rama `main` de forma reproducible
 
-Aplica las reglas de protección de [`../../08_DevOps/Git_GitHub_Standards.md`](../../08_DevOps/Git_GitHub_Standards.md)
+Aplica las reglas de protección de [`../../practicas/Git_GitHub_Standards.md`](../../practicas/Git_GitHub_Standards.md)
 con `gh api`, **una vez por proyecto**. No configures la protección a mano por la UI: esta
 receta es repetible y versionable.
 

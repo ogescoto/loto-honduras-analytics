@@ -24,9 +24,7 @@ function parseEnv(): Env {
 async function main() {
   const env = parseEnv();
   const url =
-    env === "production"
-      ? process.env.NEON_DATABASE_URL
-      : process.env.DATABASE_URL;
+    env === "production" ? process.env.NEON_DATABASE_URL : process.env.DATABASE_URL;
 
   if (env !== "production" && process.env.NEON_DATABASE_URL === url && url) {
     throw new Error("Bloqueado: seed dev/test apuntando a la BD de producción.");
@@ -46,6 +44,7 @@ async function main() {
       break;
   }
   console.log(`Seed "${env}" completado.`);
+  process.exit(0);
 }
 
 main().catch((err) => {

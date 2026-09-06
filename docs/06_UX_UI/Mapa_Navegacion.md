@@ -1,37 +1,50 @@
 ---
 tipo: ux-ui
-estado: andamiaje
-actualizado: 2026-06-20
+estado: activo
+actualizado: 2026-09-05
 ---
 
 # Mapa de navegación
 
 [[00_MAPA_DE_CONTENIDOS|Mapa de Contenidos]]
 
-Vistas principales del [[04_Modulos/Frontend|frontend Astro]] (móvil-first). Estado: andamiaje — solo existe la Landing.
+Vistas del [[04_Modulos/Frontend|frontend Astro]] (móvil-first), montadas sobre el **Shell** (`src/layouts/Shell.astro`, shell PWA con navegación).
 
-## Vistas
-- **Landing:** presentación del producto; punto de entrada público.
-- **Dashboard:** patrones de nivel 1 (fríos/calientes, rachas inversas, par/impar, numerología de sueños) por tipo de juego. Acceso público/freemium.
-- **Zona Premium:** meta-patrones de nivel 2; visible solo con [[01_Dominio/Glosario#Acceso y cobro|suscripción activa y vigente]]; si no, invita a suscribirse.
-- **Admin (cobros):** pantalla para que admin/clerk registre [[05_Procesos/Flujo_Cobro_Presencial|cobros presenciales]]. Acceso restringido por rol.
+## Vistas (páginas reales)
+- **Dashboard** (`src/pages/index.astro`): patrones de nivel 1 públicos (fríos/calientes, rachas inversas, par/impar, numerología de sueños). Usa el componente `NumberBalls.astro`. Acceso público/freemium.
+- **Zona Premium** (`src/pages/premium.astro`): meta-patrones de nivel 2; **gate por token de suscriptor** (Bearer JWT); si no hay acceso, invita a suscribirse. Los planes (1/3/6/12 meses) se muestran también deslogueado para que el enlace `#planes` funcione desde el gate de `/patrones`. Ver [[05_Procesos/Flujo_Acceso_Premium|flujo premium]] y [[05_Procesos/Flujo_Pago_Online|pago online]].
+- **Análisis de patrones** (`src/pages/patrones.astro`): 4 tabs (**Candidatos** para el próximo sorteo, **Historial** de aciertos con días atrás, **Guía** de los 25 patrones y **Guardados**). Requiere sesión; sin sesión muestra gate con CTA a `/login` y `/premium#planes`. Ver [[04_Modulos/Patrones|Patrones]].
+- **Admin** (`src/pages/admin.astro`): gestión de usuarios (cambio de rol y asignación de plan), listado de suscripciones y formulario de registro de [[05_Procesos/Flujo_Cobro_Presencial|cobro presencial]]. Acceso restringido por rol.
+- **Configuración de patrones** (`src/pages/configuracion.astro`, admin/clerk): lista los patrones actuales, editor JSON interpretable (validar/probar/descargar) y acceso vía MCP `loto-pattern-tools`.
+
+## Diseño mixto móvil / desktop (2026-09-05)
+Navegación **adaptativa por dispositivo**, implementada en `src/layouts/Shell.astro`:
+- **Móvil (< md):** **barra inferior fija** con las primarias **Inicio · Historial · Análisis · Premium** (iconos + etiqueta, `aria-current`, safe-area). La hamburguesa superior ofrece secundarios (Admin si rol, Salir/Entrar). Tabs de `/patrones` y píldoras de admin son **scroll horizontal con snap**.
+- **Desktop (≥ md):** barra superior con nav horizontal completo; pestañas/píldoras en línea.
 
 ## Diagrama
 ```mermaid
 graph LR
-  L[Landing] --> D[Dashboard · patrones nivel 1]
-  D --> P[Zona Premium · meta-patrones]
-  P -.no suscrito.-> S[Invitación a suscribirse]
-  L --> A[Admin · cobros presenciales]
+  SH[Shell · navegación PWA] --> D[Dashboard · patrones nivel 1]
+  SH --> P[Zona Premium · meta-patrones]
+  SH --> A[Admin · cobros presenciales]
+  P -.sin token válido.-> S[Invitación a suscribirse]
 ```
 
 ## Reglas de acceso
 - Dashboard: público.
-- Zona Premium: requiere suscripción vigente (ver [[05_Procesos/Flujo_Acceso_Premium|flujo premium]]).
+- Zona Premium: requiere suscripción vigente (gate por token; ver [[05_Procesos/Flujo_Acceso_Premium|flujo premium]]).
 - Admin: rol `admin`/`clerk`.
 
+## Componentes y cliente
+- **Shell:** `src/layouts/Shell.astro`. **NumberBalls:** `src/components/NumberBalls.astro`. **Cliente API:** `src/lib/api.ts`.
+- Estilos con **Tailwind CSS** (`@astrojs/tailwind`).
+
 ## Pendiente
-- Mockups, design system (shadcn/ui + Tailwind) y wireframes detallados; aún no existen.
+- Design system formal (tokens, componentes reutilizables) y wireframes de alta fidelidad; falta una pantalla de **login** propia.
 
 ## Historial de cambios
+- 2026-09-05: **diseño mixto móvil/desktop** — barra inferior fija (Inicio · Historial · Análisis · Premium), hamburguesa solo secundaria, tabs/píldoras scrollables en móvil.
+- 2026-09-05: añadida la vista **Análisis de patrones** (4 tabs), actualizadas Zona Premium (planes visibles deslogueado) y Admin (roles/planes por usuario).
+- 2026-06-21: documentadas las 3 páginas reales (Dashboard, Premium, Admin), el Shell, `NumberBalls` y Tailwind. Estado activo; resuelto el pendiente de andamiaje.
 - 2026-06-20: creación inicial.

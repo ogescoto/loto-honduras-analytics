@@ -21,7 +21,7 @@ export class Payment {
     public readonly createdAt: Date,
   ) {}
 
-  // Fábrica: valida invariantes (ver 04_Backend/Validation.md)
+  // Fábrica: valida invariantes (ver practicas/Validation.md)
   static create(props: CreatePaymentProps): Payment {
     if (props.amount <= 0) throw new PaymentAmountInvalidError();
     return new Payment(
@@ -38,8 +38,8 @@ export class Payment {
 ```
 
 ## 2. Persistencia
-- Tabla siguiendo [`../03_Database/Naming.md`](../03_Database/Naming.md) y columnas de auditoría (`created_at`, `updated_at`, `deleted_at`).
-- Migración con `up`/`down` ([`../03_Database/Migrations.md`](../03_Database/Migrations.md)).
+- Tabla siguiendo [`../practicas/Naming_Conventions.md`](../practicas/Naming_Conventions.md) y columnas de auditoría (`created_at`, `updated_at`, `deleted_at`).
+- Migración con `up`/`down` ([`../practicas/Migrations.md`](../practicas/Migrations.md)).
 
 ```sql
 CREATE TABLE payments (
@@ -61,7 +61,7 @@ CREATE TABLE payments (
 // dev_payments — datos realistas (Faker), idempotente
 // test_payments — datos deterministas y aislados
 ```
-Ver [`Seed_Template.sql`](Seed_Template.sql) y [`../03_Database/Seeds_Strategy.md`](../03_Database/Seeds_Strategy.md).
+Ver [`Seed_Template.sql`](Seed_Template.sql) y [`../practicas/Seeds_Strategy.md`](../practicas/Seeds_Strategy.md).
 
 ## 4. Tests (obligatorios)
 - Unitarios de las invariantes y el comportamiento (`create`, `refund`).

@@ -1,0 +1,73 @@
+# Ingestión de sorteos — LOTO Honduras (vía principal, GitHub Actions).
+#
+# Se lanza 3 veces al día, una por franja horaria. Cada ejecución detecta
+# los juegos de esa franja, reintenta hasta 10 veces cada 10 min y, si
+# no obtiene datos, descansa 90 min y vuelve a intentar.
+#
+# Tiempo máximo por ejecución: 10×10 + 90 + 10×10 = 290 min ≈ 5 h.
+# GitHub Actions permite hasta 6 h por job → timeout-minutes: 310.
+#
+# Notas de horario Honduras (UTC-6):
+#   Franja 11 AM HN = 17:00 UTC  → primer intento a las 17:30 UTC
+#   Franja  3 PM HN = 21:00 UTC  → primer intento a las 21:30 UTC
+#   Franja  9 PM HN = 03:00 UTC  → primer intento a las 03:30 UTC (+1 día)
+#
+# El job usa proxies WebShare para salir por IPs rotativas y evitar bloqueos.
+# El Worker scraper-cron queda como respaldo (llamada directa, sin proxy).
+name: ingest
+
+on:
+  schedule:
+    # 30 min tras el sorteo de 11:00 AM HN (17:00 UTC)
+    - cron: "30 17 * * *"
+    # 30 min tras el sorteo de 3:00 PM HN (21:00 UTC)
+    - cron: "30 21 * * *"
+    # 30 min tras el sorteo de 9:00 PM HN (03:00 UTC del día siguiente)
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+    inputs:
+      force_slot:
+        description: "Forzar franja (11am | 3pm | 9pm). Vacío = auto-detectar."
+        required: false
+        default: ""
+
+concurrency:
+  group: ingest-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    name: "Ingerir sorteos"
+    runs-on: ubuntu-latest
+    timeout-minutes: 310
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Ejecutar ingestión con reintentos
+        working-directory: scripts/ingest
+        env:
+          WEBSHARE_PROXY_LIST_URL: ${{ secrets.WEBSHARE_PROXY_LIST_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          APP_API_BASE_URL: ${{ secrets.APP_API_BASE_URL }}
+          INGEST_SERVICE_TOKEN: ${{ secrets.INGEST_SERVICE_TOKEN }}
+          # Permite forzar manualmente la franja en workflow_dispatch
+          FORCE_SLOT: ${{ inputs.force_slot }}
+        run: pnpm run ingest
+
+      - name: Resumen de ejecución
+        if: always()
+        run: |
+          echo "### Ingestión completada" >> $GITHUB_STEP_SUMMARY
+          echo "Hora de inicio: $(TZ='America/Tegucigalpa' date)" >> $GITHUB_STEP_SUMMARY
+          echo "Franja forzada: ${{ inputs.force_slot || 'auto' }}" >> $GITHUB_STEP_SUMMARY

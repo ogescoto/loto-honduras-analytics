@@ -5,7 +5,7 @@ area: documentation
 
 # ADR-NNNN: [Título corto de la decisión]
 
-> Copia a `docs/02_Arquitectura/adr/NNNN-titulo-kebab.md`. Numeración secuencial. Un ADR aceptado no se reescribe; se supersede. Ver [`../07_Documentation/ADR.md`](../07_Documentation/ADR.md).
+> Copia a `docs/02_Arquitectura/adr/NNNN-titulo-kebab.md`. Numeración secuencial. Un ADR aceptado no se reescribe; se supersede. Ver [`../gobernanza/ADR.md`](../gobernanza/ADR.md).
 
 - **Estado:** Propuesto | Aceptado | Reemplazado por ADR-N | Obsoleto
 - **Fecha:** AAAA-MM-DD

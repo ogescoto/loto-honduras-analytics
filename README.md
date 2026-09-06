@@ -11,7 +11,7 @@ Sistema analítico de lotería **edge-first**: cruza estadística (números frí
 | Frontend | Astro (SSR, `@astrojs/cloudflare`) · Tailwind · shadcn/ui |
 | Backend | Cloudflare Workers · Hono · TypeScript |
 | Datos | Drizzle ORM · PostgreSQL (Docker, dev) · Neon serverless (prod) |
-| Ingestión | Cloudflare Scheduled Worker · Scrapoxy (proxy rotativo) |
+| Ingestión | Cloudflare Scheduled Worker · Decodo (gateway de proxy rotativo, gestionado) |
 | Tooling | pnpm · Turborepo · Vitest · Playwright |
 
 ## Estructura del monorepo
@@ -24,7 +24,7 @@ Sistema analítico de lotería **edge-first**: cruza estadística (números frí
 │   └── scraper-cron/       # Worker programado de ingestión
 ├── packages/
 │   └── shared-types/       # Contratos TypeScript compartidos (DTI) [protegido]
-├── docker/                 # Postgres local + Scrapoxy
+├── docker/                 # Postgres local (dev) — único servicio dockerizado
 ├── docs/                   # Bóveda Obsidian (fuente de verdad) — la mantiene SOLO /obsidian
 ├── ai-software-governance/ # Framework de gobernanza (reglas)
 └── .claude/skills/obsidian # Experto Obsidian (custodio de la documentación)
@@ -41,7 +41,7 @@ pnpm install
 # 2. Variables de entorno (rellena los CHANGE_ME / change-me-in-real-env)
 cp .env.example .env
 
-# 3. Levantar servicios locales (Postgres + Scrapoxy)
+# 3. Levantar la base de datos local (Postgres en Docker)
 pnpm run up
 
 # 4. Migrar y sembrar datos de desarrollo

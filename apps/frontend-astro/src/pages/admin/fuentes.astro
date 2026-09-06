@@ -1,0 +1,202 @@
+---
+import Shell from "../../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../../lib/auth.ts";
+import { apiGetSSR } from "../../lib/api.ts";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+
+if (!payload || (payload.role !== "admin" && payload.role !== "clerk")) {
+  return Astro.redirect("/login");
+}
+
+interface SourceRow {
+  id: string;
+  name: string;
+  baseUrl: string;
+  apiFormat: string;
+  enabled: boolean;
+  isPrimary: boolean;
+  lastSuccessAt: string | null;
+  lastErrorAt: string | null;
+  lastError: string | null;
+  createdAt: string;
+}
+
+const srcRes = await apiGetSSR<SourceRow[]>("/api/v1/admin/sources", Astro.locals, token!);
+const sources = srcRes.success ? srcRes.data! : [];
+
+function fmtTs(ts: string | null) {
+  return ts ? new Date(ts).toLocaleString("es-HN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+}
+
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+---
+
+<Shell title="Fuentes — Administración" active="admin">
+  <div class="space-y-8">
+    <nav class="nav-pills flex gap-2 text-sm">
+      <a href="/admin" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Admin</a>
+      <a href="/admin/resultados" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Resultados</a>
+      <a href="/admin/fuentes" class="shrink-0 rounded-lg bg-brand px-3 py-1.5 font-semibold text-white">Fuentes</a>
+      <a href="/admin/logs" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Logs</a>
+    </nav>
+
+    <section>
+      <h2 class="mb-1 text-lg font-bold text-slate-700">Fuentes de datos</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        URLs base de la API de lotería. El job consulta <strong>todas las habilitadas</strong> y correlaciona:
+        un resultado se marca verificado si lo reporta la fuente primaria o si ≥2 fuentes coinciden.
+      </p>
+
+      <form id="source-form" class="grid gap-3 rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Nombre</span>
+          <input name="name" required maxlength="120"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="text-sm font-medium text-slate-700">URL base</span>
+          <input name="baseUrl" type="url" required placeholder="https://api.ejemplo.com/honduras"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+        </label>
+        <label class="flex items-end gap-2 pb-2">
+          <input name="isPrimary" type="checkbox" class="h-4 w-4 accent-brand" />
+          <span class="text-sm font-medium text-slate-700">Primaria</span>
+        </label>
+        <button type="submit" class="min-h-[44px] rounded-lg bg-brand px-5 font-semibold text-white hover:bg-brand-dark disabled:opacity-60 sm:col-span-2">
+          Agregar fuente
+        </button>
+        <p id="result" class="text-sm sm:col-span-2" role="status"></p>
+      </form>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-lg font-bold text-slate-700">Fuentes configuradas ({sources.length})</h2>
+      {sources.length === 0 ? (
+        <p class="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">Aún no hay fuentes.</p>
+      ) : (
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-3 py-3 text-left">Fuente</th>
+                <th class="px-3 py-3 text-left">Estado</th>
+                <th class="px-3 py-3 text-left">Último éxito</th>
+                <th class="px-3 py-3 text-left">Último error</th>
+                <th class="px-3 py-3 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {sources.map((s) => (
+                <tr class:list={["hover:bg-slate-50", s.enabled ? "" : "opacity-60"]}>
+                  <td class="px-3 py-2">
+                    <p class="font-medium text-slate-800">
+                      {s.name}
+                      {s.isPrimary && <span class="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">primaria</span>}
+                    </p>
+                    <p class="break-all font-mono text-xs text-slate-400">{s.baseUrl}</p>
+                  </td>
+                  <td class="px-3 py-2">
+                    <span class:list={[
+                      "rounded-full px-2 py-0.5 text-xs font-medium",
+                      s.enabled ? "bg-emerald-100 text-emerald-700" : "bg-slate-200 text-slate-600",
+                    ]}>
+                      {s.enabled ? "Habilitada" : "Deshabilitada"}
+                    </span>
+                  </td>
+                  <td class="px-3 py-2 text-xs text-slate-500">{fmtTs(s.lastSuccessAt)}</td>
+                  <td class="px-3 py-2 text-xs text-red-600" title={s.lastError ?? ""}>
+                    {s.lastError ? `${fmtTs(s.lastErrorAt)} · ${s.lastError.slice(0, 60)}` : "—"}
+                  </td>
+                  <td class="px-3 py-2">
+                    <div class="flex flex-wrap gap-1.5">
+                      {!s.isPrimary && (
+                        <button class="primary-btn rounded bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-100" data-id={s.id}>Hacer primaria</button>
+                      )}
+                      <button class="toggle-btn rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-200" data-id={s.id} data-enabled={String(s.enabled)}>
+                        {s.enabled ? "Deshabilitar" : "Habilitar"}
+                      </button>
+                      <button class="del-btn rounded bg-red-100 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-200" data-id={s.id}>Eliminar</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  </div>
+</Shell>
+
+<script is:inline define:vars={{ apiBase }}>
+  const token = document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1];
+  const headers = (json = true) => ({
+    ...(json ? { "Content-Type": "application/json" } : {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  });
+  const show = (el, msg, ok) => {
+    el.textContent = msg;
+    el.className = ok ? "text-sm text-emerald-700" : "text-sm text-red-600";
+  };
+
+  const form = document.getElementById("source-form");
+  const result = document.getElementById("result");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = "Guardando…";
+    result.textContent = "";
+    try {
+      const body = {
+        name: form.elements.namedItem("name").value.trim(),
+        baseUrl: form.elements.namedItem("baseUrl").value.trim(),
+        isPrimary: form.elements.namedItem("isPrimary").checked,
+      };
+      const res = await fetch(`${apiBase}/api/v1/admin/sources`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify(body),
+      });
+      const j = await res.json();
+      if (j.success) { show(result, "✓ Fuente agregada.", true); setTimeout(() => location.reload(), 500); }
+      else { show(result, j.error?.message ?? "Error.", false); btn.disabled = false; btn.textContent = "Agregar fuente"; }
+    } catch {
+      show(result, "Error de conexión.", false);
+      btn.disabled = false;
+      btn.textContent = "Agregar fuente";
+    }
+  });
+
+  async function patch(id, patch) {
+    const res = await fetch(`${apiBase}/api/v1/admin/sources/${id}`, {
+      method: "PATCH",
+      headers: headers(),
+      body: JSON.stringify(patch),
+    });
+    const j = await res.json();
+    if (j.success) location.reload();
+    else alert(j.error?.message ?? "Error.");
+  }
+
+  document.querySelectorAll(".toggle-btn").forEach((btn) => {
+    btn.addEventListener("click", () => patch(btn.dataset.id, { enabled: btn.dataset.enabled !== "true" }));
+  });
+  document.querySelectorAll(".primary-btn").forEach((btn) => {
+    btn.addEventListener("click", () => patch(btn.dataset.id, { isPrimary: true }));
+  });
+  document.querySelectorAll(".del-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("¿Eliminar esta fuente?")) return;
+      btn.disabled = true;
+      try {
+        const res = await fetch(`${apiBase}/api/v1/admin/sources/${btn.dataset.id}`, { method: "DELETE", headers: headers(false) });
+        const j = await res.json();
+        if (j.success) location.reload();
+        else { alert(j.error?.message ?? "Error."); btn.disabled = false; }
+      } catch { alert("Error de conexión."); btn.disabled = false; }
+    });
+  });
+</script>

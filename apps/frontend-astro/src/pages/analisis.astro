@@ -1,0 +1,223 @@
+---
+/**
+ * Análisis de números favoritos — estadísticas centralizadas.
+ * Elige números (de tus favoritos o manual) y una combinación de patrones, y ve:
+ *   - ocurrencias y rango de fechas en el período elegido
+ *   - frecuencia por jornada (hora)
+ *   - frecuencia por día de la semana
+ *   - frecuencia por mes (últimos N meses)
+ *   - en qué patrones se da el número objetivo
+ * Requiere sesión (usa los favoritos guardados de la cuenta si el usuario no
+ * teclea números). El período es ajustable (30/60/90/120 días).
+ */
+import Shell from "../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../lib/auth.ts";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+if (!payload) return Astro.redirect("/login");
+
+const GAMES = [
+  { value: "diaria_11am", label: "La Diaria · 11 AM" },
+  { value: "diaria_3pm", label: "La Diaria · 3 PM" },
+  { value: "diaria_9pm", label: "La Diaria · 9 PM" },
+  { value: "pega3_11am", label: "Pega 3 · 11 AM" },
+  { value: "pega3_3pm", label: "Pega 3 · 3 PM" },
+  { value: "pega3_9pm", label: "Pega 3 · 9 PM" },
+  { value: "premia2_11am", label: "Premia 2 · 11 AM" },
+  { value: "premia2_3pm", label: "Premia 2 · 3 PM" },
+  { value: "premia2_9pm", label: "Premia 2 · 9 PM" },
+  { value: "juga3_11am", label: "Jugá 3 · 11 AM" },
+  { value: "juga3_3pm", label: "Jugá 3 · 3 PM" },
+  { value: "juga3_9pm", label: "Jugá 3 · 9 PM" },
+  { value: "super_premio", label: "Super Premio" },
+];
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+---
+
+<Shell title="Análisis de números" active="patrones">
+  <div class="mb-4 rounded-lg border border-brand/20 bg-brand/5 p-4 text-sm text-slate-700">
+    Analiza tus <strong>números favoritos</strong> o una combinación que elijas: cuántas veces han
+    salido, en qué <strong>jornada</strong>, en qué <strong>día de la semana</strong> y en qué
+    <strong>mes</strong> (últimos 4 meses), y en qué <strong>patrones</strong> se dan. Ajusta el período para
+    centrarte donde quieras.
+  </div>
+
+  <div class="mb-5 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <div class="flex flex-wrap items-end gap-3">
+      <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Juego</span>
+        <select id="an-game" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          {GAMES.map((g) => <option value={g.value} selected={g.value === "diaria_11am"}>{g.label}</option>)}
+        </select>
+      </label>
+      <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Período (días)</span>
+        <select id="an-days" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          {[30, 60, 90, 120].map((d) => <option value={d} selected={d === 120}>{d} días</option>)}
+        </select>
+      </label>
+      <label class="block flex-1 min-w-[220px]">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Números (00-99, separados por coma)</span>
+        <input id="an-numbers" type="text" placeholder="Ej: 8, 27" maxlength="150"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand" />
+      </label>
+      <button id="an-run" class="rounded-lg bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-brand-dark" type="button">
+        Analizar
+      </button>
+    </div>
+    <p class="mt-2 text-xs text-slate-400">
+      Vacío = usa tus favoritos del juego seleccionado.
+    </p>
+    <p id="an-status" class="mt-2 text-xs"></p>
+  </div>
+
+  <div id="an-results" class="hidden space-y-5">
+    <!-- Resumen -->
+    <div id="an-summary" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"></div>
+
+    <div class="grid gap-5 lg:grid-cols-2">
+      <!-- Por jornada -->
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 class="mb-2 font-semibold text-slate-800">Por jornada (hora)</h3>
+        <div id="an-slot" class="space-y-1.5"></div>
+      </div>
+      <!-- Por día de semana -->
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 class="mb-2 font-semibold text-slate-800">Por día de la semana</h3>
+        <div id="an-weekday" class="space-y-1.5"></div>
+      </div>
+      <!-- Por mes -->
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 class="mb-2 font-semibold text-slate-800">Por mes (últimos 4)</h3>
+        <div id="an-month" class="space-y-1.5"></div>
+      </div>
+      <!-- Patrones activos del número principal -->
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 class="mb-2 font-semibold text-slate-800">En qué patrones se da (número principal)</h3>
+        <div id="an-patterns" class="space-y-1.5"></div>
+      </div>
+    </div>
+  </div>
+</Shell>
+
+<script is:inline>
+  // Cargar favoritos autocompletables para el selector rápido
+  window.__LOTO_FAVS__ = null;
+</script>
+
+<script define:vars={{ apiBase }}>
+  const game = document.getElementById("an-game");
+  const daysSel = document.getElementById("an-days");
+  const numbersInp = document.getElementById("an-numbers");
+  const runBtn = document.getElementById("an-run");
+  const status = document.getElementById("an-status");
+  const results = document.getElementById("an-results");
+  const token = document.cookie.split("; ").find((c) => c.startsWith("loto_token="))?.split("=")[1];
+  const headers = (json = false) => {
+    const h = {};
+    if (json) h["Content-Type"] = "application/json";
+    if (token) h["Authorization"] = `Bearer ${token}`;
+    return h;
+  };
+
+  function s(msg, ok = true) {
+    status.textContent = msg;
+    status.className = "mt-2 text-xs " + (ok ? "text-emerald-700" : "text-red-600");
+  }
+
+  function bar(label, value, max, pct, color) {
+    const row = document.createElement("div");
+    const w = max > 0 ? Math.round((value / max) * 100) : 0;
+    row.innerHTML = `
+      <div class="flex items-center justify-between text-xs"><span class="text-slate-600">${label}</span><span class="font-medium text-slate-800">${value}${pct ? ` (${pct}%)` : ""}</span></div>
+      <div class="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full ${color || "bg-brand"}" style="width:${w}%"></div></div>`;
+    return row;
+  }
+
+  async function run() {
+    s("Analizando…");
+    let nums;
+    const raw = numbersInp.value.trim();
+    if (raw) {
+      nums = raw.split(/[,\s]+/).map((x) => parseInt(x, 10)).filter((n) => !isNaN(n) && n >= 0 && n <= 99);
+    } else {
+      // usar favoritos del juego si no hay manual
+      const f = await fetch(`${apiBase}/api/v1/favorites`, { headers: headers() }).then((r) => r.json());
+      const favs = (f.success ? f.data : []).filter((x) => x.game === game.value).map((x) => parseInt(x.number, 10));
+      nums = favs.slice(0, 50);
+      if (numbersInp) numbersInp.value = nums.join(", ");
+    }
+    if (!nums.length) { s("No hay favoritos ni números para este juego.", false); return; }
+
+    const days = Number(daysSel.value || 120);
+    const res = await fetch(`${apiBase}/api/v1/features/${game.value}/analytics`, {
+      method: "POST", headers: headers(true),
+      body: JSON.stringify({ numbers: nums, days }),
+    }).then((r) => r.json());
+    if (!res.success) { s(res.error?.message || "Error", false); return; }
+    s("");
+    render(res.data);
+  }
+
+  function render(d) {
+    results.classList.remove("hidden");
+
+    // Resumen
+    document.getElementById("an-summary").innerHTML = `
+      <div class="rounded-lg border border-slate-200 bg-white p-4 text-center shadow-sm"><p class="text-xs text-slate-500">Números</p><p class="text-xl font-bold text-brand">${d.numbers.length}</p></div>
+      <div class="rounded-lg border border-slate-200 bg-white p-4 text-center shadow-sm"><p class="text-xs text-slate-500">Apariciones</p><p class="text-xl font-bold text-brand">${d.totalOccurrences}</p></div>
+      <div class="rounded-lg border border-slate-200 bg-white p-4 text-center shadow-sm"><p class="text-xs text-slate-500">Período</p><p class="text-sm font-bold text-slate-800">${d.days} días</p><p class="text-[11px] text-slate-400">${d.range.from || "—"} → ${d.range.to || "—"}</p></div>
+      <div class="rounded-lg border border-slate-200 bg-white p-4 text-center shadow-sm"><p class="text-xs text-slate-500">Más recurrentes</p><p class="text-sm font-bold text-slate-800">${d.perNumber.slice(0,3).map((p) => `#${String(p.number).padStart(2,"0")} (${p.count})`).join(" · ")}</p></div>
+    `;
+
+    // Por jornada
+    const slotEl = document.getElementById("an-slot");
+    slotEl.innerHTML = "";
+    const maxSlot = Math.max(1, ...d.bySlot.map((x) => x[1]));
+    d.bySlot.forEach(([k, v]) => { const pct = Math.round((v / d.totalOccurrences) * 100); slotEl.appendChild(bar(k + " (jornada)", v, maxSlot, pct, "bg-teal-500")); });
+    if (!d.bySlot.length) slotEl.innerHTML = '<div class="text-xs text-slate-400">Sin apariciones en el período.</div>';
+
+    // Por día de semana
+    const wdEl = document.getElementById("an-weekday");
+    wdEl.innerHTML = "";
+    const maxWd = Math.max(1, ...d.byWeekday.map((x) => x[1]));
+    d.byWeekday.forEach(([k, v]) => { const pct = v / d.totalOccurrences; wdEl.appendChild(bar(cap(k), v, maxWd, Math.round(pct * 100), "bg-indigo-500")); });
+
+    // Por mes
+    const mEl = document.getElementById("an-month");
+    mEl.innerHTML = "";
+    const maxM = Math.max(1, ...d.byMonth.map((x) => x[1]));
+    d.byMonth.forEach(([k, v]) => { mEl.appendChild(bar(k, v, maxM, null, "bg-amber-500")); });
+
+    // Patrones activos
+    const pEl = document.getElementById("an-patterns");
+    pEl.innerHTML = "";
+    if (d.activePatterns && d.activePatterns.length) {
+      const labels = { decena:"Decena", docena:"Docena", terminacion:"Terminación", paridad:"Paridad", multiplicidad:"Múltiplo", anatomia:"Dígitos", complemento:"Complemento", recencia:"Recencia", frecuencia:"Frecuencia", ecos:"Eco", desequilibrio:"Vencido", imaginario:"Sueño", jornada:"Jornada", none:"" };
+      d.activePatterns.forEach((p) => {
+        const row = document.createElement("div");
+        row.className = "flex items-center gap-2 text-xs";
+        row.innerHTML = `<span class="rounded-full bg-teal-50 px-2 py-0.5 font-medium text-teal-700">${p.label}</span><span class="text-slate-400">${labels[p.category] || ""}</span>`;
+        pEl.appendChild(row);
+      });
+    } else {
+      pEl.innerHTML = '<div class="text-xs text-slate-400">Sin patrones activos para el número principal.</div>';
+    }
+  }
+
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  runBtn.addEventListener("click", run);
+  // Enter en el input
+  numbersInp.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+  // Botón para llenar favoritos del juego
+  game.addEventListener("change", async () => {
+    if (!numbersInp.value.trim()) {
+      const f = await fetch(`${apiBase}/api/v1/favorites`, { headers: headers() }).then((r) => r.json());
+      const favs = (f.success ? f.data : []).filter((x) => x.game === game.value).map((x) => x.number);
+      numbersInp.value = favs.join(", ");
+    }
+  });
+  run();
+</script>
