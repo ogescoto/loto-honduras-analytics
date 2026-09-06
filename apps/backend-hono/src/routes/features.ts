@@ -15,6 +15,7 @@ import {
   FEATURE_LABELS,
   FEATURE_DESCRIPTIONS,
   FEATURE_META,
+  findExclusiveConflict,
   computeNumberStates,
   filterByFeatures,
   type FeatureCode,
@@ -57,6 +58,9 @@ featuresRoutes.get("/catalog", (c) => {
     code,
     label: FEATURE_LABELS[code],
     description: FEATURE_DESCRIPTIONS[code],
+    block: FEATURE_BLOCKS[code],
+    scope: FEATURE_META[code].scope,
+    category: FEATURE_META[code].category,
   }));
   return c.json({ success: true, data: catalog });
 });
@@ -189,6 +193,16 @@ featuresRoutes.post("/:game/filter", async (c) => {
   if (body.features.length > 7)
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Máximo 7 características por filtro." } }, 400);
 
+  const conflict = findExclusiveConflict(body.features as FeatureCode[]);
+  if (conflict)
+    return c.json({
+      success: false,
+      error: {
+        code: "INCOMPATIBLE_COMBINATION",
+        message: `No se pueden combinar patrones de la misma clasificación (${conflict.category}): ${conflict.codes.join(", ")}.`,
+      },
+    }, 400);
+
   const db = c.get("db");
   const requested = body.features as FeatureCode[];
 
@@ -245,6 +259,16 @@ featuresRoutes.post("/:game/hits", async (c) => {
 
   if (body.features.length > 7)
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Máximo 7 características por combinación." } }, 400);
+
+  const conflict = findExclusiveConflict(body.features as FeatureCode[]);
+  if (conflict)
+    return c.json({
+      success: false,
+      error: {
+        code: "INCOMPATIBLE_COMBINATION",
+        message: `No se pueden combinar patrones de la misma clasificación (${conflict.category}): ${conflict.codes.join(", ")}.`,
+      },
+    }, 400);
 
   // Ventana de emulación (opcional): evaluar solo sorteos de los últimos N días.
   const days = Math.min(Math.max(Number(body.days) || 30, 1), 90);

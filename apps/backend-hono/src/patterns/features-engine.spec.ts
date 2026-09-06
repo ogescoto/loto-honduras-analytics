@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeNumberStates,
   filterByFeatures,
+  findExclusiveConflict,
   type FeatureCode,
 } from "./features-engine.js";
 
@@ -81,5 +82,23 @@ describe("filterByFeatures", () => {
     }));
     const res = filterByFeatures(states, ["pareja_100", "sobredemora"]);
     expect(res.exact).toEqual([27]);
+  });
+});
+
+describe("findExclusiveConflict — clasificación excluyente", () => {
+  it("detecta dos patrones de la misma clasificación (decena)", () => {
+    const conflict = findExclusiveConflict(["cluster_decena_activa", "decena_top_100", "docena_activa"]);
+    expect(conflict).not.toBeNull();
+    expect(conflict!.category).toBe("decena");
+    expect(conflict!.codes).toContain("cluster_decena_activa");
+    expect(conflict!.codes).toContain("decena_top_100");
+  });
+
+  it("permite combinar patrones de distinta clasificación", () => {
+    expect(findExclusiveConflict(["cluster_decena_activa", "docena_activa", "terminacion_caliente"])).toBeNull();
+  });
+
+  it("permite una sola característica", () => {
+    expect(findExclusiveConflict(["pareja_100"])).toBeNull();
   });
 });

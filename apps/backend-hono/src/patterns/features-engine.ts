@@ -147,40 +147,62 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureCode, string> = {
 export interface FeatureMeta {
   scope: "familia" | "juego";
   windowDesc: string;
+  /**
+   * Clasificación por tipo de cálculo. PATRONES DE LA MISMA CATEGORÍA NO PUEDEN
+   * combinarse (ej. dos 'decena'), para que una combinación no redoble el mismo
+   * criterio. `none` = sin restricción (se combina libremente).
+   */
+  category: FeatureCategory;
 }
 
+export type FeatureCategory =
+  | "decena"      // basados en la decena (bloque de 10)
+  | "docena"      // basados en la docena (bloque de 12)
+  | "terminacion" // basados en el dígito final
+  | "paridad"     // basados en par/impar
+  | "multiplicidad" // múltiplos
+  | "anatomia"    // estructura de dígitos del número mismo
+  | "complemento" // complementos/suma con el último ganador
+  | "recencia"    // ausencia/ventana de días
+  | "frecuencia"  // conteo de apariciones
+  | "ecos"        // repetición del ganador
+  | "desequilibrio" // sobredemora / vencido
+  | "imaginario"  // guía de sueños
+  | "jornada"     // contexto de la jornada/hora
+  | "none";       // sin clasificación excluyente
+
 export const FEATURE_META: Record<FeatureCode, FeatureMeta> = {
-  frio_absoluto:        { scope: "familia", windowDesc: ">30 días sin aparecer en la familia" },
-  frio_horario:         { scope: "juego", windowDesc: ">15 días sin salir en ESTA jornada (hora)" },
-  despertar_promedio:   { scope: "familia", windowDesc: "familia · 7–14 días de ausencia" },
-  latencia_reciente:    { scope: "familia", windowDesc: "familia · 3–6 días de ausencia" },
-  caliente_cortoplazo:  { scope: "familia", windowDesc: "≥3 salidas en últimos 10 días (familia)" },
-  eco_consecutivo:      { scope: "familia", windowDesc: "mismo número del sorteo inmediatamente anterior (familia)" },
-  eco_horario:          { scope: "juego", windowDesc: "cayó ayer en ESTA jornada (hora)" },
-  digitos_gemelos:      { scope: "familia", windowDesc: "anatomía: ambos dígitos iguales (atemporal)" },
-  cluster_decena_activa:{ scope: "familia", windowDesc: "decena más salida de la familia · últimos 3 días" },
-  terminacion_caliente: { scope: "familia", windowDesc: "terminación más frecuente · últimas 15 jugadas de la familia" },
-  inversion_directa:    { scope: "familia", windowDesc: "espejo del último ganador (familia)" },
-  multiplo_base_cinco:  { scope: "familia", windowDesc: "termina en 0 o 5 (atemporal)" },
-  multiplo_generacional:{ scope: "familia", windowDesc: "múltiplo/divisor del último ganador (familia)" },
-  producto_interno:     { scope: "familia", windowDesc: "producto de dígitos del último ganador (familia)" },
-  suma_consecutiva:     { scope: "familia", windowDesc: "suma de los 2 últimos ganadores (familia)" },
-  presencia_corta:      { scope: "familia", windowDesc: "salió en últimos 5 días (familia)" },
-  sobredemora:          { scope: "familia", windowDesc: "gap de días > promedio histórico (familia)" },
-  pareja_100:           { scope: "familia", windowDesc: "complemento a 100 del último ganador (familia)" },
-  complemento_99:       { scope: "familia", windowDesc: "complemento a 99 del último ganador (familia)" },
-  vecino_ganador:       { scope: "familia", windowDesc: "adyacente al último ganador (familia)" },
-  raiz_digitos_ganador: { scope: "familia", windowDesc: "suma de dígitos del último ganador (familia)" },
-  docena_activa:        { scope: "familia", windowDesc: "docena más salida · últimas 30 jugadas (familia)" },
-  decena_activa_jornada:{ scope: "juego", windowDesc: "decena más jugada en ESTA jornada · últimos 10 sorteos" },
-  favorito_jornada_anterior: { scope: "juego", windowDesc: "decena del sorteo inmediatamente anterior de ESTA jornada" },
-  terminacion_fria:     { scope: "familia", windowDesc: "terminación menos frecuente · últimas 15 jugadas (familia)" },
-  frecuencia_100:       { scope: "juego", windowDesc: "juego · ≥3 salidas en los últimos 100 sorteos de ESTA jornada" },
-  reciente_5_juego:     { scope: "juego", windowDesc: "juego · salió en uno de los últimos 5 sorteos de ESTA jornada" },
-  terminacion_top_100:  { scope: "juego", windowDesc: "juego · terminación top en los últimos 100 sorteos de ESTA jornada" },
-  decena_top_100:       { scope: "juego", windowDesc: "juego · decena top en los últimos 100 sorteos de ESTA jornada" },
-  promedio_vencido:     { scope: "juego", windowDesc: "juego · gap en sorteos > promedio histórico de ESTA jornada" },
-  gusto_sueno:          { scope: "familia", windowDesc: "imaginario popular: número en la guía de los sueños (atemporal)" },
+  frio_absoluto:        { scope: "familia", windowDesc: ">30 días sin aparecer en la familia", category: "recencia" },
+  frio_horario:         { scope: "juego", windowDesc: ">15 días sin salir en ESTA jornada (hora)", category: "recencia" },
+  despertar_promedio:   { scope: "familia", windowDesc: "familia · 7–14 días de ausencia", category: "recencia" },
+  latencia_reciente:    { scope: "familia", windowDesc: "familia · 3–6 días de ausencia", category: "recencia" },
+  caliente_cortoplazo:  { scope: "familia", windowDesc: "≥3 salidas en últimos 10 días (familia)", category: "frecuencia" },
+  eco_consecutivo:      { scope: "familia", windowDesc: "mismo número del sorteo inmediatamente anterior (familia)", category: "ecos" },
+  eco_horario:          { scope: "juego", windowDesc: "cayó ayer en ESTA jornada (hora)", category: "ecos" },
+  digitos_gemelos:      { scope: "familia", windowDesc: "anatomía: ambos dígitos iguales (atemporal)", category: "anatomia" },
+  cluster_decena_activa:{ scope: "familia", windowDesc: "decena más salida de la familia · últimos 3 días", category: "decena" },
+  terminacion_caliente: { scope: "familia", windowDesc: "terminación más frecuente · últimas 15 jugadas de la familia", category: "terminacion" },
+  inversion_directa:    { scope: "familia", windowDesc: "espejo del último ganador (familia)", category: "anatomia" },
+  multiplo_base_cinco:  { scope: "familia", windowDesc: "termina en 0 o 5 (atemporal)", category: "multiplicidad" },
+  multiplo_generacional:{ scope: "familia", windowDesc: "múltiplo/divisor del último ganador (familia)", category: "multiplicidad" },
+  producto_interno:     { scope: "familia", windowDesc: "producto de dígitos del último ganador (familia)", category: "anatomia" },
+  suma_consecutiva:     { scope: "familia", windowDesc: "suma de los 2 últimos ganadores (familia)", category: "complemento" },
+  presencia_corta:      { scope: "familia", windowDesc: "salió en últimos 5 días (familia)", category: "recencia" },
+  sobredemora:          { scope: "familia", windowDesc: "gap de días > promedio histórico (familia)", category: "desequilibrio" },
+  pareja_100:           { scope: "familia", windowDesc: "complemento a 100 del último ganador (familia)", category: "complemento" },
+  complemento_99:       { scope: "familia", windowDesc: "complemento a 99 del último ganador (familia)", category: "complemento" },
+  vecino_ganador:       { scope: "familia", windowDesc: "adyacente al último ganador (familia)", category: "complemento" },
+  raiz_digitos_ganador: { scope: "familia", windowDesc: "suma de dígitos del último ganador (familia)", category: "anatomia" },
+  docena_activa:        { scope: "familia", windowDesc: "docena más salida · últimas 30 jugadas (familia)", category: "docena" },
+  decena_activa_jornada:{ scope: "juego", windowDesc: "decena más jugada en ESTA jornada · últimos 10 sorteos", category: "decena" },
+  favorito_jornada_anterior: { scope: "juego", windowDesc: "decena del sorteo inmediatamente anterior de ESTA jornada", category: "decena" },
+  terminacion_fria:     { scope: "familia", windowDesc: "terminación menos frecuente · últimas 15 jugadas (familia)", category: "terminacion" },
+  frecuencia_100:       { scope: "juego", windowDesc: "juego · ≥3 salidas en los últimos 100 sorteos de ESTA jornada", category: "frecuencia" },
+  reciente_5_juego:     { scope: "juego", windowDesc: "juego · salió en uno de los últimos 5 sorteos de ESTA jornada", category: "recencia" },
+  terminacion_top_100:  { scope: "juego", windowDesc: "juego · terminación top en los últimos 100 sorteos de ESTA jornada", category: "terminacion" },
+  decena_top_100:       { scope: "juego", windowDesc: "juego · decena top en los últimos 100 sorteos de ESTA jornada", category: "decena" },
+  promedio_vencido:     { scope: "juego", windowDesc: "juego · gap en sorteos > promedio histórico de ESTA jornada", category: "desequilibrio" },
+  gusto_sueno:          { scope: "familia", windowDesc: "imaginario popular: número en la guía de los sueños (atemporal)", category: "imaginario" },
 };
 
 export type NumberFeatures = Record<FeatureCode, boolean>;
@@ -452,4 +474,33 @@ export function filterByFeatures(
   const maxCount = Math.max(...scores.map((s) => s.count));
   const partial = scores.filter((s) => s.count === maxCount).map((s) => s.number);
   return { exact: [], partial, matchCount: maxCount };
+}
+
+/** Clasificación (tipo de cálculo) de un patrón. */
+export function featureCategory(code: FeatureCode): FeatureCategory {
+  return FEATURE_META[code].category;
+}
+
+/**
+ * Detecta si una combinación de patrones incluye dos de la MISMA clasificación
+ * excluyente (ej. dos 'decena'). Devuelve el conflicto o null si es válida.
+ * `none` no restringe.
+ */
+export function findExclusiveConflict(features: FeatureCode[]): {
+  category: FeatureCategory;
+  codes: FeatureCode[];
+} | null {
+  if (features.length < 2) return null;
+  const byCat = new Map<FeatureCategory, FeatureCode[]>();
+  for (const c of features) {
+    const cat = FEATURE_META[c].category;
+    if (cat === "none") continue;
+    const arr = byCat.get(cat) ?? [];
+    arr.push(c);
+    byCat.set(cat, arr);
+  }
+  for (const [cat, codes] of byCat) {
+    if (codes.length > 1) return { category: cat, codes };
+  }
+  return null;
 }

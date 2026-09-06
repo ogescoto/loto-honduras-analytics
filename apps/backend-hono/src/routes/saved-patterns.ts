@@ -14,7 +14,7 @@ import { Hono } from "hono";
 import { and, eq, inArray } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import { userSavedPatterns } from "../db/schema.js";
-import { ALL_FEATURES } from "../patterns/features-engine.js";
+import { ALL_FEATURES, findExclusiveConflict, type FeatureCode } from "../patterns/features-engine.js";
 import type { GameType } from "@loto/shared-types";
 import type { AuthClaims } from "../middlewares/auth.js";
 
@@ -64,6 +64,16 @@ savedPatternsRoutes.post("/", async (c) => {
   const invalid = features.filter((f) => !ALL_FEATURES.includes(f as never));
   if (invalid.length > 0)
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Características inválidas: ${invalid.join(", ")}.` } }, 400);
+
+  const conflict = findExclusiveConflict(features as FeatureCode[]);
+  if (conflict)
+    return c.json({
+      success: false,
+      error: {
+        code: "INCOMPATIBLE_COMBINATION",
+        message: `No se pueden combinar patrones de la misma clasificación (${conflict.category}): ${conflict.codes.join(", ")}.`,
+      },
+    }, 400);
 
   const [row] = await db
     .insert(userSavedPatterns)

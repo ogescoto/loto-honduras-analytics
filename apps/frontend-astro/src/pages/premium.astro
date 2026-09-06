@@ -319,7 +319,7 @@ const GAMES = [
       return h;
     };
 
-    let catalog: { code: string; label: string; description: string }[] = [];
+    let catalog: { code: string; label: string; description: string; category: string; scope: string }[] = [];
     let combos: { id: string; name: string; game: string; features: string[] }[] = [];
     let selectedFeatures = new Set<string>();
     let currentGame = "diaria_11am";
@@ -366,18 +366,41 @@ const GAMES = [
     function renderCatalog() {
       if (!featureCatalog) return;
       featureCatalog.innerHTML = "";
+      // Categorías ya ocupadas en la selección (para bloquear otros de la misma).
+      const occupied = new Set();
+      selectedFeatures.forEach((code) => {
+        const f = catalog.find((x) => x.code === code);
+        if (f && f.category !== "none") occupied.add(f.category);
+      });
+      const CAT_LABEL = {
+        decena: "Decena", docena: "Docena", terminacion: "Terminación", paridad: "Paridad",
+        multiplicidad: "Múltiplo", anatomia: "Dígitos", complemento: "Complemento",
+        recencia: "Recencia", frecuencia: "Frecuencia", ecos: "Eco", desequilibrio: "Vencido",
+        imaginario: "Sueño", jornada: "Jornada", none: "",
+      };
       for (const feat of catalog) {
         const active = selectedFeatures.has(feat.code);
+        const blocked = !active && feat.category !== "none" && occupied.has(feat.category);
         const row = document.createElement("button");
         row.type = "button";
+        row.disabled = blocked && false; // no deshabilitamos el clic; mostramos el conflicto
         row.className = "block w-full text-left rounded-lg border px-2.5 py-1.5 text-xs transition " +
-          (active ? "border-brand bg-brand/10" : "border-slate-200 bg-white hover:border-brand/50");
-        row.innerHTML = `<div class="flex items-center justify-between"><span class="font-semibold ${active ? "text-brand" : "text-slate-800"}"></span><span class="shrink-0 text-[10px] text-slate-400">${active ? "✓ añadido" : "+"}</span></div><p class="truncate text-slate-500"></p>`;
+          (active ? "border-brand bg-brand/10" : blocked ? "border-slate-200 bg-slate-50 opacity-60" : "border-slate-200 bg-white hover:border-brand/50");
+        const catTag = feat.category && feat.category !== "none" ? `<span class="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-medium text-slate-500">${CAT_LABEL[feat.category] ?? feat.category}</span>` : "";
+        row.innerHTML = `<div class="flex items-center justify-between gap-1"><span class="font-semibold ${active ? "text-brand" : "text-slate-800"}"></span><span class="flex shrink-0 items-center gap-1">${catTag}${active ? '<span class="text-[10px] text-teal-600">✓</span>' : blocked ? '<span class="text-[9px] text-red-400">ocupada</span>' : '<span class="text-[10px] text-slate-400">+</span>'}</span></div><p class="truncate text-slate-500"></p>`;
         (row.querySelector("span.font-semibold") as HTMLElement).textContent = feat.label;
         (row.querySelector("p") as HTMLElement).textContent = feat.description;
         row.addEventListener("click", () => {
-          if (selectedFeatures.has(feat.code)) selectedFeatures.delete(feat.code);
-          else if (selectedFeatures.size < 7) selectedFeatures.add(feat.code);
+          if (selectedFeatures.has(feat.code)) {
+            selectedFeatures.delete(feat.code);
+          } else if (selectedFeatures.size < 7) {
+            if (feat.category !== "none" && occupied.has(feat.category)) {
+              sstatus(`No puedes combinar dos patrones de la misma clasificación (${CAT_LABEL[feat.category] ?? feat.category}).`, false);
+              return;
+            }
+            selectedFeatures.add(feat.code);
+          }
+          sstatus("");
           renderCatalog(); renderChips(); setButtons();
         });
         featureCatalog.appendChild(row);
@@ -394,11 +417,13 @@ const GAMES = [
       if (arr.length === 0) { if (chipsEmpty) chipsEmpty.classList.remove("hidden"); return; }
       if (chipsEmpty) chipsEmpty.classList.add("hidden");
       arr.forEach((code, i) => {
+        const feat = catalog.find((f) => f.code === code);
         const chip = document.createElement("div");
         chip.className = "flex items-center justify-between gap-2 rounded-lg border border-brand/30 bg-white px-2.5 py-1.5 text-xs shadow-sm";
         const left = document.createElement("span");
         left.className = "font-medium text-slate-700";
-        left.textContent = `${i + 1}. ${labels.get(code) ?? code}`;
+        const catTag = feat && feat.category && feat.category !== "none" ? ` <span class="text-[9px] text-slate-400">(${feat.category})</span>` : "";
+        left.innerHTML = `${i + 1}. ` + labels.get(code) + catTag;
         const x = document.createElement("button");
         x.type = "button"; x.textContent = "✕";
         x.className = "shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-red-600";
