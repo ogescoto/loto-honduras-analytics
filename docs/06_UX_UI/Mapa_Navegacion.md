@@ -15,6 +15,7 @@ Vistas del [[04_Modulos/Frontend|frontend Astro]] (móvil-first), montadas sobre
 - **Zona Premium** (`src/pages/premium.astro`): meta-patrones de nivel 2; **gate por token de suscriptor** (Bearer JWT); si no hay acceso, invita a suscribirse. Los planes (1/3/6/12 meses) se muestran también deslogueado para que el enlace `#planes` funcione desde el gate de `/patrones`. Ver [[05_Procesos/Flujo_Acceso_Premium|flujo premium]] y [[05_Procesos/Flujo_Pago_Online|pago online]].
 - **Análisis de patrones** (`src/pages/patrones.astro`): 4 tabs (**Candidatos** para el próximo sorteo, **Historial** de aciertos con días atrás, **Guía** de los 25 patrones y **Guardados**). Requiere sesión; sin sesión muestra gate con CTA a `/login` y `/premium#planes`. Ver [[04_Modulos/Patrones|Patrones]].
 - **Admin** (`src/pages/admin.astro`): gestión de usuarios (cambio de rol y asignación de plan), listado de suscripciones y formulario de registro de [[05_Procesos/Flujo_Cobro_Presencial|cobro presencial]]. Acceso restringido por rol.
+- **Configuración de patrones** (`src/pages/configuracion.astro`, admin/clerk): lista los patrones actuales, editor JSON interpretable (validar/probar/descargar) y acceso vía MCP `loto-pattern-tools`.
 
 ## Diseño mixto móvil / desktop (2026-09-05)
 Navegación **adaptativa por dispositivo**, implementada en `src/layouts/Shell.astro`:
