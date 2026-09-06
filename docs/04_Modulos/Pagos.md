@@ -22,13 +22,13 @@ Cobrar **suscripciones premium online** mediante **Stripe Checkout** y activar l
 - `packages/shared-types` (`CreateCheckoutDto`).
 
 ## API pública
-- **`POST /api/v1/payments/checkout`** (requiere `requireAuth`): crea una sesión de Stripe Checkout. Precio **USD 5.00/mes**, `client_reference_id = userId`. Devuelve `checkoutUrl`. Ver [[02_Arquitectura/API#POST /api/v1/payments/checkout|API]].
-- **`POST /api/v1/payments/webhook`** (público pero **firmado**): verifica la firma de Stripe; ante `checkout.session.completed` crea una suscripción `stripe` vigente para el `client_reference_id`. Ver [[02_Arquitectura/API#POST /api/v1/payments/webhook|API]].
+- **`POST /api/v1/payments/checkout`** (requiere `requireAuth`): crea una sesión de Stripe Checkout. **Plan único de L. 200.00 (HNL) por 30 días** (2026-09-05; antes USD 5.00/mes), `client_reference_id = userId`. Devuelve `checkoutUrl`. Ver [[02_Arquitectura/API#POST /api/v1/payments/checkout|API]].
+- **`POST /api/v1/payments/webhook`** (público pero **firmado**): verifica la firma de Stripe; ante `checkout.session.completed` crea una suscripción `stripe` vigente para el `client_reference_id` con `endDate = +30 días` (plan fijo). Ver [[02_Arquitectura/API#POST /api/v1/payments/webhook|API]].
 - Código: `apps/backend-hono/src/payments/routes.ts`.
 
 ## Implementación
 `apps/backend-hono/src/payments/stripe-client.ts`:
-- `createCheckoutSession(apiKey, params)`: POST a `https://api.stripe.com/v1/checkout/sessions` con cuerpo `x-www-form-urlencoded` y `line_items` con `price_data` dinámico.
+- `createCheckoutSession(apiKey, params)`: POST a `https://api.stripe.com/v1/checkout/sessions` con cuerpo `x-www-form-urlencoded` y `line_items` con `price_data` dinámico, **moneda `hnl`** y `unit_amount = 20000` (L. 200.00).
 - `verifyWebhook(payload, sigHeader, secret, tolerance=300s)`: verifica la firma `stripe-signature` v1 (HMAC-SHA256 con **Web Crypto**) y la ventana temporal; devuelve el evento parseado o lanza.
 
 ## Entidades principales
