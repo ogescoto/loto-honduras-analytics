@@ -56,6 +56,10 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - **Numerología por defecto (2026-09-05):** si se invoca sin `dreamNumbers`, usa `Object.values(DREAM_GUIDE)` como referencia del imaginario popular, de modo que el cruce `calientes ∩ sueños` siempre pueda generar meta-patrones. Antes, `ingest.ts` llamaba con `[]` → `meta_patterns` quedaba vacío (la pantalla premium parecía "vacía"). Tras `seed:prod` hay **65 patrones + 32 meta-patrones**.
 - Se recalcula en background tras cada ingestión (`ingest.ts` → `ctx.waitUntil(computePatternsForGame(...))`).
 
+### Clasificación excluyente por tipo de cálculo
+Cada patrón tiene una **`category`** (tipo de cálculo): `decena`, `docena`, `terminacion`, `paridad`, `multiplicidad`, `anatomia`, `complemento`, `recencia`, `frecuencia`, `ecos`, `desequilibrio`, `imaginario`, `jornada` o `none`.
+**No se puede combinar dos patrones de la misma categoría** (ej. dos `decena`), para evitar que una combinación redoble el mismo criterio. `findExclusiveConflict()` valida esto y las rutas `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION`. El constructor de `/premium` muestra la categoría como badge y marca "ocupada" las de la misma clase ya seleccionada. `/catalog` expone `category` y `scope`, y `/configuracion` la muestra en "Cómo está hecho".
+
 ## Entidades principales
 - [[01_Dominio/Entidades#GamePattern|GamePattern]] — tipos `frio_caliente`, `numerologia_suenos`, `par_impar`, `rachas_inversas`.
 - [[01_Dominio/Entidades#MetaPattern|MetaPattern]] — cruza varios GamePattern (`parentPatternIds`).
@@ -78,6 +82,7 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
+- 2026-09-05: **clasificación excluyente** por tipo de cálculo (`category` + `findExclusiveConflict`) — no se combinan dos de la misma clase; `INCOMPATIBLE_COMBINATION`.
 - 2026-09-05: detalle "cómo está hecho" por patrón y **alcance familia vs juego** (`FEATURE_META` en `/config` y en `/configuracion`).
 - 2026-09-05: **características por juego (bloque H)** — 6 nuevas sobre los últimos 100 sorteos de cada jornada (`frecuencia_100`, `reciente_5_juego`, `terminacion_top_100`, `decena_top_100`, `promedio_vencido`, `gusto_sueno`). Catálogo 25→31. Fix upsert `number_states`.
 - 2026-09-05: **Tab "Top combinaciones"** en el Estudio Premium (`topFeatureCombos` + `POST /top-combos`) — combinaciones de 3 más frecuentes en últimos 30 sorteos.

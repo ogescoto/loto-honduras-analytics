@@ -174,6 +174,7 @@ Elimina la combinación del usuario.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
 ## Historial de cambios
+- 2026-09-05: `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION` si se combinan patrones de la misma clasificación (`category`). `/catalog` expone `category` y `scope`.
 - 2026-09-05: documentado `POST /api/v1/features/:game/top-combos` (top de combinaciones).
 - 2026-09-05: documentados `GET/POST /favorites`, `PATCH /favorites/reorder`, `DELETE /favorites/:id` y CRUD `/saved-patterns`; `MAX_DAYS` de historial sube a 90.
 - 2026-09-05: añadidos `PATCH /api/v1/admin/users/:id/role` y `PATCH /api/v1/admin/users/:id/subscription` (gestión de roles y planes desde admin); documentados `POST /api/v1/ingest/events` y `GET /api/v1/admin/logs`.
