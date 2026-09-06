@@ -13,6 +13,8 @@ import { users, subscriptions } from "../../db/schema.js";
 import type { UserRole } from "@loto/shared-types";
 
 const ROLES: UserRole[] = ["customer", "admin", "clerk"];
+/** Duración del trial asignado por admin (máximo 15 días, siempre). */
+const TRIAL_DAYS = 15;
 
 export const adminUsersRoutes = new Hono<{ Variables: { db: Database } }>();
 
@@ -116,7 +118,8 @@ adminUsersRoutes.patch("/:id/role", async (c) => {
 });
 
 // PATCH /api/v1/admin/users/:id/subscription — asignar o renovar plan (trial o cash).
-// Crea una suscripción activa con vencimiento a N meses desde hoy.
+// - trial: SIEMPRE 15 días (máximo), ignora validityMonths.
+// - cash_presencial: por N meses (1-12).
 adminUsersRoutes.patch("/:id/subscription", async (c) => {
   const db = c.get("db");
   const targetId = c.req.param("id");
@@ -134,8 +137,16 @@ adminUsersRoutes.patch("/:id/subscription", async (c) => {
     return c.json({ success: false, error: { code: "USER_NOT_FOUND", message: "Usuario no encontrado." } }, 404);
 
   const now = new Date();
-  const endDate = new Date(now);
-  endDate.setMonth(now.getMonth() + validityMonths);
+  let endDate: Date;
+  let durationLabel = "";
+  if (method === "trial") {
+    endDate = new Date(now.getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
+    durationLabel = `${TRIAL_DAYS} días (trial)`;
+  } else {
+    endDate = new Date(now);
+    endDate.setMonth(now.getMonth() + validityMonths);
+    durationLabel = `${validityMonths} mes(es)`;
+  }
 
   await db.insert(subscriptions).values({
     userId: targetId,
@@ -150,7 +161,7 @@ adminUsersRoutes.patch("/:id/subscription", async (c) => {
   return c.json({
     success: true,
     data: {
-      message: `Plan ${method === "trial" ? "Trial" : "pago en efectivo"} asignado ${validityMonths} mes(es) hasta ${endDate.toISOString()}`,
+      message: `Plan ${method === "trial" ? "Trial" : "pago en efectivo"} asignado ${durationLabel} hasta ${endDate.toISOString()}`,
     },
   });
 });

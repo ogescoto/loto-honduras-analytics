@@ -14,7 +14,6 @@ import type { Database } from "../db/client.js";
 import { users, subscriptions } from "../db/schema.js";
 import { requireAuth } from "../middlewares/auth.js";
 import { createCheckoutSession, verifyWebhook } from "./stripe-client.js";
-import type { CreateCheckoutDto } from "@loto/shared-types";
 
 type Env = {
   STRIPE_API_KEY: string;
@@ -22,25 +21,19 @@ type Env = {
   APP_BASE_URL: string;
 };
 
-const PRICE_PER_MONTH_CENTS = 500; // USD 5.00 / mes
+/** Plan único actual: L. 200.00 = 30 días de Premium (moneda HNL). */
+const PLAN_AMOUNT_HNL_CENTS = 20000;     // L. 200.00 (centavos de lempira)
+const PLAN_VALIDITY_DAYS = 30;            // 30 días por pago
 
 export const paymentsRoutes = new Hono<{
   Bindings: Env;
   Variables: { db: Database };
 }>();
 
-// POST /api/v1/payments/checkout — inicia el checkout de Stripe.
+// POST /api/v1/payments/checkout — inicia el checkout de Stripe (plan L. 200 / 30 días).
 paymentsRoutes.post("/checkout", requireAuth, async (c) => {
   const db = c.get("db");
   const auth = c.get("auth");
-  const { validityMonths } = (await c.req.json()) as CreateCheckoutDto;
-
-  if (!validityMonths || Number(validityMonths) <= 0) {
-    return c.json(
-      { success: false, error: { code: "VALIDATION_ERROR", message: "validityMonths debe ser mayor que 0." } },
-      400,
-    );
-  }
 
   const [user] = await db.select().from(users).where(eq(users.id, auth.sub)).limit(1);
   if (!user) {
@@ -53,8 +46,8 @@ paymentsRoutes.post("/checkout", requireAuth, async (c) => {
   const base = c.env.APP_BASE_URL ?? "http://localhost:4321";
   const session = await createCheckoutSession(c.env.STRIPE_API_KEY, {
     customerEmail: user.email,
-    validityMonths: Number(validityMonths),
-    unitAmountCents: PRICE_PER_MONTH_CENTS,
+    validityMonths: 1, // 1 período (30 días), plan fijo
+    unitAmountCents: PLAN_AMOUNT_HNL_CENTS,
     successUrl: `${base}/premium?checkout=success`,
     cancelUrl: `${base}/premium?checkout=cancel`,
     clientReferenceId: user.id,
@@ -92,11 +85,10 @@ paymentsRoutes.post("/webhook", async (c) => {
   if (event.type === "checkout.session.completed") {
     const obj = event.data.object;
     const userId = obj.client_reference_id;
-    const months = Number(obj.metadata?.validityMonths ?? 1);
     if (userId) {
       const now = new Date();
-      const endDate = new Date(now);
-      endDate.setMonth(now.getMonth() + months);
+      // Plan único: L. 200.00 = 30 días de Premium.
+      const endDate = new Date(now.getTime() + PLAN_VALIDITY_DAYS * 24 * 60 * 60 * 1000);
       await db.insert(subscriptions).values({
         userId,
         isActive: true,

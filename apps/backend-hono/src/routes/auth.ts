@@ -17,6 +17,9 @@ import type { UserRole } from "@loto/shared-types";
 import { hashPassword, verifyPassword } from "../lib/password.js";
 import { sendBrevoEmail, buildPasswordResetEmail, buildWelcomeEmail } from "../lib/brevo.js";
 
+/** Duración del trial gratuito (máximo 15 días, siempre). */
+const TRIAL_DAYS = 15;
+
 type Env = {
   JWT_SECRET: string;
   BREVO_API_KEY: string;
@@ -144,8 +147,8 @@ authRoutes.post("/register", async (c) => {
     })
     .returning();
 
-  // Trial gratuito de 90 días — se crea automáticamente al registrar
-  const trialEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+  // Trial gratuito de 15 días — se crea automáticamente al registrar
+  const trialEnd = new Date(Date.now() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
   await db.insert(subscriptions).values({
     userId: user!.id,
     isActive: true,
@@ -415,14 +418,14 @@ authRoutes.get("/google/callback", async (c) => {
     const adminEmails = parseAdminEmails(c.env.GOOGLE_ADMIN_EMAILS);
     const authed = await promoteAdminIfListed(db, user, adminEmails);
 
-    // Si es usuario nuevo (sin suscripción previa), crear trial de 90 días
+    // Si es usuario nuevo (sin suscripción previa), crear trial de 15 días
     const [existingSub] = await db
       .select({ id: subscriptions.id })
       .from(subscriptions)
       .where(eq(subscriptions.userId, authed.id))
       .limit(1);
     if (!existingSub) {
-      const trialEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+      const trialEnd = new Date(Date.now() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
       await db.insert(subscriptions).values({
         userId: authed.id,
         isActive: true,

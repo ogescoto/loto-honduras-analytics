@@ -87,7 +87,7 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
                       : s.paymentMethod === "trial" ? "bg-teal-100 text-teal-700"
                       : "bg-amber-100 text-amber-700"
                     ]}>
-                      {s.paymentMethod === "stripe" ? "Stripe" : s.paymentMethod === "trial" ? "Trial 90d" : "Efectivo"}
+                      {s.paymentMethod === "stripe" ? "Stripe" : s.paymentMethod === "trial" ? "Trial 15d" : "Efectivo"}
                     </span>
                   </td>
                   <td class="px-4 py-3 text-slate-600">{formatDate(s.endDate)}</td>

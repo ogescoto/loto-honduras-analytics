@@ -15,8 +15,10 @@ function toForm(params: Record<string, string>): string {
 
 export interface CheckoutSessionParams {
   customerEmail: string;
+  /** Períodos (meses) de validez que se cobran. El plan actual es fijo: 1. */
   validityMonths: number;
-  unitAmountCents: number; // precio por mes, en centavos
+  /** Precio total en centavos de LEMPIRA (L. 200.00 = 20000). */
+  unitAmountCents: number;
   successUrl: string;
   cancelUrl: string;
   clientReferenceId: string; // userId, para reconciliar en el webhook
@@ -33,9 +35,9 @@ export async function createCheckoutSession(
     success_url: p.successUrl,
     cancel_url: p.cancelUrl,
     "line_items[0][quantity]": String(p.validityMonths),
-    "line_items[0][price_data][currency]": "usd",
+    "line_items[0][price_data][currency]": "hnl",
     "line_items[0][price_data][unit_amount]": String(p.unitAmountCents),
-    "line_items[0][price_data][product_data][name]": "Suscripción Premium Loto Honduras (1 mes)",
+    "line_items[0][price_data][product_data][name]": "Suscripción Premium Loto Honduras — L. 200.00 (30 días)",
     "metadata[validityMonths]": String(p.validityMonths),
   });
 

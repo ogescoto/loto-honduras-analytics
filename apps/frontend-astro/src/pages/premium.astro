@@ -81,21 +81,12 @@ const GAMES = [
       <!-- Planes visibles también sin sesión -->
       <div id="planes" class="mt-6 rounded-lg border border-slate-200 bg-white p-6">
         <h2 class="mb-4 text-lg font-bold">Planes de suscripción</h2>
-        <div class="mb-5 grid gap-3 sm:grid-cols-2">
-          {[
-            { months: 1, label: "1 mes", price: "USD 5.00" },
-            { months: 3, label: "3 meses", price: "USD 13.00" },
-            { months: 6, label: "6 meses", price: "USD 24.00" },
-            { months: 12, label: "12 meses", price: "USD 42.00" },
-          ].map(({ label, price }) => (
-            <a href="/login"
-              class="rounded-lg border-2 border-brand/30 p-4 text-left transition hover:border-brand hover:bg-brand/5 focus:outline-none focus:ring-2 focus:ring-brand">
-              <p class="font-semibold text-slate-800">{label}</p>
-              <p class="text-sm text-slate-500">{price}</p>
-            </a>
-          ))}
+        <div class="rounded-lg border-2 border-brand/40 bg-brand/5 p-5 max-w-sm">
+          <p class="font-semibold text-slate-800">Premium · 30 días</p>
+          <p class="mt-1 text-2xl font-bold text-brand">L. 200.00</p>
+          <p class="mt-1 text-xs text-slate-500">Acceso completo al Estudio Premium y meta-patrones por 30 días.</p>
         </div>
-        <p class="text-xs text-slate-400 text-center">Inicia sesión para pagar online (Stripe) o en ventanilla.</p>
+        <p class="mt-4 text-xs text-slate-400 text-center">Inicia sesión para pagar online (Stripe) o en ventanilla.</p>
       </div>
     </div>
   )}
@@ -126,23 +117,18 @@ const GAMES = [
       <!-- Planes de suscripción -->
       <div class="rounded-lg border border-slate-200 bg-white p-6">
         <h2 class="mb-4 text-lg font-bold">Activar Premium</h2>
-        <div class="mb-5 grid gap-3 sm:grid-cols-2">
-          {[
-            { months: 1, label: "1 mes", price: "USD 5.00" },
-            { months: 3, label: "3 meses", price: "USD 13.00" },
-            { months: 6, label: "6 meses", price: "USD 24.00" },
-            { months: 12, label: "12 meses", price: "USD 42.00" },
-          ].map(({ months, label, price }) => (
-            <button
-              data-months={months}
-              class="checkout-btn rounded-lg border-2 border-brand/30 p-4 text-left transition hover:border-brand hover:bg-brand/5 focus:outline-none focus:ring-2 focus:ring-brand"
-            >
-              <p class="font-semibold text-slate-800">{label}</p>
-              <p class="text-sm text-slate-500">{price}</p>
-            </button>
-          ))}
+        <div class="max-w-sm rounded-lg border-2 border-brand/30 p-5">
+          <p class="font-semibold text-slate-800">Premium · 30 días</p>
+          <p class="mt-1 text-2xl font-bold text-brand">L. 200.00</p>
+          <p class="mt-1 text-xs text-slate-500">Acceso completo al Estudio Premium y meta-patrones por 30 días.</p>
+          <button
+            data-months="1"
+            class="checkout-btn mt-4 w-full rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+          >
+            Pagar L. 200.00
+          </button>
         </div>
-        <p class="text-xs text-slate-400 text-center">Pago seguro vía Stripe. Cancela cuando quieras.</p>
+        <p class="mt-4 text-xs text-slate-400 text-center">Pago seguro vía Stripe (Lempiras). También disponible en ventanilla.</p>
       </div>
     </div>
   )}
