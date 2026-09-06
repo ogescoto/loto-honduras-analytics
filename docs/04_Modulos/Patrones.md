@@ -22,7 +22,7 @@ Servir los patrones analíticos de la plataforma en dos niveles: **nivel 1** (da
 
 ## API pública
 - **Consultas:** `GET /api/v1/patterns` (nivel 1), `GET /api/v1/premium/meta-patterns` (nivel 2). Ver [[02_Arquitectura/API|API]].
-- **Motor interactivo (pantalla de análisis y Estudio Premium):** `POST /api/v1/features/:game/filter` (candidatos por combinación de características) y `POST /api/v1/features/:game/hits` (historial de aciertos + **efectividad**). `GET /api/v1/features/:game` (estado de los 100 números), `GET /api/v1/features/catalog` (catálogo) y `GET /api/v1/features/config` (JSON de configuración interpretable y testeable: manual + bloques A-G + patterns + defaults).
+- **Motor interactivo (pantalla de análisis y Estudio Premium):** `POST /api/v1/features/:game/filter` (candidatos por combinación de características), `POST /api/v1/features/:game/hits` (historial de aciertos + **efectividad**) y `POST /api/v1/features/:game/top-combos` (**top de combinaciones** más frecuentes en los últimos N sorteos). `GET /api/v1/features/:game` (estado de los 100 números), `GET /api/v1/features/catalog` (catálogo) y `GET /api/v1/features/config` (JSON de configuración interpretable y testeable: manual + bloques A-G + patterns + defaults).
 - `/hits` acepta `days` (1-90) para **emular por ventana** y devuelve `totalHits`, `evaluatedDraws` y `hitRatePct` (cuántos sorteos habría acertado la combinación). `compliance.ts`: `complianceSummary()` expone el resumen; `computeWinnerCompliance`/`lastHits` se mantienen como compat.
 - Código de rutas: `apps/backend-hono/src/routes/patterns.ts`, `apps/backend-hono/src/routes/premium.ts`, `apps/backend-hono/src/routes/features.ts` y `apps/backend-hono/src/patterns/compliance.ts` (evaluación optimizada de aciertos por sorteo, sin recomputar los 100 números por jugada — evita el límite de CPU del Worker).
 
@@ -38,6 +38,7 @@ Deslogueado muestra CTA que enlaza a `/login` y `/premium#planes`. Script proces
 Página `premium.astro` (2026-09-05): el premium es un **Estudio de Combinaciones** con dos paneles y tabs:
 - **Constructor (2 paneles):** izquierda **"Patrones disponibles"** (los 25 como filas), derecha **"Seleccionados"** (tarjetas apiladas con contador `0/7`). Se guarda combinación (`/api/v1/saved-patterns`) y se evalúa.
 - **Tab "Mis combinaciones":** cada combinación guardada tiene **"← Atrás (historial)"** (cuándo se cumplió, cronológico) y **"Adelante (próximo sorteo) →"** (candidatos que cumplen toda la combinación), más emulación por ventana (7-90 días) y **comparativa "Evaluar todas"** ordenada por efectividad.
+- **Tab "Top combinaciones":** muestra las combinaciones de K patrones (2/3/4, def. 3) que más veces estuvieron activas juntas en el ganador de la jornada en los últimos N sorteos (15-90, def. 30); top 10 ordenado con `hitRatePct`, `count/evaluatedDraws` y fechas. Un clic carga la combinación en el constructor. Usa `POST /top-combos`.
 - La **efectividad** usa `/hits` → `hitRatePct` (aciertos/`evaluatedDraws`) sobre la ventana pedida.
 - Los **meta-patrones psico-estadísticos** pasan a sección secundaria bajo el estudio.
 
@@ -71,6 +72,7 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
+- 2026-09-05: **Tab "Top combinaciones"** en el Estudio Premium (`topFeatureCombos` + `POST /top-combos`) — combinaciones de 3 más frecuentes en últimos 30 sorteos.
 - 2026-09-05: **Estudio Premium** en dos paneles + tab "Mis combinaciones" (atrás/adelante); `GET /features/config` (JSON interpretable) y pantalla `/configuracion` + MCP `loto-pattern-tools`.
 - 2026-09-05: **Estudio Premium** funcional — `/hits` con `days`/`days` y `hitRatePct`, `complianceSummary()`, y estación de combinaciones en `/premium` con emulación y comparativa.
 - 2026-09-05: **constructor personal** en `/patrones` — chips arrastrables y combinaciones guardadas por usuario (`user_saved_patterns`, migración `0006`); el clic en resultados guarda el favorito en la cuenta. `computePatternsForGame` usa `DREAM_GUIDE` como numerología por defecto → premium con 32 meta-patrones.

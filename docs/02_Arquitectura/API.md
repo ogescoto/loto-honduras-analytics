@@ -148,6 +148,12 @@ Reordena favoritos por drag & drop.
 Elimina un favorito del usuario autenticado.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
+## POST /api/v1/features/:game/top-combos
+Top de combinaciones de K patrones más frecuentes en el ganador de la jornada. Ver [[04_Modulos/Patrones|Patrones]]. Código: `apps/backend-hono/src/routes/features.ts` + `topFeatureCombos` en `compliance.ts`.
+- **Acceso:** público.
+- **Request body:** `{ "k"?: number (def. 3, 2-4), "days"?: number (def. 30, 1-120), "top"?: number (def. 10) }`.
+- **Respuesta `200`:** `{ "success": true, "data": { game, k, days, evaluatedDraws, combos: [{ features, label, count, hitRatePct, hits: [{ drawDate, sessionId }] }] } }`.
+
 ## GET /api/v1/saved-patterns
 Lista combinaciones de patrones guardadas por el usuario (constructor personal). Código: `apps/backend-hono/src/routes/saved-patterns.ts`.
 - **Acceso:** `requireAuth`.
@@ -168,6 +174,7 @@ Elimina la combinación del usuario.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
 ## Historial de cambios
+- 2026-09-05: documentado `POST /api/v1/features/:game/top-combos` (top de combinaciones).
 - 2026-09-05: documentados `GET/POST /favorites`, `PATCH /favorites/reorder`, `DELETE /favorites/:id` y CRUD `/saved-patterns`; `MAX_DAYS` de historial sube a 90.
 - 2026-09-05: añadidos `PATCH /api/v1/admin/users/:id/role` y `PATCH /api/v1/admin/users/:id/subscription` (gestión de roles y planes desde admin); documentados `POST /api/v1/ingest/events` y `GET /api/v1/admin/logs`.
 - 2026-06-21: documentado auth Bearer JWT + RBAC; añadidos `POST /auth/login`, `POST /payments/checkout` y `POST /payments/webhook`; `premium/meta-patterns` y `admin/register-physical-payment` ahora toman la identidad del JWT (eliminado `userId` por query y `administratorId` del body); añadidos códigos de error.
