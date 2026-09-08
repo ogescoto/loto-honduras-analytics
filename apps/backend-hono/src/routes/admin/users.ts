@@ -13,8 +13,8 @@ import { users, subscriptions } from "../../db/schema.js";
 import type { UserRole } from "@loto/shared-types";
 
 const ROLES: UserRole[] = ["customer", "admin", "clerk"];
-/** Duración del trial asignado por admin (máximo 15 días, siempre). */
-const TRIAL_DAYS = 15;
+/** Duración del trial asignado por admin (30 días, siempre). */
+const TRIAL_DAYS = 30;
 
 export const adminUsersRoutes = new Hono<{ Variables: { db: Database } }>();
 

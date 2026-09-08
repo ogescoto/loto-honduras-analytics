@@ -24,6 +24,8 @@ import { savedPatternsRoutes } from "./routes/saved-patterns.js";
 import { historyRoutes } from "./routes/history.js";
 import { featuresRoutes } from "./routes/features.js";
 import { paymentsRoutes } from "./payments/routes.js";
+import { receiptRoutes, adminReceiptsRoutes } from "./payments/receipts.js";
+import { settingsRoutes, adminSettingsRoutes } from "./routes/settings.js";
 import { sourcesRoutes } from "./routes/sources.js";
 import { adminLogsRoutes } from "./routes/admin/logs.js";
 
@@ -60,6 +62,7 @@ app.route("/api/v1/auth", authRoutes);
 app.route("/api/v1/patterns", patternsRoutes);
 app.route("/api/v1/history", historyRoutes);
 app.route("/api/v1/features", featuresRoutes);
+app.route("/api/v1/settings", settingsRoutes);
 
 // Premium: requiere autenticación + suscripción vigente.
 app.use("/api/v1/premium/*", requireAuth, requireActiveSubscription);
@@ -73,6 +76,8 @@ app.route("/api/v1/admin/users", adminUsersRoutes);
 app.route("/api/v1/admin/sources", adminSourcesRoutes);
 app.route("/api/v1/admin/draws", adminDrawsRoutes);
 app.route("/api/v1/admin/logs", adminLogsRoutes);
+app.route("/api/v1/admin/settings", adminSettingsRoutes);
+app.route("/api/v1/admin/receipts", adminReceiptsRoutes);
 
 // Favoritos: requiere cuenta gratuita o superior (JWT de usuario).
 app.use("/api/v1/favorites/*", requireAuth);
@@ -92,5 +97,9 @@ app.route("/api/v1/sources", sourcesRoutes);
 
 // Pagos online (Stripe): checkout requiere auth; webhook es público (firmado).
 app.route("/api/v1/payments", paymentsRoutes);
+
+// Recibo de pago compartido por el usuario (requiere auth).
+app.use("/api/v1/payments/receipt", requireAuth);
+app.route("/api/v1/payments/receipt", receiptRoutes);
 
 export default app;

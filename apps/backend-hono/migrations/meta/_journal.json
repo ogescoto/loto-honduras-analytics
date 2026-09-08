@@ -50,6 +50,13 @@
       "when": 1788642081628,
       "tag": "0006_overrated_peter_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788898724345,
+      "tag": "0007_boring_talos",
+      "breakpoints": true
     }
   ]
 }

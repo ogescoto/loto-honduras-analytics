@@ -206,3 +206,36 @@ export const ingestionEvents = pgTable(
   },
   (t) => [index("ingestion_events_created_at_idx").on(t.createdAt)],
 );
+
+// 11. Ajustes de la aplicación (clave → valor JSON). Configurable desde Admin.
+// Ej: { key: "show_paid_plan", value: false } — "tiempo de gracia" oculta el
+// plan de pago y deja visible solo el trial.
+export const appSettings = pgTable(
+  "app_settings",
+  {
+    key:       text("key").primaryKey(),
+    value:     jsonb("value").notNull(),   // booleano | string | objeto
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+);
+
+// 12. Recibos de pago compartidos por el usuario (plan pagado).
+// El usuario adjunta/sube la referencia de su recibo; el sistema notifica al
+// correo de soporte (soporte@oged-solutions.com) y el admin puede "dar de alta"
+// el plan confirmado.
+export const paymentReceipts = pgTable(
+  "payment_receipts",
+  {
+    id:           uuid("id").defaultRandom().primaryKey(),
+    userId:       uuid("user_id").references(() => users.id).notNull(),
+    email:        text("email").notNull(),
+    name:         text("name"),
+    method:       text("method").default("cash").notNull(),  // cash | bank | transfer …
+    amount:       integer("amount"),                          // en Lempiras
+    reference:    text("reference"),                          // Nº de recibo / comprobante
+    note:         text("note"),
+    status:       text("status").default("pending").notNull(), // pending | confirmed | rejected
+    createdAt:    timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("payment_receipts_status_idx").on(t.status)],
+);

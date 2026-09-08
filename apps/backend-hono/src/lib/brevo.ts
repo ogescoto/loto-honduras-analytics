@@ -77,3 +77,33 @@ export function buildWelcomeEmail(name?: string | null): string {
     </div>
   `;
 }
+
+/** Notificación de recibo de pago compartido, dirigida al correo de soporte. */
+export interface ReceiptNotif {
+  userName: string;
+  userEmail: string;
+  method: string;
+  amount: number | null;
+  reference: string;
+  note?: string | null;
+}
+
+export function buildReceiptNotifEmail(r: ReceiptNotif): string {
+  return `
+    <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+      <h2 style="color:#0f766e">📄 Recibo de pago compartido</h2>
+      <p>Un usuario compartió un comprobante para activar el plan Premium. Por favor revísalo.</p>
+      <table style="border-collapse:collapse;width:100%;font-size:14px">
+        <tbody>
+          <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Usuario</td><td style="padding:6px 8px;border:1px solid #e2e8f0;font-weight:600">${r.userName}</td></tr>
+          <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Email</td><td style="padding:6px 8px;border:1px solid #e2e8f0">${r.userEmail}</td></tr>
+          <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Método</td><td style="padding:6px 8px;border:1px solid #e2e8f0">${r.method}</td></tr>
+          <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Monto</td><td style="padding:6px 8px;border:1px solid #e2e8f0;font-weight:600">${r.amount != null ? `L. ${r.amount.toLocaleString("es-HN")}` : "—"}</td></tr>
+          <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Referencia</td><td style="padding:6px 8px;border:1px solid #e2e8f0">${r.reference}</td></tr>
+          ${r.note ? `<tr><td style="padding:6px 8px;border:1px solid #e2e8f0;color:#64748b">Nota</td><td style="padding:6px 8px;border:1px solid #e2e8f0">${r.note}</td></tr>` : ""}
+        </tbody>
+      </table>
+      <p style="margin-top:16px">Entra al panel de administración → "Recibos de pago" para confirmar y activar el plan del usuario.</p>
+    </div>
+  `;
+}
