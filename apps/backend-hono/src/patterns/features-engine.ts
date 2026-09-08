@@ -204,6 +204,142 @@ export const FEATURE_META: Record<FeatureCode, FeatureMeta> = {
   gusto_sueno:          { scope: "familia", windowDesc: "imaginario popular: número en la guía de los sueños (atemporal)", category: "imaginario" },
 };
 
+/**
+ * Guía legible por patrón: explicación clara y ejemplo para que el usuario sepa
+ * cómo funciona y si aporta margen de previsión (ver `FeatureGuide` con cobertura).
+ */
+export interface FeatureGuide {
+  explanation: string;
+  example: string;
+}
+
+export const FEATURE_GUIDE: Record<FeatureCode, FeatureGuide> = {
+  frio_absoluto: {
+    explanation: "El número no ha salido en más de 30 días en ninguna jornada de la familia. Es un 'frío' de largo plazo.",
+    example: "El 08 no aparece hace 40 días → activo.",
+  },
+  frio_horario: {
+    explanation: "El número no ha salido en más de 15 días en la jornada/hora concreta (ej. solo 3 PM). Es un frío de esa franja.",
+    example: "El 15 no sale en la 3 PM desde hace 18 días → activo.",
+  },
+  despertar_promedio: {
+    explanation: "Lleva entre 7 y 14 días sin salir (familia): cae dentro de su ventana típica de aparición.",
+    example: "El 32 no sale desde hace 10 días → activo.",
+  },
+  latencia_reciente: {
+    explanation: "Lleva entre 3 y 6 días de ausencia (familia): suele reaparecer pronto.",
+    example: "El 44 no sale desde hace 5 días → activo.",
+  },
+  caliente_cortoplazo: {
+    explanation: "El número salió 3 o más veces en los últimos 10 días (familia): está 'caliente'.",
+    example: "El 07 salió el lunes, martes y jueves → activo.",
+  },
+  eco_consecutivo: {
+    explanation: "Es el mismo número que cayó en el sorteo inmediatamente anterior de la familia.",
+    example: "Ayer ganó el 52 y hoy vuelve a caer 52 → activo.",
+  },
+  eco_horario: {
+    explanation: "Cayó ayer exactamente en esta misma jornada/hora.",
+    example: "El 52 salió ayer a las 3 PM y hoy a las 3 PM vuelve → activo.",
+  },
+  digitos_gemelos: {
+    explanation: "El número tiene ambos dígitos iguales (00, 11, 22… 99). Anatomía pura, no depende del histórico.",
+    example: "11, 33, 77 → gémlos → activo.",
+  },
+  cluster_decena_activa: {
+    explanation: "El número pertenece a la decena (0-9, 10-19…) que más salidas tuvo la familia en los últimos 3 días.",
+    example: "La decena 70-79 salió 3 veces en 3 días → 71, 75… activos.",
+  },
+  terminacion_caliente: {
+    explanation: "El dígito final del número (0-9) es el más frecuente de las últimas 15 jugadas de la familia.",
+    example: "Los últimos sorteos terminan mucho en 7 → 07, 17, 27… activos.",
+  },
+  inversion_directa: {
+    explanation: "Es el número espejo del último ganador de la familia (invertir las cifras).",
+    example: "Ganó 52 → 25 es activo. Ganó 30 → 03 activo.",
+  },
+  multiplo_base_cinco: {
+    explanation: "El número termina en 0 o 5 (múltiplo de 5). Anatomía fija; cubre 20 números de 100.",
+    example: "05, 10, 15… 95 → todos activos siempre.",
+  },
+  multiplo_generacional: {
+    explanation: "El número es múltiplo o divisor del último ganador de la familia.",
+    example: "Ganó 12 → múltiplos (24, 36…) y divisores (6, 4, 3…) activos.",
+  },
+  producto_interno: {
+    explanation: "El número es el producto de los dígitos del último ganador (mód 100).",
+    example: "Ganó 34 → 3×4=12 → el 12 es activo.",
+  },
+  suma_consecutiva: {
+    explanation: "El número es la suma (mód 100) de los dos últimos ganadores de la familia.",
+    example: "Ganaron 73 y 22 → 73+22=95 → el 95 es activo.",
+  },
+  presencia_corta: {
+    explanation: "El número salió en los últimos 5 días de la familia (recencia muy reciente).",
+    example: "El 18 salió hace 3 días → activo.",
+  },
+  sobredemora: {
+    explanation: "El número lleva más días sin salir (familia) que su promedio histórico entre apariciones.",
+    example: "El 40 suele salir cada 6 días pero lleva 20 → activo.",
+  },
+  pareja_100: {
+    explanation: "El número suma exactamente 100 con el último ganador de la familia.",
+    example: "Ganó 73 → 100−73=27 → el 27 es activo.",
+  },
+  complemento_99: {
+    explanation: "El número suma exactamente 99 con el último ganador de la familia.",
+    example: "Ganó 52 → 99−52=47 → el 47 es activo.",
+  },
+  vecino_ganador: {
+    explanation: "El número es adyacente (sucesor o antecesor) al último ganador de la familia.",
+    example: "Ganó 52 → 51 y 53 son activos.",
+  },
+  raiz_digitos_ganador: {
+    explanation: "El número es la suma de los dígitos del último ganador de la familia (mód 100).",
+    example: "Ganó 45 → 4+5=09 → el 09 es activo.",
+  },
+  docena_activa: {
+    explanation: "El número pertenece a la docena (bloque de 12: 0-11, 12-23…) con más salidas recientes de la familia.",
+    example: "La docena 24-35 salió 6 veces → 24, 30, 31… activos.",
+  },
+  decena_activa_jornada: {
+    explanation: "El número pertenece a la decena más jugada en ESTA jornada/hora en los últimos 10 sorteos.",
+    example: "En la 11 AM la decena 50-59 es la top → 50-59 activos.",
+  },
+  favorito_jornada_anterior: {
+    explanation: "El número pertenece a la decena que salió en el sorteo inmediatamente anterior de ESTA jornada/hora.",
+    example: "El 9 PM anterior salió 63 → la decena 60-69 queda activa.",
+  },
+  terminacion_fria: {
+    explanation: "El dígito final del número es el menos frecuente de las últimas 15 jugadas de la familia.",
+    example: "La terminación 2 casi no sale → 02, 12, 22… activos.",
+  },
+  frecuencia_100: {
+    explanation: "El número salió 3 o más veces en los últimos 100 sorteos de ESTA jornada/hora.",
+    example: "El 19 salió 5 veces en los 100 sorteos de la 3 PM → activo.",
+  },
+  reciente_5_juego: {
+    explanation: "El número apareció en uno de los últimos 5 sorteos de ESTA jornada/hora.",
+    example: "El 06 salió hace 2 sorteos en la 9 PM → activo.",
+  },
+  terminacion_top_100: {
+    explanation: "El dígito final del número está entre las terminaciones más frecuentes de los últimos 100 sorteos de ESTA jornada.",
+    example: "En 100 sorteos la terminación 8 lidera → 08, 18, 28… activos.",
+  },
+  decena_top_100: {
+    explanation: "El número pertenece a la decena más salida en los últimos 100 sorteos de ESTA jornada.",
+    example: "La decena 40-49 es la top en 100 sorteos → 40-49 activos.",
+  },
+  promedio_vencido: {
+    explanation: "En ESTA jornada el número lleva más sorteos sin salir que su promedio histórico entre apariciones.",
+    example: "El 02 en la 11 AM suele salir cada 8 sorteos pero lleva 20 → activo.",
+  },
+  gusto_sueno: {
+    explanation: "El número aparece en la guía de los sueños (imaginario popular hondureño). Criterio cultural, no estadístico.",
+    example: "Dinero→08, Fuego→24, Agua→12 → solo esos números.",
+  },
+};
+
 export type NumberFeatures = Record<FeatureCode, boolean>;
 
 export interface NumberState {

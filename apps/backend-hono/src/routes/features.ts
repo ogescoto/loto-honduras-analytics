@@ -15,6 +15,7 @@ import {
   FEATURE_LABELS,
   FEATURE_DESCRIPTIONS,
   FEATURE_META,
+  FEATURE_GUIDE,
   findExclusiveConflict,
   computeNumberStates,
   filterByFeatures,
@@ -483,6 +484,67 @@ featuresRoutes.post("/:game/analytics", async (c) => {
       activePatterns,
     },
   });
+});
+
+// GET /api/v1/features/:game/guide — guía de todos los patrones con explicación,
+// ejemplo y COBERTURA actual (cuántos de los 100 números activan hoy el patrón).
+// La cobertura permite ver el margen de previsión: si cubre ~todos los números,
+// el patrón es poco selectivo (no aporta información real).
+featuresRoutes.get("/:game/guide", async (c) => {
+  const game = c.req.param("game") as GameType;
+  if (!ALL_GAME_TYPES.has(game))
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
+
+  const db = c.get("db");
+  const cached = await db
+    .select()
+    .from(numberStates)
+    .where(eq(numberStates.game, game))
+    .orderBy(numberStates.number);
+
+  type FeatRow = { features: Record<string, boolean> };
+  let rows: FeatRow[];
+  if (cached.length === 100) {
+    rows = cached as unknown as FeatRow[];
+  } else {
+    const states = await _computeForGame(db, game);
+    rows = states.map((s) => ({ features: s.features as unknown as Record<string, boolean> }));
+  }
+
+  const coverage: Record<string, number> = {};
+  for (const r of rows) {
+    const feats = r.features;
+    for (const code of ALL_FEATURES) {
+      if (feats[code]) coverage[code] = (coverage[code] ?? 0) + 1;
+    }
+  }
+  const evaluated = rows.length > 0 ? rows.length : 100;
+
+  const guide = ALL_FEATURES.map((code) => {
+    const count = coverage[code] ?? 0;
+    const pct = Math.round((count / evaluated) * 100);
+    // Veredicto según selectividad sobre 100 números.
+    let verdict = "selectivo";
+    if (pct >= 80) verdict = "poco informativo: cubre casi todos los números";
+    else if (pct >= 50) verdict = "baja selectividad: activo en la mayoría";
+    else if (pct >= 20) verdict = "selectividad media";
+    return {
+      code,
+      label: FEATURE_LABELS[code],
+      description: FEATURE_DESCRIPTIONS[code],
+      block: FEATURE_BLOCKS[code],
+      scope: FEATURE_META[code].scope,
+      windowDesc: FEATURE_META[code].windowDesc,
+      category: FEATURE_META[code].category,
+      explanation: FEATURE_GUIDE[code].explanation,
+      example: FEATURE_GUIDE[code].example,
+      coverageCount: count,
+      coveragePct: pct,
+      verdict,
+    };
+  });
+
+  return c.json({ success: true, data: { game, evaluated, patterns: guide } });
 });
 
 // POST /api/v1/features/:game/refresh — recalcula y persiste (llamado por ingest)

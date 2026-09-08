@@ -272,5 +272,113 @@ const metaUrl = Astro.url.href;
         });
       }
     </script>
+
+    <!-- ── Guía de patrones (accesible desde cualquier pantalla) ───────────── -->
+    <button
+      id="guide-toggle"
+      class="fixed bottom-16 right-3 z-40 flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-2 text-xs font-semibold text-white shadow-lg transition hover:bg-brand-dark md:bottom-5"
+      type="button"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      title="Guía y margen de previsión de los patrones"
+    >
+      📖 Guía
+    </button>
+
+    <div id="guide-drawer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-label="Guía de patrones">
+      <div id="guide-backdrop" class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-hidden rounded-t-2xl bg-white shadow-2xl md:inset-x-auto md:bottom-4 md:right-4 md:left-auto md:w-[440px] md:max-h-[80vh] md:rounded-2xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+          <button id="guide-back" class="flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100" type="button">
+            ← Volver
+          </button>
+          <span class="text-sm font-semibold text-slate-800">Guía de patrones</span>
+          <span class="w-16"></span>
+        </div>
+        <div class="px-4 py-2">
+          <p class="text-xs text-slate-500">
+            Cada patrón indica <strong>cuántos de los 100 números lo activan hoy</strong>
+            (margen de previsión): si cubre casi todos, el patrón es poco informativo. Elige el juego:
+          </p>
+          <select id="guide-game" class="mt-2 w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm">
+          </select>
+        </div>
+        <div id="guide-list" class="max-h-[60vh] space-y-1.5 overflow-y-auto px-4 pb-4">
+          <p class="text-xs text-slate-400">Cargando…</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // @ts-nocheck
+      const toggle = document.getElementById('guide-toggle');
+      const drawer = document.getElementById('guide-drawer');
+      const backdrop = document.getElementById('guide-backdrop');
+      const backBtn = document.getElementById('guide-back');
+      const gameSel = document.getElementById('guide-game');
+      const listEl = document.getElementById('guide-list');
+      if (!toggle || !drawer) { /* no-op */ } else {
+        const API = (import.meta.env?.PUBLIC_API_BASE_URL) || 'http://localhost:8787';
+        const GAMES = [
+          'pega3_9pm','pega3_3pm','pega3_11am','premia2_9pm','premia2_3pm','premia2_11am',
+          'juga3_9pm','juga3_3pm','juga3_11am','diaria_9pm','diaria_3pm','diaria_11am','super_premio'
+        ];
+        const LABELS = { diaria_11am:'La Diaria · 11 AM', diaria_3pm:'La Diaria · 3 PM', diaria_9pm:'La Diaria · 9 PM', pega3_11am:'Pega 3 · 11 AM', pega3_3pm:'Pega 3 · 3 PM', pega3_9pm:'Pega 3 · 9 PM', premia2_11am:'Premia 2 · 11 AM', premia2_3pm:'Premia 2 · 3 PM', premia2_9pm:'Premia 2 · 9 PM', juga3_11am:'Jugá 3 · 11 AM', juga3_3pm:'Jugá 3 · 3 PM', juga3_9pm:'Jugá 3 · 9 PM', super_premio:'Super Premio' };
+
+        function currentGame() {
+          const q = new URLSearchParams(location.search).get('game');
+          if (q && GAMES.includes(q)) return q;
+          const sel = document.querySelector('#game-select, #an-game')?.value;
+          return (sel && GAMES.includes(sel)) ? sel : 'diaria_11am';
+        }
+
+        function openDrawer() {
+          drawer.classList.remove('hidden');
+          toggle.setAttribute('aria-expanded', 'true');
+          loadGuide(currentGame());
+        }
+        function closeDrawer() { drawer.classList.add('hidden'); toggle.setAttribute('aria-expanded', 'false'); }
+
+        toggle.addEventListener('click', openDrawer);
+        backdrop.addEventListener('click', closeDrawer);
+        backBtn.addEventListener('click', closeDrawer);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+        gameSel.innerHTML = GAMES.map((g) => `<option value="${g}">${LABELS[g] || g}</option>`).join('');
+        gameSel.addEventListener('change', () => loadGuide(gameSel.value));
+
+        function verdictBadge(p) {
+          const cls = p.coveragePct >= 80 ? 'bg-red-100 text-red-700'
+            : p.coveragePct >= 50 ? 'bg-amber-100 text-amber-700'
+            : p.coveragePct >= 20 ? 'bg-yellow-100 text-yellow-700'
+            : 'bg-emerald-100 text-emerald-700';
+          return `<span class="rounded-full px-2 py-0.5 text-[10px] font-semibold ${cls}">${p.coveragePct}% · ${p.verdict}</span>`;
+        }
+
+        async function loadGuide(game) {
+          gameSel.value = game;
+          listEl.innerHTML = '<p class="text-xs text-slate-400">Cargando…</p>';
+          try {
+            const res = await fetch(`${API}/api/v1/features/${game}/guide`);
+            const data = await res.json();
+            if (!data.success) { listEl.innerHTML = `<p class="text-xs text-red-600">${data.error?.message || 'Error'}</p>`; return; }
+            const p = data.data.patterns;
+            listEl.innerHTML = p.map((x) => `
+              <details class="rounded-lg border border-slate-200 bg-white p-3">
+                <summary class="flex cursor-pointer items-center justify-between gap-2 text-sm">
+                  <span class="font-medium text-slate-800">${x.label}</span>${verdictBadge(x)}
+                </summary>
+                <div class="mt-2 space-y-1 text-xs text-slate-600">
+                  <p><span class="font-medium text-slate-700">Cómo funciona:</span> ${x.explanation}</p>
+                  <p><span class="font-medium text-slate-700">Ejemplo:</span> ${x.example}</p>
+                  <p class="text-slate-400">${x.scope === 'juego' ? 'Solo esta jornada/hora' : 'Toda la familia'} · ${x.windowDesc}</p>
+                  <p class="text-slate-400">Cobertura hoy: ${x.coverageCount}/${data.data.evaluated} números (${x.coveragePct}%)</p>
+                </div>
+              </details>
+            `).join('');
+          } catch { listEl.innerHTML = '<p class="text-xs text-red-600">Error de conexión.</p>'; }
+        }
+      }
+    </script>
   </body>
 </html>
