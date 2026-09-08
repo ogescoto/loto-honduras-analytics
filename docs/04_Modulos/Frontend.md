@@ -28,6 +28,9 @@ Interfaz móvil-first que presenta patrones de nivel 1 (público), el área prem
 - **Componentes:** `src/components/` — `NumberBalls.astro`, `DrawBalls.astro`, `PatternCard.astro`, `MetaPatternCard.astro`, `ConfidenceBar.astro`, `FavoriteButton.astro`, `GameSelector.astro`, `AdBanner.astro`.
 - **Páginas** en `src/pages/`: `index.astro` (Dashboard, patrones nivel 1 públicos), `premium.astro` (**Estudio Premium** para suscriptores: constructor en dos paneles "Patrones disponibles/Seleccionados", tab "Mis combinaciones" con atrás/adelante, tab "Top combinaciones" con las de 3 más frecuentes, efectividad, emulación y comparativa; sin suscripción muestra preview + planes también deslogueado), `patrones.astro` (Análisis de patrones: 4 tabs Candidatos/Historial/Guía/Guardados + **constructor de combinaciones**), `favoritos.astro` (Mis favoritos, reordenables por drag & drop con persistencia en cuenta), `configuracion.astro` (solo admin/clerk — **configuración de patrones**: lista los actuales, editor JSON con validar/probar/descargar), `analisis.astro` (**Análisis de números**, sesión — eliges números o tus favoritos del juego y ves ocurrencias, frecuencia por jornada, día de la semana y mes —últimos 4—, patrones activos y período ajustable 30-120 días), `history.astro` (búsqueda por número con filtro de juego y período hasta 90 días), `login.astro` / `register.astro` / `forgot-password.astro` / `reset-password.astro`, `admin.astro` (suscripciones, usuarios con cambio de rol y asignación de plan, cobro presencial) y `admin/` (`resultados.astro` alza manual, `fuentes.astro` CRUD de fuentes, `logs.astro` eventos de ingestión).
 
+## Guía de patrones (accesible desde cualquier pantalla)
+El **Shell** (`src/layouts/Shell.astro`) incluye un botón flotante **"📖 Guía"** y un drawer (con **"← Volver"**) que carga `GET /features/:game/guide`: explica cada patrón en lenguaje claro con **ejemplo**, y muestra su **margen de previsión** (cobertura de los 100 números + veredicto de selectividad). Detecta el juego del URL/selector (default `diaria_11am`). Funciona en todas las páginas (Dashboard, Historial, Análisis, Premium, Favoritos, Admin).
+
 ## MCP patrones (admin)
 `mcp/loto-pattern-tools/` es un **servidor MCP** (stdio, sin dependencias) registrado en `opencode.json` que expone `list_patterns`, `get_config`, `validate_config`, `test_combo` y `candidates` para que el **admin** configure nuevas combinaciones y las evalúe contra la API sin tocar la UI. Ver su `README.md`. El JSON interpretable proviene de `GET /api/v1/features/config`.
 
@@ -67,6 +70,7 @@ Todas las fechas de sorteos se muestran en **hora de Honduras** (`America/Teguci
 - Tests E2E con Playwright (`tests/e2e/landing.spec.ts`); falta cobertura E2E de las páginas Premium, Admin y de búsqueda.
 
 ## Historial de cambios
+- 2026-09-05: **guía de patrones accesible desde cualquier pantalla** (botón flotante + drawer con explicación/ejemplo/margen de previsión).
 - 2026-09-05: nueva pantalla **`/analisis`** — análisis estadístico de números favoritos/combinaciones (por jornada, día, mes, patrones; período ajustable) vía `POST /features/:game/analytics`.
 - 2026-09-05: `/premium` con nueva pestaña **"Top combinaciones"** (combinaciones de 3 más frecuentes en últimos 30 sorteos).
 - 2026-09-05: `/premium` con **constructor en dos paneles** (disponibles/seleccionados) y tab **"Mis combinaciones"** con atrás/adelante; nueva `/configuracion` (editor JSON de patrones) y **MCP** `loto-pattern-tools`.

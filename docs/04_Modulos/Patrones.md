@@ -45,7 +45,10 @@ Página `premium.astro` (2026-09-05): el premium es un **Estudio de Combinacione
 ## Motor de patrones
 Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - **`engine.ts`** (lógica pura, sin I/O — testeable): `withinWindow` (filtra por ventana de N días), `frequency` (conteo de apariciones), `hotCold` (top calientes/fríos por ventana), `inverseStreaks` (rachas inversas: números más "atrasados"), `parity` (distribución par/impar), `crossMetaPatterns` (cruce psico-estadístico: calientes ∩ números de sueños/búsquedas en tendencia, con `confidenceScore`).
-- **`features-engine.ts`** (motor interactivo, 31 características): bloques A-G como se documentan y **bloque H "Perfil del juego"** (2026-09-05) con características calculadas **solo con el histórico de ese juego** en los **últimos 100 sorteos** de su jornada: `frecuencia_100` (≥3 salidas en 100), `reciente_5_juego` (salió en los últimos 5), `terminacion_top_100`, `decena_top_100`, `promedio_vencido` (gap > promedio del número en ese juego) y `gusto_sueno` (número en la guía de sueños `DREAM_GUIDE`). Expone `FEATURE_META` (`scope`: `familia`|`juego`; `windowDesc`) para la pantalla `/configuracion`.
+- **`features-engine.ts`** (motor interactivo, 31 características): bloques A-G como se documentan y **bloque H "Perfil del juego"** (2026-09-05) con características calculadas **solo con el histórico de ese juego** en los **últimos 100 sorteos** de su jornada: `frecuencia_100` (≥3 salidas en 100), `reciente_5_juego` (salió en los últimos 5), `terminacion_top_100`, `decena_top_100`, `promedio_vencido` (gap > promedio del número en ese juego) y `gusto_sueno` (número en la guía de sueños `DREAM_GUIDE`). Expone `FEATURE_META` (`scope`: `familia`|`juego`; `windowDesc`) y **`FEATURE_GUIDE`** (explicación clara + ejemplo por patrón para la guía/`/guide`).
+
+### Guía y margen de previsión `/guide`
+`GET /api/v1/features/:game/guide` devuelve los 31 patrones con **explicación accesible**, **ejemplo real** y **cobertura** (cuántos de los 100 números activan hoy el patrón) + **veredicto de selectividad**: `poco informativo` (≥80%), `baja selectividad` (≥50%), `selectividad media` (≥20%) o `selectivo` (<20%). La cobertura permite detectar patrones que abarcan casi todos los números (poco margen de previsión). El **Shell** expone un botón flotante "📖 Guía" accesible desde cualquier pantalla con drawer y "← Volver".
 
 ### Alcance de análisis (familia vs juego)
 - Los patrones analizan **secuencias continuas de sorteos en conjunto**, no una hora aislada.
@@ -83,6 +86,7 @@ Cada patrón tiene una **`category`** (tipo de cálculo): `rango` (decenas y doc
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
+- 2026-09-05: **guía accesible** (`FEATURE_GUIDE` + `GET /features/:game/guide`) con explicación, ejemplos y **margen de previsión** (cobertura sobre 100 números), accesible desde cualquier pantalla vía botón "📖 Guía" del Shell.
 - 2026-09-05: **decena y docena unificadas** en la clasificación `rango` (mismo criterio de agrupación por rango); no se combinan entre sí.
 - 2026-09-05: `top-combos` **descarta combinaciones con clasificación repetida** (evita % inflado).
 - 2026-09-05: **clasificación excluyente** por tipo de cálculo (`category` + `findExclusiveConflict`) — no se combinan dos de la misma clase; `INCOMPATIBLE_COMBINATION`.

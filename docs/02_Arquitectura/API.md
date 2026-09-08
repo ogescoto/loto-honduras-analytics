@@ -155,6 +155,12 @@ Top de combinaciones de K patrones más frecuentes en el ganador de la jornada. 
 - **Respuesta `200`:** `{ "success": true, "data": { game, k, days, evaluatedDraws, combos: [{ features, label, count, hitRatePct, hits: [{ drawDate, sessionId }] }] } }`.
 - Nota: `topFeatureCombos` **descarta combinaciones con clasificación repetida** (`hasDuplicatedCategory`) para no inflar el porcentaje.
 
+## GET /api/v1/features/:game/guide
+Guía de todos los patrones con explicación, ejemplo y **margen de previsión** (cobertura). Ver [[04_Modulos/Patrones|Patrones]]. Código: `apps/backend-hono/src/routes/features.ts` + `FEATURE_GUIDE` en `features-engine.ts`.
+- **Acceso:** público.
+- **Respuesta `200`:** `{ "success": true, "data": { game, evaluated, patterns: [{ code, label, description, block, scope, windowDesc, category, explanation, example, coverageCount, coveragePct, verdict }] } }`.
+- `verdict`: `poco informativo` (≥80%), `baja selectividad` (≥50%), `selectividad media` (≥20%) o `selectivo` (<20%).
+
 ## POST /api/v1/features/:game/analytics
 Análisis estadístico de números favoritos o combinaciones. Código: `apps/backend-hono/src/routes/features.ts`.
 - **Acceso:** público.
