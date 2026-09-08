@@ -30,6 +30,7 @@ Interfaz móvil-first que presenta patrones de nivel 1 (público), el área prem
 
 ## Guía de patrones (accesible desde cualquier pantalla)
 El **Shell** (`src/layouts/Shell.astro`) incluye un botón flotante **"📖 Guía"** y un drawer (con **"← Volver"**) que carga `GET /features/:game/guide`: explica cada patrón en lenguaje claro con **ejemplo**, y muestra su **margen de previsión** (cobertura de los 100 números + veredicto de selectividad). Detecta el juego del URL/selector (default `diaria_11am`). Funciona en todas las páginas (Dashboard, Historial, Análisis, Premium, Favoritos, Admin).
+En el **constructor de `/premium`**, el panel "Seleccionados" muestra en vivo el **margen de previsión de la combinación** (vía `POST /features/:game/coverage`): cuántos de los 100 números cumplen TODOS los patrones elegidos, con color según selectividad.
 
 ## MCP patrones (admin)
 `mcp/loto-pattern-tools/` es un **servidor MCP** (stdio, sin dependencias) registrado en `opencode.json` que expone `list_patterns`, `get_config`, `validate_config`, `test_combo` y `candidates` para que el **admin** configure nuevas combinaciones y las evalúe contra la API sin tocar la UI. Ver su `README.md`. El JSON interpretable proviene de `GET /api/v1/features/config`.
@@ -70,6 +71,7 @@ Todas las fechas de sorteos se muestran en **hora de Honduras** (`America/Teguci
 - Tests E2E con Playwright (`tests/e2e/landing.spec.ts`); falta cobertura E2E de las páginas Premium, Admin y de búsqueda.
 
 ## Historial de cambios
+- 2026-09-05: **margen de previsión de la combinación** en vivo en el constructor de `/premium` (`/coverage`).
 - 2026-09-05: **guía de patrones accesible desde cualquier pantalla** (botón flotante + drawer con explicación/ejemplo/margen de previsión).
 - 2026-09-05: nueva pantalla **`/analisis`** — análisis estadístico de números favoritos/combinaciones (por jornada, día, mes, patrones; período ajustable) vía `POST /features/:game/analytics`.
 - 2026-09-05: `/premium` con nueva pestaña **"Top combinaciones"** (combinaciones de 3 más frecuentes en últimos 30 sorteos).

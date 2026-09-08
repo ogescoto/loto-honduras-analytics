@@ -161,6 +161,13 @@ Guía de todos los patrones con explicación, ejemplo y **margen de previsión**
 - **Respuesta `200`:** `{ "success": true, "data": { game, evaluated, patterns: [{ code, label, description, block, scope, windowDesc, category, explanation, example, coverageCount, coveragePct, verdict }] } }`.
 - `verdict`: `poco informativo` (≥80%), `baja selectividad` (≥50%), `selectividad media` (≥20%) o `selectivo` (<20%).
 
+## POST /api/v1/features/:game/coverage
+**Margen de previsión de una combinación**: cuántos de los 100 números cumplen hoy TODOS los patrones. Ver [[04_Modulos/Patrones|Patrones]]. Código: `apps/backend-hono/src/routes/features.ts`.
+- **Acceso:** público.
+- **Request body:** `{ "features": FeatureCode[] (1-7) }`.
+- **Respuesta `200`:** `{ "success": true, "data": { game, features, coveredCount, coveragePct, verdict } }`.
+- `verdict` (mismos umbrales que `/guide`): `poco informativo` (≥80%), `baja selectividad` (≥50%), `selectividad media` (≥20%), `selectivo` (<20%).
+
 ## POST /api/v1/features/:game/analytics
 Análisis estadístico de números favoritos o combinaciones. Código: `apps/backend-hono/src/routes/features.ts`.
 - **Acceso:** público.
@@ -187,6 +194,7 @@ Elimina la combinación del usuario.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
 ## Historial de cambios
+- 2026-09-05: documentado `POST /api/v1/features/:game/coverage` (margen de previsión de una combinación).
 - 2026-09-05: documentado `POST /api/v1/features/:game/analytics`; nota de que `top-combos` descarta clasificaciones repetidas.
 - 2026-09-05: `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION` si se combinan patrones de la misma clasificación (`category`). `/catalog` expone `category` y `scope`.
 - 2026-09-05: documentado `POST /api/v1/features/:game/top-combos` (top de combinaciones).
