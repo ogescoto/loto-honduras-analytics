@@ -86,16 +86,22 @@ describe("filterByFeatures", () => {
 });
 
 describe("findExclusiveConflict — clasificación excluyente", () => {
-  it("detecta dos patrones de la misma clasificación (decena)", () => {
+  it("detecta dos patrones de la misma clasificación (rango: decena+docena son lo mismo)", () => {
     const conflict = findExclusiveConflict(["cluster_decena_activa", "decena_top_100", "docena_activa"]);
     expect(conflict).not.toBeNull();
-    expect(conflict!.category).toBe("decena");
+    expect(conflict!.category).toBe("rango");
     expect(conflict!.codes).toContain("cluster_decena_activa");
     expect(conflict!.codes).toContain("decena_top_100");
   });
 
+  it("decena y docena comparten clasificación (rango) y no pueden combinarse", () => {
+    const conflict = findExclusiveConflict(["cluster_decena_activa", "docena_activa"]);
+    expect(conflict).not.toBeNull();
+    expect(conflict!.category).toBe("rango");
+  });
+
   it("permite combinar patrones de distinta clasificación", () => {
-    expect(findExclusiveConflict(["cluster_decena_activa", "docena_activa", "terminacion_caliente"])).toBeNull();
+    expect(findExclusiveConflict(["cluster_decena_activa", "terminacion_caliente", "gusto_sueno"])).toBeNull();
   });
 
   it("permite una sola característica", () => {
