@@ -1,11 +1,29 @@
-# Cloudflare Worker programado — ingestión periódica de sorteos.
+# Cloudflare Worker de ingestión — sorteos LOTO Honduras.
+# Crons alineados con las franjas horarias (UTC-6 = Honduras):
+#   17:15 UTC = 11:15 HN  → sorteos 11 AM HN
+#   21:15 UTC = 15:15 HN  → sorteos 3 PM HN
+#   03:15 UTC = 21:15 HN  → sorteos 9 PM HN
+#
+# El Worker intenta a las :15 y, si los resultados aún no están publicados,
+# reintenta cada 5 minutos dentro de la ejecución (ctx.waitUntil) hasta un
+# tope. La ingestión es idempotente por session_id.
 name = "loto-scraper-cron"
 main = "src/index.ts"
 compatibility_date = "2024-10-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Dispara el scraping cada día a las 22:00 UTC (tras los sorteos nocturnos).
 [triggers]
-crons = ["0 22 * * *"]
+crons = [
+  "15 17 * * *",   # franja 11 AM HN (17:15 UTC)
+  "15 21 * * *",   # franja 3 PM HN  (21:15 UTC)
+  "15 3  * * *",   # franja 9 PM HN  (03:15 UTC)
+]
 
-# Secretos: NEON_DATABASE_URL, SCRAPOXY_URL, SCRAPOXY_AUTH_* (wrangler secret put).
+# Variables NO secretas.
+[vars]
+API_BASE_URL     = "https://api.loteriasdehonduras.com/honduras"
+APP_API_BASE_URL = "https://api.pronosticos-hn.oged-solutions.com"
+
+# Secretos requeridos (wrangler secret put <NAME>):
+#   NEON_DATABASE_URL
+#   INGEST_SERVICE_TOKEN

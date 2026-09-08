@@ -1,0 +1,22 @@
+---
+import NumberBalls from "./NumberBalls.astro";
+import ConfidenceBar from "./ConfidenceBar.astro";
+import type { MetaPattern } from "@loto/shared-types";
+
+interface Props {
+  pattern: MetaPattern;
+  blurred?: boolean;
+}
+const { pattern, blurred = false } = Astro.props;
+const cross = pattern.crossData as { targetNumbers?: number[]; confidenceScore?: string } | null;
+const numbers = cross?.targetNumbers ?? [];
+const score = cross?.confidenceScore ?? "0";
+---
+
+<div class:list={["rounded-lg border border-brand/30 bg-white p-4 shadow-sm transition", blurred && "select-none blur-sm pointer-events-none"]}>
+  <p class="mb-3 text-sm text-slate-700">{pattern.description}</p>
+  <div class="mb-3">
+    <ConfidenceBar score={score} />
+  </div>
+  <NumberBalls numbers={numbers} highlight />
+</div>

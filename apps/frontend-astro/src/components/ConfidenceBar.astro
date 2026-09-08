@@ -1,0 +1,18 @@
+---
+interface Props {
+  score: string;
+}
+const { score } = Astro.props;
+const pct = parseFloat(score) || 0;
+const color = pct >= 80 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-400";
+---
+
+<div class="space-y-1">
+  <div class="flex items-center justify-between text-xs text-slate-500">
+    <span>Confianza</span>
+    <span class="font-semibold">{pct.toFixed(1)}%</span>
+  </div>
+  <div class="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+    <div class:list={["h-full rounded-full transition-all", color]} style={`width:${Math.min(pct, 100)}%`} />
+  </div>
+</div>

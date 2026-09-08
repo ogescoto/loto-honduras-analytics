@@ -5,7 +5,7 @@ area: documentation
 
 # Plantilla: Manual de Usuario
 
-> Estructura base para `docs/manual/`. Las páginas de procesos se generan/actualizan desde los E2E anotados con `@manual-step` (ver [`../07_Documentation/User_Manual_Standard.md`](../07_Documentation/User_Manual_Standard.md)).
+> Estructura base para `docs/manual/`. Las páginas de procesos se generan/actualizan desde los E2E anotados con `@manual-step` (ver [`../gobernanza/User_Manual_Standard.md`](../gobernanza/User_Manual_Standard.md)).
 
 ## `index.md` — Introducción
 
@@ -64,5 +64,5 @@ Verás el mensaje "Pago completado" y el pago aparecerá en tu historial.
 ```
 
 ## Notas de generación
-- El manual lo mantiene el **Experto Obsidian** (`/obsidian`) a partir de los E2E anotados. Las capturas en `assets/` son **opcionales** (mejora automatizable con el script de referencia `../Tools/generate_manual.py`).
-- Mantén los textos en **español**, orientados al usuario final, sin jerga técnica.
+- El manual lo mantiene **`doc-mapper`** (subagente de documentación) a partir de los E2E anotados. Las capturas en `assets/` son **opcionales** (mejora automatizable con el script de referencia `../Tools/generate_manual.py`).
+- Mantén los textos en el **idioma del usuario**, orientados al usuario final, sin jerga técnica.

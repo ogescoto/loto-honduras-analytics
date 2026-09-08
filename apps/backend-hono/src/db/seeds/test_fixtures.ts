@@ -56,9 +56,10 @@ export async function seedTest(db: Database): Promise<void> {
   });
 
   await db.insert(lotteryHistory).values({
-    game: "diaria",
-    drawNumber: 99_001,
-    winningNumbers: [24],
-    drawTimestamp: new Date("2026-06-01T21:00:00Z"),
+    game: "diaria_3pm",
+    sessionId: "test-session-0001",
+    numbers: ["24"],
+    signs: ["24 Caballo"],
+    drawDate: new Date("2026-06-01T21:00:00Z"),
   });
 }

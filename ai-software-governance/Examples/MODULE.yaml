@@ -2,7 +2,7 @@
 # EJEMPLO de MODULE.yaml (manifiesto de módulo)
 # Vive en la raíz de cada módulo: src/<module>/MODULE.yaml
 # Plantilla: ../Templates/Module_Template.md
-# Estándar: ../01_Architecture/Module_Organization.md
+# Estándar: ../practicas/Module_Organization.md
 # =====================================================================
 name: modulo-pagos
 display_name: Módulo de Pagos

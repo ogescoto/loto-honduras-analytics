@@ -16,7 +16,7 @@ los niveles de obligatoriedad y las reglas de oro.
   - **Frontend:** Astro (SSR, adaptador `@astrojs/cloudflare`) + Tailwind CSS + shadcn/ui
   - **Backend:** Cloudflare Workers + Hono (TypeScript)
   - **Datos:** Drizzle ORM · PostgreSQL en Docker (dev) · Neon DB serverless (prod, vía `@neondatabase/serverless`)
-  - **Ingestión:** Worker cron + Scrapoxy (proxy rotativo en Docker)
+  - **Ingestión:** Worker cron + Decodo (gateway de proxy rotativo gestionado; NO dockerizado)
   - **Testing:** Vitest / Jest
   - **Monorepo:** pnpm + Turborepo (`apps/frontend-astro`, `apps/backend-hono`, `apps/scraper-cron`, `packages/shared-types`)
 - **Estado:** en desarrollo (fase de arquitectura/especificación)
@@ -34,7 +34,7 @@ los niveles de obligatoriedad y las reglas de oro.
 2. **No modifiques módulos protegidos** (`.aicodeprotect.yml`) sin aprobación humana.
 3. **Toda entidad/caso de uso nuevo lleva seeds `dev_` y `test_`.**
 4. **No dejes el repo con tests en rojo.**
-5. **Ningún secreto en el código** (atención: `Idea-orignal.md` contiene credenciales de ejemplo de Docker/Scrapoxy — son placeholders, no reutilizar en real).
+5. **Ningún secreto en el código** (atención: `Idea-orignal.md` contiene credenciales de ejemplo de Docker — son placeholders, no reutilizar en real).
 6. **No escribas en `docs/`.** Consulta al Experto Obsidian (`/obsidian`) antes y entrégale los cambios después; él es el único que mantiene la fuente de verdad.
 
 ## Flujo de trabajo

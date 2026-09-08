@@ -13,23 +13,23 @@ Para quien revisa un PR (humano o agente revisor). Complementa [`../Templates/Pu
 - [ ] El título y la descripción son claros; enlaza la tarea.
 
 ## Módulos protegidos
-- [ ] Si toca paths protegidos, existe la aprobación (`APPROVED`) enlazada. Ver [`../09_AI/Protected_Modules.md`](../09_AI/Protected_Modules.md).
+- [ ] Si toca paths protegidos, existe la aprobación (`APPROVED`) enlazada. Ver [`../gobernanza/Protected_Modules.md`](../gobernanza/Protected_Modules.md).
 
 ## Corrección
 - [ ] La lógica es correcta; casos límite y errores contemplados.
-- [ ] Manejo de errores conforme a [`../04_Backend/Error_Handling.md`](../04_Backend/Error_Handling.md).
+- [ ] Manejo de errores conforme a [`../practicas/Error_Handling.md`](../practicas/Error_Handling.md).
 - [ ] Validación de entrada presente donde corresponde.
 - [ ] Sin condiciones de carrera/efectos colaterales evidentes.
 
 ## Arquitectura y estilo
-- [ ] Respeta capas y dependencias ([`../01_Architecture/Dependency_Rules.md`](../01_Architecture/Dependency_Rules.md)).
-- [ ] Naming conforme a [`../01_Architecture/Naming_Conventions.md`](../01_Architecture/Naming_Conventions.md).
+- [ ] Respeta capas y dependencias ([`../practicas/Dependency_Rules.md`](../practicas/Dependency_Rules.md)).
+- [ ] Naming conforme a [`../practicas/Naming_Conventions.md`](../practicas/Naming_Conventions.md).
 - [ ] Sin duplicación innecesaria; reutiliza utilidades/componentes existentes.
 
 ## Seguridad
 - [ ] Sin secretos en el código.
 - [ ] Autenticación/autorización correctas en endpoints nuevos.
-- [ ] Consultas parametrizadas; sin inyección. Ver [`../04_Backend/Security.md`](../04_Backend/Security.md).
+- [ ] Consultas parametrizadas; sin inyección. Ver [`../practicas/Security.md`](../practicas/Security.md).
 - [ ] Sin PII/secretos en logs.
 
 ## Tests y datos

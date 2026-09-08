@@ -1,0 +1,225 @@
+---
+import Shell from "../../layouts/Shell.astro";
+import { getToken, getValidPayload } from "../../lib/auth.ts";
+import { apiGetSSR } from "../../lib/api.ts";
+import { GAME_LABELS } from "../../lib/gameLabels.ts";
+
+const payload = getValidPayload(Astro.cookies);
+const token = getToken(Astro.cookies);
+
+if (!payload || (payload.role !== "admin" && payload.role !== "clerk")) {
+  return Astro.redirect("/login");
+}
+
+interface LogRow {
+  id: string;
+  level: string;
+  message: string;
+  game: string | null;
+  meta: unknown;
+  createdAt: string;
+  sourceName: string | null;
+}
+
+const qLevel = Astro.url.searchParams.get("level") ?? "";
+const qGame = Astro.url.searchParams.get("game") ?? "";
+const qs = new URLSearchParams();
+qs.set("limit", "300");
+if (qLevel) qs.set("level", qLevel);
+if (qGame) qs.set("game", qGame);
+
+const logsRes = await apiGetSSR<LogRow[]>(`/api/v1/admin/logs?${qs.toString()}`, Astro.locals, token!);
+const logs = logsRes.success ? logsRes.data! : [];
+
+const LEVEL_STYLE: Record<string, string> = {
+  info: "bg-sky-100 text-sky-700",
+  warn: "bg-amber-100 text-amber-700",
+  error: "bg-red-100 text-red-700",
+};
+
+function fmtTs(ts: string) {
+  return new Date(ts).toLocaleString("es-HN", {
+    day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", second: "2-digit",
+  });
+}
+
+function fmtMeta(meta: unknown): string {
+  try {
+    return JSON.stringify(meta, null, 2);
+  } catch {
+    return String(meta);
+  }
+}
+
+const GAME_OPTIONS = Object.entries(GAME_LABELS).map(([value, label]) => ({ value, label }));
+const LEVEL_OPTIONS = [
+  { value: "info", label: "Info" },
+  { value: "warn", label: "Advertencias" },
+  { value: "error", label: "Errores" },
+];
+
+const CRON_INFO = [
+  {
+    slot: "11:00 AM",
+    cron: "15 17 * * *",
+    utc: "17:15 UTC",
+    label: "Sorteos 11 AM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (11 AM)",
+    desc: "A las 11:15 HN (17:15 UTC) intenta obtener los resultados de los 4 juegos de la franja 11 AM. Reintenta cada 5 min hasta ~1 h si aún no publican.",
+  },
+  {
+    slot: "3:00 PM",
+    cron: "15 21 * * *",
+    utc: "21:15 UTC",
+    label: "Sorteos 3 PM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (3 PM)",
+    desc: "A las 3:15 HN (21:15 UTC) intenta obtener los resultados de la franja 3 PM. Reintenta cada 5 min hasta ~1 h.",
+  },
+  {
+    slot: "9:00 PM",
+    cron: "15 3 * * *",
+    utc: "03:15 UTC",
+    label: "Sorteos 9 PM",
+    games: "La Diaria · Pega 3 · Premia 2 · Jugá 3 (9 PM) + Super Premio (domingo)",
+    desc: "A las 9:15 HN (03:15 UTC del día siguiente) intenta obtener los resultados de la franja 9 PM y del Super Premio dominical. Reintenta cada 5 min hasta ~1 h.",
+  },
+];
+
+// Último evento exitoso por franja (derivado de los logs ya cargados).
+const lastBySlot = new Map<string, string>();
+for (const row of logs) {
+  const m = /Franja (\d+):00 HN completada/.exec(row.message);
+  if (!m) continue;
+  const hour = Number(m[1]);
+  const label = hour === 11 ? "Sorteos 11 AM" : hour === 15 ? "Sorteos 3 PM" : hour === 21 ? "Sorteos 9 PM" : null;
+  if (label && !lastBySlot.has(label)) lastBySlot.set(label, new Date(row.createdAt).toLocaleString("es-HN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }));
+}
+---
+
+<Shell title="Logs — Administración" active="admin">
+  <div class="space-y-6">
+    <nav class="nav-pills flex gap-2 text-sm">
+      <a href="/admin" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Admin</a>
+      <a href="/admin/resultados" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Resultados</a>
+      <a href="/admin/fuentes" class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50">Fuentes</a>
+      <a href="/admin/logs" class="shrink-0 rounded-lg bg-brand px-3 py-1.5 font-semibold text-white">Logs</a>
+    </nav>
+
+    <section>
+      <h2 class="mb-1 text-lg font-bold text-slate-700">Tareas programadas (cron)</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        El Worker <code class="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs">loto-scraper-cron</code>
+        se dispara automáticamente 3 veces al día, en la hora de Honduras (GMT-6). Cada franja
+        inserta los sorteos oficiales, recalcula patrones y registra eventos aquí.
+      </p>
+      <div class="grid gap-3 lg:grid-cols-3">
+        {CRON_INFO.map((c) => {
+          const last = lastBySlot.get(c.label);
+          return (
+            <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+              <div class="mb-2 flex items-center justify-between gap-2">
+                <span class="font-semibold text-slate-800">{c.label}</span>
+                <span class="rounded-full bg-slate-100 px-2 py-0.5 font-mono text-xs text-slate-500">{c.cron}</span>
+              </div>
+              <p class="mb-1 text-xs text-slate-500">{c.slot} HN · {c.utc}</p>
+              <p class="mb-2 text-xs font-medium text-slate-700">{c.games}</p>
+              <p class="mb-3 text-xs leading-relaxed text-slate-500">{c.desc}</p>
+              <p class="text-xs">
+                {last ? (
+                  <span class="rounded-full bg-emerald-100 px-2 py-0.5 font-medium text-emerald-700">Última corrida: {last}</span>
+                ) : (
+                  <span class="rounded-full bg-slate-100 px-2 py-0.5 text-slate-500">Sin ejecución reciente registrada</span>
+                )}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-1 text-lg font-bold text-slate-700">Logs de ingestión</h2>
+      <p class="mb-4 text-sm text-slate-500">
+        Eventos reportados por el scraper: chequeos de cada fuente (éxito/error) y el resumen
+        de cada ejecución. Últimos {logs.length} registrados.
+        <a href="/admin/logs" class="ml-1 text-brand hover:underline">Limpiar filtros</a>
+      </p>
+
+      <form method="get" class="mb-4 flex flex-wrap items-end gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Nivel</span>
+          <select name="level"
+            class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand">
+            <option value="" selected={qLevel === ""}>Todos</option>
+            {LEVEL_OPTIONS.map((l) => (
+              <option value={l.value} selected={qLevel === l.value}>{l.label}</option>
+            ))}
+          </select>
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700">Juego</span>
+          <select name="game"
+            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand">
+            <option value="" selected={qGame === ""}>Todos</option>
+            {GAME_OPTIONS.map((g) => (
+              <option value={g.value} selected={qGame === g.value}>{g.label}</option>
+            ))}
+          </select>
+        </label>
+        <button type="submit" class="min-h-[42px] rounded-lg bg-brand px-5 font-semibold text-white hover:bg-brand-dark">
+          Filtrar
+        </button>
+      </form>
+    </section>
+
+    <section>
+      {logs.length === 0 ? (
+        <p class="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-500">
+          No hay eventos registrados todavía. Aparecen al ejecutarse el cron de ingestión solitario.
+        </p>
+      ) : (
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th class="px-3 py-3 text-left">Fecha (HN)</th>
+                <th class="px-3 py-3 text-left">Nivel</th>
+                <th class="px-3 py-3 text-left">Fuente</th>
+                <th class="px-3 py-3 text-left">Juego</th>
+                <th class="px-3 py-3 text-left">Mensaje</th>
+                <th class="px-3 py-3 text-left">Detalle</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {logs.map((row) => (
+                <tr class="align-top hover:bg-slate-50">
+                  <td class="whitespace-nowrap px-3 py-2 text-xs text-slate-500">{fmtTs(row.createdAt)}</td>
+                  <td class="px-3 py-2">
+                    <span class:list={["rounded-full px-2 py-0.5 text-xs font-medium", LEVEL_STYLE[row.level] ?? "bg-slate-100 text-slate-600"]}>
+                      {row.level}
+                    </span>
+                  </td>
+                  <td class="px-3 py-2 text-xs text-slate-600">{row.sourceName ?? "—"}</td>
+                  <td class="px-3 py-2 text-xs text-slate-600">
+                    {row.game ? (GAME_LABELS[row.game as keyof typeof GAME_LABELS] ?? row.game) : "—"}
+                  </td>
+                  <td class="max-w-md px-3 py-2 text-xs leading-relaxed text-slate-700">{row.message}</td>
+                  <td class="px-3 py-2">
+                    {row.meta ? (
+                      <details>
+                        <summary class="cursor-pointer text-xs text-brand hover:underline">ver</summary>
+                        <pre class="mt-2 max-w-xs overflow-x-auto whitespace-pre-wrap rounded bg-slate-50 p-2 font-mono text-[11px] text-slate-600">{fmtMeta(row.meta)}</pre>
+                      </details>
+                    ) : (
+                      <span class="text-xs text-slate-300">—</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  </div>
+</Shell>

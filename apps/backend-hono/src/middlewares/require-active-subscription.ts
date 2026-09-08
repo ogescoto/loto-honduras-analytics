@@ -4,6 +4,8 @@
  *
  * MÓDULO PROTEGIDO (.aicodeprotect.yml): RBAC de suscripciones. Cambios
  * comprometen el modelo de cobro. Requiere APPROVED.
+ *
+ * Debe ejecutarse DESPUÉS de requireAuth: toma el userId de los claims del JWT.
  */
 import type { MiddlewareHandler } from "hono";
 import { and, eq, gt } from "drizzle-orm";
@@ -12,9 +14,8 @@ import { subscriptions } from "../db/schema.js";
 
 export const requireActiveSubscription: MiddlewareHandler = async (c, next) => {
   const db = c.get("db") as Database;
-  // En producción el userId se extrae del JWT verificado, no del query.
-  const userId = c.req.query("userId");
-  if (!userId) {
+  const auth = c.get("auth");
+  if (!auth?.sub) {
     return c.json(
       { success: false, error: { code: "UNAUTHENTICATED", message: "Falta identificación de usuario." } },
       401,
@@ -26,7 +27,7 @@ export const requireActiveSubscription: MiddlewareHandler = async (c, next) => {
     .from(subscriptions)
     .where(
       and(
-        eq(subscriptions.userId, userId),
+        eq(subscriptions.userId, auth.sub),
         eq(subscriptions.isActive, true),
         gt(subscriptions.endDate, new Date()),
       ),

@@ -1,20 +1,51 @@
 # AI Software Governance Framework
 
-Constitución central para el desarrollo de software asistido por IA.
+Conjunto de **mejores prácticas** para desarrollo de software asistido por IA, con **muy pocas reglas duras**.
 
-Define **políticas, estándares, procesos y plantillas** que todo agente (Claude Code, Cursor, Copilot, Gemini, etc.) debe seguir antes de modificar o generar código.
+Define cómo debe trabajar un agente para obtener resultados consistentes y de calidad: **delegando en subagentes de scope definido**, **ahorrando tokens** y **documentando lo que cambia**. No es un corsé: es una guía con 6 reglas innegociables y el resto como recomendaciones.
 
-Este repositorio **no contiene implementación de aplicaciones**. Es la **fuente única de verdad de gobierno** reutilizable en todos tus proyectos.
+Este repositorio **no contiene implementación de aplicaciones**. Es la fuente de verdad de gobierno, reutilizable en todos tus proyectos.
 
 ---
 
 ## ¿Qué es esto?
 
-Un *meta-repositorio* que se incorpora (como submódulo Git, copia o paquete) dentro de cada proyecto real. Su función es responder, de forma inequívoca, a la pregunta:
+Un *meta-repositorio* que se incorpora (submódulo Git, copia o paquete) dentro de cada proyecto real. Responde a:
 
-> "Antes de escribir o cambiar una sola línea de código, ¿qué reglas debo respetar y qué pasos debo seguir?"
+> "Antes de escribir o cambiar código, ¿qué buenas prácticas sigo y qué pocas cosas no puedo hacer?"
 
-Está pensado para equipos donde **gran parte del código lo generan agentes de IA**, y donde se necesita garantizar consistencia, calidad, trazabilidad y seguridad sin depender de la memoria humana.
+---
+
+## Filosofía
+
+| Antes | Ahora |
+|---|---|
+| Roles y estados rígidos | **6 subagentes de scope definido** |
+| Muchos puntos de aprobación | Aprobación **solo en 3 casos**: plan inicial, acción destructiva, módulo protegido |
+| "Detente y espera" ante dudas | **Avanza con criterio** marcando `[SUPUESTO]`; en segundo plano no te bloquees |
+| Modelo caro para todo | **Modelo por perfil**: barato para leer/probar/registrar, capaz solo para escribir |
+| Documentación curada por un rol exclusivo | `doc-mapper` escribe; `doc-reader` lee; ambos con su modelo |
+| Arranque tipo formulario | **Asistencia inicial interactiva** ([`gobernanza/Project_Start.md`](gobernanza/Project_Start.md)) |
+
+**Principios de trabajo del agente:**
+- **Coordinador delgado:** delega en subagentes con contexto aislado; su contexto no se infla.
+- **Modo cavernícola:** razonamiento interno mínimo; respuesta completa en el **idioma del usuario**.
+- **Costo consciente:** el modelo capaz solo se gasta donde aporta (escribir).
+
+---
+
+## Los 6 subagentes
+
+| Subagente | Hace | Modelo |
+|---|---|---|
+| `doc-mapper` | Escribe documentación, mapea código → bóveda y mantiene el **mapa conceptos ↔ código** | **pensante** |
+| `doc-reader` | Lee bóveda/código, responde dudas de contexto y de flujos (usa el mapa) | **barato** |
+| `dev-backend` | Backend: lógica, APIs, BD, tests | capaz |
+| `dev-frontend` | Frontend: componentes, estado, E2E | capaz |
+| `tester` | Ejecuta la suite, veredicto pasa/falla | **barato** |
+| `activity-manager` | Registra META/TAREA/ESTADO/FECHA_INI/FECHA_FIN | **barato** |
+
+Detalle: [`gobernanza/Subagents.md`](gobernanza/Subagents.md). Ejemplo de configuración: [`Examples/subagents_example.md`](Examples/subagents_example.md).
 
 ---
 
@@ -23,88 +54,65 @@ Está pensado para equipos donde **gran parte del código lo generan agentes de 
 ```
 ai-software-governance/
 ├── README.md                      ← estás aquí
-├── AI_START_HERE.md               ← punto de entrada OBLIGATORIO para agentes
+├── AI_START_HERE.md               ← punto de entrada OBLIGATORIO para agentes (autocontenido)
 ├── GOVERNANCE.md                  ← filosofía y principios para humanos
 ├── CHANGELOG.md                   ← historial de cambios del framework
 ├── GLOSSARY.md                    ← lenguaje ubicuo común
 │
-├── 00_Governance/                 ← índice y meta-políticas
-├── 01_Architecture/               ← módulos, naming, dependencias, utilidades
-├── 02_UI_UX/                      ← diseño, accesibilidad, design system
-├── 03_Database/                   ← seeds, naming, migraciones, modelado
-├── 04_Backend/                    ← APIs, errores, validación, seguridad
-├── 05_Frontend/                   ← estado, componentes, performance
-├── 06_Testing/                    ← pirámide de tests, E2E, cobertura
-├── 07_Documentation/              ← Obsidian, manual de usuario, ADR
-├── 08_DevOps/                     ← entornos, CI/CD, despliegue, secretos
-├── 09_AI/                         ← módulos protegidos, acciones prohibidas, prompts
+├── gobernanza/                   ← acceso, contexto, asistencia inicial, excepciones, ADR
+├── practicas/                    ← prácticas por capa (orientan, no mandan), subagentes, workflow
 │
-├── Templates/                     ← plantillas reutilizables (incl. skill /obsidian)
+├── Templates/                     ← plantillas (subagente, contrato, configuración…)
 ├── Checklists/                    ← listas de verificación por proceso
-├── Examples/                      ← ejemplos concretos y configuraciones reales
-└── Tools/                         ← scripts opcionales/legado
+├── Examples/                      ← ejemplos concretos
+├── Tools/                         ← utilidades opcionales/legado
+└── archivo/                       ← documentación pesada retirada (consulta, no activa)
 ```
 
-> 📑 **¿Buscas un archivo concreto?** El [`INDEX.md`](INDEX.md) es el **índice maestro**: lista
-> *cada* archivo del repositorio con una línea de qué es y su enlace.
+> 📑 **¿Buscas un archivo concreto?** El [`INDEX.md`](INDEX.md) es el índice maestro.
 
 ---
 
-## Cómo usar todo esto (3 escenarios)
+## Cómo usar esto
 
 | Si eres… | Empieza en… | Y luego… |
 |---|---|---|
-| **Humano que adopta** el framework en un proyecto | [`GOVERNANCE.md`](GOVERNANCE.md) → [`Checklists/New_Project.md`](Checklists/New_Project.md) | Genera el `CLAUDE.md` ([`Templates/CLAUDE_Template.md`](Templates/CLAUDE_Template.md)) e instala el skill `/obsidian`. |
-| **Agente que va a programar** | [`AI_START_HERE.md`](AI_START_HERE.md) | Consulta a `/obsidian`, lee las reglas de tu capa, cierra con la checklist. |
-| **Experto que documenta** (`/obsidian`) | [`09_AI/Documentation_Expert.md`](09_AI/Documentation_Expert.md) | Mantiene la bóveda del proyecto y el [`INDEX.md`](INDEX.md) del framework. |
-| **Cualquiera buscando algo** | [`INDEX.md`](INDEX.md) | Índice de todo el repo. |
-
----
-
-## Primeros pasos para agentes
-
-1. Comienza **siempre** en [`AI_START_HERE.md`](AI_START_HERE.md).
-2. Lee el nivel de obligatoriedad de cada regla (`Mandatory`, `Standard`, `Guideline`, `Recommendation`).
-3. Antes de cualquier modificación, verifica `.aicodeprotect.yml` en el proyecto.
-4. Sigue la ruta de lectura correspondiente a tu tarea (creación, modificación o documentación).
-5. Cierra siempre con la **checklist** aplicable.
-
-## Primeros pasos para humanos
-
-1. Revisa [`GOVERNANCE.md`](GOVERNANCE.md) para entender la filosofía.
-2. Para incorporar el framework a un proyecto, usa la checklist [`Checklists/New_Project.md`](Checklists/New_Project.md).
-3. Adapta las plantillas de `Templates/` y los ejemplos de `Examples/` a tu stack.
+| **Agente que va a trabajar** | [`AI_START_HERE.md`](AI_START_HERE.md) | Lee los 6 subagentes, el workflow y las 6 reglas duras |
+| **Humano que adopta** el framework | [`GOVERNANCE.md`](GOVERNANCE.md) → [`Checklists/New_Project.md`](Checklists/New_Project.md) | Instala `AGENTS.md` y la bóveda inicial |
+| **Quien arranca un proyecto nuevo** | [`gobernanza/Project_Start.md`](gobernanza/Project_Start.md) | Conversación guiada: visión → alcance → metas → ambiente → agentes → diagramas |
+| **Quien pregunta "¿cómo va?"** | [`gobernanza/Activity_Tracking.md`](gobernanza/Activity_Tracking.md) | La tabla `META | TAREA | ESTADO | FECHA_INI | FECHA_FIN` |
+| **Quien configura subagentes** | [`gobernanza/Subagents.md`](gobernanza/Subagents.md) → [`Templates/Subagent_Template.md`](Templates/Subagent_Template.md) | Fichas con `model`, `language`, `isolated_context` |
+| **Cualquiera buscando algo** | [`INDEX.md`](INDEX.md) | Índice de todo el repo |
 
 ---
 
 ## Cómo incorporar el framework a un proyecto
 
-Hay tres modos soportados (ver [`Checklists/New_Project.md`](Checklists/New_Project.md)):
+Ver [`Checklists/New_Project.md`](Checklists/New_Project.md). Modos soportados:
 
-| Modo | Cuándo usarlo | Comando de referencia |
+| Modo | Cuándo usarlo | Comando |
 |---|---|---|
-| **Submódulo Git** | Quieres recibir actualizaciones del framework | `git submodule add <url> .governance` |
-| **Copia (vendoring)** | Quieres congelar una versión concreta | copiar el árbol a `.governance/` |
-| **Paquete** | Distribución interna versionada | publicar como tarball/registry privado |
+| **Submódulo Git** ⭐ | Caso general | `git submodule add <url> .governance` |
+| **Copia (vendoring)** | Sin acceso a Git remoto | copiar el árbol a `.governance/` |
+| **Framework hermano** | Varios proyectos en un árbol | se descubre con `.governance-root` |
+| **Paquete npm/pnpm** | Proyectos Node | `pnpm add -D <repo>` |
 
-En todos los casos, el proyecto debe tener en su raíz:
-- `.aicodeprotect.yml` (ver [`Examples/.aicodeprotect.yml`](Examples/.aicodeprotect.yml))
-- Una carpeta `docs/` con la bóveda Obsidian (ver [`07_Documentation/Obsidian_Vault_Standard.md`](07_Documentation/Obsidian_Vault_Standard.md))
-- Una carpeta `.github/` con CI, `CODEOWNERS` y la rama `main` protegida (ver [`08_DevOps/Git_GitHub_Standards.md`](08_DevOps/Git_GitHub_Standards.md) y las plantillas de [`Templates/github/`](Templates/github/))
+El proyecto debe tener: `AGENTS.md` (punto de entrada), `.<herramienta>/AGENT_CONTEXT.md`, `docs/00_Proyecto/` y `.aicodeprotect.yml`. Si el proyecto es nuevo, el arranque es la **asistencia inicial** (`gobernanza/Project_Start.md`).
 
 ---
 
 ## Niveles de obligatoriedad
 
-Cada documento declara en su cabecera YAML un campo `obligation`:
+| Nivel | Qué significa |
+|---|---|
+| **`mandatory`** | No se incumple: **las 6 reglas duras** y **módulos protegidos** |
+| **`standard`** | Cúmplelo salvo excepción aprobada |
+| **`guideline` / `recommendation`** | Orientan el diseño; puedes desviarte con justificación |
 
-- **`mandatory`**: no puede incumplirse bajo ninguna circunstancia.
-- **`standard`**: cúmplelo, salvo excepción aprobada explícitamente.
-- **`guideline`**: orienta el diseño; puedes desviarte con justificación.
-- **`recommendation`**: buena práctica, no obligatoria.
+Casi todo el framework es orientación. Lo duro es poco y está en [`gobernanza/Forbidden_Actions.md`](gobernanza/Forbidden_Actions.md).
 
 ---
 
 ## Estado del framework
 
-Versión inicial. Consulta [`CHANGELOG.md`](CHANGELOG.md) para el historial y [`07_Documentation/ADR.md`](07_Documentation/ADR.md) para las decisiones de arquitectura del propio framework.
+Versión actual: consulta [`CHANGELOG.md`](CHANGELOG.md) y [`gobernanza/ADR.md`](gobernanza/ADR.md).

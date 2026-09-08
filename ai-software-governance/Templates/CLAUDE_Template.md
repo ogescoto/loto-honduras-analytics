@@ -3,86 +3,85 @@ template: true
 area: ai-governance
 ---
 
-# Plantilla: CLAUDE.md del proyecto
+# Plantilla: `CLAUDE.md` del proyecto (puntero)
 
-> **Cómo usar:** copia el bloque de abajo a un archivo **`CLAUDE.md` en la raíz del proyecto en desarrollo** (no dentro del framework). Rellena los campos `<...>`. Este archivo es lo PRIMERO que lee un agente; debe ser corto y **redirigir al framework**, no duplicarlo.
+> **⚠️ Esta plantilla cambió.** El punto de entrada de los agentes ya **no** es `CLAUDE.md`,
+> sino [`AGENTS.md`](AGENTS_Template.md) — un archivo único que leen **todas** las herramientas.
+> `CLAUDE.md` pasa a ser un **puntero de una línea**.
 >
-> Nombres equivalentes según la herramienta: `CLAUDE.md` (Claude Code), `AGENTS.md`, `.cursorrules` (Cursor), `.github/copilot-instructions.md` (Copilot). Puedes mantener uno y enlazar los demás a él.
+> Norma: [`../gobernanza/Project_Context_Standard.md`](../gobernanza/Project_Context_Standard.md).
 
 ---
+
+## Qué copiar
+
+A `CLAUDE.md` en la raíz del proyecto:
 
 ```markdown
-# CLAUDE.md — Instrucciones para agentes de IA
-
-Este proyecto se rige por el **AI Software Governance Framework**.
-
-## ⚠️ Antes de hacer NADA
-Lee primero, siempre, el punto de entrada del framework:
-👉 `.governance/ai-software-governance/AI_START_HERE.md`
-
-Allí está la ruta de lectura según tu tarea (creación / modificación / documentación),
-los niveles de obligatoriedad y las reglas de oro.
-
-## Sobre este proyecto
-- **Nombre:** <nombre-del-proyecto>
-- **Propósito:** <qué problema resuelve, 1-2 frases>
-- **Stack:** <lenguaje / framework / BD / servicios externos>
-- **Estado:** <en desarrollo / producción>
-
-## Dónde está cada cosa
-- **Reglas (framework):** `.governance/ai-software-governance/`
-- **Documentación / fuente de verdad (bóveda):** `docs/` — **NO la leas/escribas tú directamente**. Pregunta al Experto Obsidian: `/obsidian <consulta>` (antes) y `/obsidian update <archivos> -- <resumen>` (después).
-- **Módulos protegidos:** `.aicodeprotect.yml` (raíz)
-- **Variables de entorno:** `.env.example`
-- **Comandos del proyecto:** <Makefile / package.json> — `<dev>`, `<test>`, `<migrate>`, `<seed-dev/test>`
-
-## Reglas no negociables (resumen — el detalle está en el framework)
-1. **No escribas código sin una tarea explícita.**
-2. **No modifiques módulos protegidos** (`.aicodeprotect.yml`) sin aprobación humana.
-3. **Toda entidad/caso de uso nuevo lleva seeds `dev_` y `test_`.**
-4. **No dejes el repo con tests en rojo.**
-5. **Ningún secreto en el código.**
-6. **No escribas en `docs/`.** Consulta al Experto Obsidian (`/obsidian`) antes y entrégale los cambios después; él es el único que mantiene la fuente de verdad.
-
-## Flujo de trabajo
-Sigue `.governance/ai-software-governance/09_AI/Agent_Workflow.md`
-y cierra con la checklist correspondiente de `.governance/ai-software-governance/Checklists/`.
-
-## Notas específicas de este proyecto
-- <excepciones aprobadas, particularidades del stack, decisiones locales…>
-- <enlaza ADRs relevantes: docs/02_Arquitectura/adr/…>
+Lee `AGENTS.md` en la raíz. Es el punto de entrada único para todos los agentes.
 ```
+
+Eso es todo. Lo mismo para las demás herramientas:
+
+| Herramienta | Archivo | Contenido |
+|---|---|---|
+| Claude Code | `CLAUDE.md` | el puntero |
+| Cursor | `.cursorrules` | el puntero |
+| Copilot | `.github/copilot-instructions.md` | el puntero |
+| OpenCode / Codex / Whale | leen `AGENTS.md` directamente | — |
 
 ---
 
-## Por qué este archivo va en el proyecto y no en el framework
+## Por qué el cambio
 
-| | Framework (`ai-software-governance/`) | Proyecto (`CLAUDE.md`) |
+| | Antes | Ahora |
 |---|---|---|
-| Contenido | Reglas **genéricas y reutilizables** | Contexto **específico** de esta app |
-| Cambia entre proyectos | No | Sí |
-| Punto de entrada del agente | `AI_START_HERE.md` (genérico) | `CLAUDE.md` (concreto → redirige al framework) |
+| Fuentes de verdad | Una por herramienta | **Una sola** (`AGENTS.md`) |
+| Riesgo de divergencia | Alto — se editan por separado | Ninguno |
+| Herramienta nueva | Escribir otro archivo completo | Un puntero de una línea |
+| Ruta al framework | **Hardcodeada** (`.governance/ai-software-governance/…`) | Declarada en `governance_path` y descubierta dinámicamente |
 
-Meter instrucciones de un proyecto dentro del framework contaminaría algo que debe servir a **todos** los proyectos por igual. Por eso el `CLAUDE.md` vive en la raíz del proyecto y solo **apunta** al framework.
+Ese último punto era un defecto real: la ruta literal solo funcionaba si el framework estaba
+exactamente en `.governance/ai-software-governance/`. Fallaba con submódulo directo, con copia
+en otra ubicación y con el framework compartido entre varios proyectos. Ahora la ruta se
+declara **una vez** en `AGENTS.md` y, si falta, se descubre buscando `.governance-root`
+(ver [`../gobernanza/Framework_Access_Standard.md`](../gobernanza/Framework_Access_Standard.md)).
+
+---
+
+## Dónde va ahora cada cosa
+
+Lo que antes estaba en `CLAUDE.md` se reparte así:
+
+| Contenido | Ahora vive en |
+|---|---|
+| Reglas no negociables, ruta al framework, orden de lectura | `AGENTS.md` |
+| Propósito, visión, alcance del proyecto | `docs/00_Proyecto/` |
+| Stack, módulos, decisiones vigentes | `docs/00_Proyecto/CONTEXTO_GLOBAL.md` |
+| Identidad y capacidades de **tu** herramienta | `.<herramienta>/AGENT_CONTEXT.md` |
 
 ## Estructura resultante en un proyecto
 
 ```
 mi-proyecto/
-├── CLAUDE.md                 ← generado desde esta plantilla
-├── .aicodeprotect.yml        ← desde Examples/.aicodeprotect.yml
-├── .env.example              ← desde Examples/env.example
+├── AGENTS.md                 ← punto de entrada único (normativo)
+├── CLAUDE.md                 ← este puntero
+├── .cursorrules              ← puntero
+├── .aicodeprotect.yml
+├── .governance/              ← el framework (submódulo anclado a un tag)
 ├── .claude/
-│   └── skills/obsidian/      ← skill /obsidian (desde Templates/Obsidian_Skill_Template/)
-├── .governance/
-│   └── ai-software-governance/   ← el framework (submódulo o copia)
-├── docs/                     ← bóveda Obsidian del proyecto (contiene .obsidian/)
+│   ├── AGENT_CONTEXT.md      ← contrato de esta herramienta
+│   └── AGENT_CONFIG.md       ← configuración local (subagentes, modelos)
+├── docs/
+│   ├── 00_Proyecto/          ← VISION · ALCANCE · CONTEXTO_GLOBAL
+│   ├── 07_Implementacion/    ← ACTIVIDAD.md (zona de escritura compartida)
 │   └── .obsidian/
 └── src/
 ```
 
 ## Relacionado
-- [`../AI_START_HERE.md`](../AI_START_HERE.md) — a donde redirige el CLAUDE.md.
-- [`../Checklists/New_Project.md`](../Checklists/New_Project.md) — incluye crear el CLAUDE.md e instalar `/obsidian`.
-- [`../09_AI/Documentation_Expert.md`](../09_AI/Documentation_Expert.md) — el Experto Obsidian.
-- [`../09_AI/Agent_Workflow.md`](../09_AI/Agent_Workflow.md), [`../09_AI/Prompt_Rules.md`](../09_AI/Prompt_Rules.md)
+- [`AGENTS_Template.md`](AGENTS_Template.md) — el punto de entrada real.
+- [`Agent_Contract_Template.md`](Agent_Contract_Template.md) — el contrato por herramienta.
+- [`Project_Context_Template/`](Project_Context_Template/) — `docs/00_Proyecto/`.
+- [`../gobernanza/Framework_Access_Standard.md`](../gobernanza/Framework_Access_Standard.md) — descubrimiento y versionado.
+- [`../Checklists/New_Project.md`](../Checklists/New_Project.md).

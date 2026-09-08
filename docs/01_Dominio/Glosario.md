@@ -1,7 +1,7 @@
 ---
 tipo: dominio
 estado: activo
-actualizado: 2026-06-20
+actualizado: 2026-06-25
 ---
 
 # Glosario — Lenguaje ubicuo
@@ -31,8 +31,10 @@ Vocabulario común del negocio. Estos términos se usan igual en el código, la 
 
 ## Juegos y sorteos
 
-- **Tipo de juego (`game_type`):** `diaria`, `pega3`, `premia2`, `super_premio`.
-- **Sorteo (LotteryDraw):** resultado oficial de un juego, con número de sorteo y números ganadores. Histórico crudo en [[01_Dominio/Entidades#LotteryDraw|lottery_history]].
+- **Tipo de juego (`game_type`):** 13 juegos = 4 familias (`diaria`, `pega3`, `premia2`, `juga3`) × 3 horarios (`11am`, `3pm`, `9pm`) + `super_premio`. El horario es parte de la identidad del juego (p. ej. `diaria_3pm`).
+- **Sorteo (LotteryDraw):** resultado oficial de un juego. Identificado por `sessionId` (clave de la fuente). Sus números se guardan **como texto** (`"00"`, comodines `"JG"`/`"2X"`) junto con los **signos** del imaginario popular (`"00 Avión"`). Histórico crudo en [[01_Dominio/Entidades#LotteryDraw|lottery_history]].
+- **Comodín:** valor no numérico de un sorteo (`"JG"`, `"2X"`, …). No cuenta para la estadística (lo descarta `toNumericTokens`), pero se conserva.
+- **Signo (imaginario popular):** etiqueta tradicional asociada a un número (`"58 Venado"`, `"00 Avión"`); insumo de la numerología.
 
 ## Acceso y cobro
 
@@ -48,4 +50,5 @@ Vocabulario común del negocio. Estos términos se usan igual en el código, la 
 - **Clerk:** empleado de ventanilla; su función principal es **registrar cobros presenciales** (cobra efectivo y emite recibo).
 
 ## Historial de cambios
+- 2026-06-25: 13 juegos con horario; sorteo identificado por `sessionId`; añadidos términos **Comodín** y **Signo**; números como texto.
 - 2026-06-20: creación inicial (adopción del framework).

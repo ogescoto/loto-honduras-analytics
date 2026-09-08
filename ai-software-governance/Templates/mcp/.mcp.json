@@ -1,0 +1,13 @@
+{
+  "$comment": "Config MCP opcional/legado. La entrada obsidian-vault va SIN --enable-write (instancia compartida de consulta); la escritura de la boveda la hace doc-mapper con sus herramientas de archivos (ver Templates/mcp/install.md). Ajusta la ruta del vault: por defecto docs/ del proyecto.",
+  "mcpServers": {
+    "codebase-memory": {
+      "command": "codebase-memory-mcp",
+      "args": []
+    },
+    "obsidian-vault": {
+      "command": "enquire-mcp",
+      "args": ["serve", "--vault", "./docs"]
+    }
+  }
+}

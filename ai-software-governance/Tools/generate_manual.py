@@ -9,8 +9,8 @@ Este script:
      por cada paso, y guarda las imágenes en docs/manual/assets/.
   3. Ensambla una página Markdown por proceso en docs/manual/procesos/.
 
-Estándar: ../07_Documentation/User_Manual_Standard.md
-E2E:      ../06_Testing/E2E_Standards.md
+Estándar: ../gobernanza/User_Manual_Standard.md
+E2E:      ../practicas/E2E_Standards.md
 
 NOTA: script de REFERENCIA. La captura real requiere integrarse con el runner
 de Playwright (p. ej. exportando un JSON de pasos+screenshots desde un reporter

@@ -1,0 +1,96 @@
+---
+import { GAME_LABELS, GAME_FAMILIES } from "../lib/gameLabels.ts";
+import type { GameType } from "@loto/shared-types";
+
+interface Props {
+  /** GameType individual ("diaria_3pm") o clave de familia ("all_diaria") */
+  selectedGame: string;
+  basePath?: string;
+}
+
+const { selectedGame, basePath = "/" } = Astro.props;
+const base = basePath.replace(/\/$/, "");
+---
+
+<!-- ── Selector móvil: <select> nativo ──────────────────────────────── -->
+<div class="mb-5 md:hidden">
+  <label for="game-select" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+    Juego
+  </label>
+  <select
+    id="game-select"
+    class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+    onchange={`location.href='${base}?game='+this.value`}
+  >
+    {GAME_FAMILIES.map((family) => (
+      <optgroup label={family.label}>
+        {family.familyKey && (
+          <option value={family.familyKey} selected={family.familyKey === selectedGame}>
+            ★ Todas las jornadas
+          </option>
+        )}
+        {family.games.map((g) => (
+          <option value={g} selected={g === selectedGame}>
+            {GAME_LABELS[g]}
+          </option>
+        ))}
+      </optgroup>
+    ))}
+  </select>
+</div>
+
+<!-- ── Selector desktop: botones por familia + jornada ──────────────── -->
+<div class="mb-5 hidden md:block">
+  <div class="space-y-2">
+    {GAME_FAMILIES.map((family) => (
+      <div class="flex flex-wrap items-center gap-1.5">
+        <!-- Etiqueta de familia -->
+        <span class="w-[90px] shrink-0 text-xs font-semibold uppercase tracking-wide text-slate-400">
+          {family.label}
+        </span>
+
+        <!-- Botón "Todas" (si la familia tiene más de un juego) -->
+        {family.familyKey && (
+          <a
+            href={`${base}?game=${family.familyKey}`}
+            class:list={[
+              "rounded-full px-3 py-1 text-sm font-medium transition border",
+              family.familyKey === selectedGame
+                ? "bg-brand text-white border-brand shadow-sm"
+                : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100",
+            ]}
+            title={`Ver todas las jornadas de ${family.label}`}
+          >
+            Todas
+          </a>
+        )}
+
+        <!-- Separador visual si hay botón "Todas" -->
+        {family.familyKey && (
+          <span class="text-slate-200 select-none" aria-hidden="true">|</span>
+        )}
+
+        <!-- Botones por jornada -->
+        {family.games.map((g) => {
+          const parts = GAME_LABELS[g].split(" ");
+          const shortTime = parts[parts.length - 1]!;
+          const isActive = g === selectedGame;
+          return (
+            <a
+              href={`${base}?game=${g}`}
+              class:list={[
+                "rounded-full px-3 py-1 text-sm font-medium transition",
+                isActive
+                  ? "bg-brand text-white shadow-sm"
+                  : "bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-brand/50 hover:text-brand",
+              ]}
+              title={GAME_LABELS[g]}
+            >
+              {shortTime}
+            </a>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+</div>

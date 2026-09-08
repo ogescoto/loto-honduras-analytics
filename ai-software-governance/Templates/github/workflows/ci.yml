@@ -1,5 +1,5 @@
 # Plantilla de CI — copiar a .github/workflows/ci.yml
-# Alineada con los gates de 08_DevOps/CI_CD.md. Adapta comandos/versiones a tu stack.
+# Alineada con los gates de practicas/CI_CD.md. Adapta comandos/versiones a tu stack.
 name: ci
 
 on:
@@ -69,4 +69,4 @@ jobs:
         run: npm run test:e2e
 
 # Nota: el secret scanning se activa a nivel de repositorio (GitHub Advanced Security /
-# push protection), no como step. Ver 08_DevOps/Secrets_Management.md.
+# push protection), no como step. Ver practicas/Secrets_Management.md.

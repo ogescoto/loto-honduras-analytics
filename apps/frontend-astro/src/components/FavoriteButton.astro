@@ -1,0 +1,73 @@
+---
+// Botón para marcar/desmarcar un número como favorito.
+// Si el usuario no está autenticado, redirige al registro.
+interface Props {
+  game: string;
+  number: string;
+  isFavorite?: boolean;
+  favoriteId?: string;
+}
+const { game, number, isFavorite = false, favoriteId = "" } = Astro.props;
+---
+
+<button
+  class:list={[
+    "favorite-btn flex h-7 w-7 items-center justify-center rounded-full transition",
+    isFavorite ? "text-amber-500 hover:text-slate-400" : "text-slate-300 hover:text-amber-400",
+  ]}
+  data-game={game}
+  data-number={number}
+  data-favorite-id={favoriteId}
+  data-is-favorite={isFavorite ? "true" : "false"}
+  title={isFavorite ? "Quitar de favoritos" : "Guardar como favorito"}
+  aria-label={isFavorite ? "Quitar de favoritos" : "Guardar como favorito"}
+>
+  <svg class="h-4 w-4" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+  </svg>
+</button>
+
+<script>
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8787";
+
+  document.querySelectorAll<HTMLButtonElement>(".favorite-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const token = document.cookie.match(/loto_token=([^;]+)/)?.[1];
+      if (!token) { window.location.href = "/register"; return; }
+
+      const isFav = btn.dataset.isFavorite === "true";
+      const game = btn.dataset.game!;
+      const number = btn.dataset.number!;
+      const favId = btn.dataset.favoriteId;
+
+      try {
+        if (isFav && favId) {
+          await fetch(`${apiBase}/api/v1/favorites/${favId}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          btn.dataset.isFavorite = "false";
+          btn.dataset.favoriteId = "";
+          btn.classList.remove("text-amber-500", "hover:text-slate-400");
+          btn.classList.add("text-slate-300", "hover:text-amber-400");
+          btn.querySelector("svg")!.setAttribute("fill", "none");
+        } else {
+          const res = await fetch(`${apiBase}/api/v1/favorites`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ game, number }),
+          });
+          const data = await res.json() as { success: boolean; data?: { id: string } };
+          if (data.success && data.data?.id) {
+            btn.dataset.isFavorite = "true";
+            btn.dataset.favoriteId = data.data.id;
+            btn.classList.add("text-amber-500", "hover:text-slate-400");
+            btn.classList.remove("text-slate-300", "hover:text-amber-400");
+            btn.querySelector("svg")!.setAttribute("fill", "currentColor");
+          }
+        }
+      } catch { /* silencioso */ }
+    });
+  });
+</script>

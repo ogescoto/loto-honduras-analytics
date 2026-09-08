@@ -3,7 +3,7 @@
 # Sintaxis: <patrón>  <@usuario | @org/equipo>
 #
 # REGLA DEL FRAMEWORK: todo módulo declarado en .aicodeprotect.yml
-# (ver 09_AI/Protected_Modules.md) DEBE tener owner aquí, para forzar
+# (ver gobernanza/Protected_Modules.md) DEBE tener owner aquí, para forzar
 # review humano antes del merge.
 
 # Owner por defecto de todo el repo (fallback).
@@ -19,5 +19,5 @@
 /infra/**                   @org/devops
 /migrations/**              @org/data-owners
 
-# --- Documentación (la bóveda la mantiene /obsidian) ---
+# --- Documentación (la bóveda la mantiene doc-mapper) ---
 /docs/**                    @org/maintainers

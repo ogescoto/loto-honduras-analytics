@@ -1,0 +1,16 @@
+# Marcador de identidad del framework de gobernanza.
+#
+# Su PRESENCIA es lo que identifica esta carpeta como la raíz del framework.
+# Los agentes lo localizan buscando hacia arriba desde su directorio de trabajo,
+# igual que Obsidian localiza un vault por su carpeta `.obsidian/`.
+#
+# NO borrar ni mover. Sin este archivo, el descubrimiento dinámico falla y los
+# agentes no encuentran las reglas.
+#
+# Norma: 00_Governance/Framework_Access_Standard.md
+
+framework: ai-software-governance
+version: 1.0.0
+entrypoint: AI_START_HERE.md
+index: INDEX.md
+policy_index: gobernanza/Policy_Index.md

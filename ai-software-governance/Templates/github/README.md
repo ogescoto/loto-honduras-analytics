@@ -4,7 +4,7 @@ Archivos listos para copiar a la carpeta `.github/` de cada proyecto que adopte 
 Son **agnósticos de stack**: adáptalos (versiones, comandos, owners) a tu proyecto.
 
 > Política completa que los respalda:
-> [`../../08_DevOps/Git_GitHub_Standards.md`](../../08_DevOps/Git_GitHub_Standards.md).
+> [`../../practicas/Git_GitHub_Standards.md`](../../practicas/Git_GitHub_Standards.md).
 
 ## Qué copiar y a dónde
 

@@ -2,7 +2,7 @@
 # EJEMPLO de .aicodeprotect.yml
 # Copia este archivo a la RAÍZ de tu proyecto y ajústalo.
 # Define las zonas de código que la IA no puede modificar sin aprobación.
-# Documentación: ../09_AI/Protected_Modules.md
+# Documentación: ../gobernanza/Protected_Modules.md
 # =====================================================================
 version: 1
 

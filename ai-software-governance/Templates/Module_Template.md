@@ -60,13 +60,13 @@ protection:
 1. Crear carpetas y `MODULE.yaml`.
 2. Definir la API pública.
 3. Implementar dominio → aplicación → infraestructura → presentación.
-4. Crear seeds `dev_` y `test_` ([`../03_Database/Seeds_Strategy.md`](../03_Database/Seeds_Strategy.md)).
-5. Tests unitarios + integración ([`../06_Testing/Testing_Strategy.md`](../06_Testing/Testing_Strategy.md)).
+4. Crear seeds `dev_` y `test_` ([`../practicas/Seeds_Strategy.md`](../practicas/Seeds_Strategy.md)).
+5. Tests unitarios + integración ([`../practicas/Testing_Strategy.md`](../practicas/Testing_Strategy.md)).
 6. Crear la nota del módulo en `docs/04_Modulos/` con [`Obsidian_Note_Template.md`](Obsidian_Note_Template.md).
 7. Enlazar en `docs/00_MAPA_DE_CONTENIDOS.md`.
 8. Registrar en `.aicodeprotect.yml` si procede.
 9. Completar [`../Checklists/New_Module.md`](../Checklists/New_Module.md).
 
 ## Relacionado
-- [`../01_Architecture/Module_Organization.md`](../01_Architecture/Module_Organization.md)
+- [`../practicas/Module_Organization.md`](../practicas/Module_Organization.md)
 - [`Entity_Template.md`](Entity_Template.md)

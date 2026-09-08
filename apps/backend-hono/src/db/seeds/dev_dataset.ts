@@ -11,8 +11,20 @@ import {
   gamePatterns,
   metaPatterns,
 } from "../schema.js";
+import { loadHistoricalDraws } from "./import-raw.js";
+import { computePatternsForGame } from "../../patterns/compute.js";
+import type { GameType } from "@loto/shared-types";
 
-const GAMES = ["diaria", "pega3", "premia2", "super_premio"] as const;
+const ALL_GAMES: GameType[] = [
+  "diaria_11am", "diaria_3pm", "diaria_9pm",
+  "pega3_11am", "pega3_3pm", "pega3_9pm",
+  "premia2_11am", "premia2_3pm", "premia2_9pm",
+  "juga3_11am", "juga3_3pm", "juga3_9pm",
+  "super_premio",
+];
+
+/** Inserta en lotes para no exceder el límite de parámetros del driver. */
+const INSERT_BATCH = 500;
 
 export async function seedDevelopment(db: Database): Promise<void> {
   faker.seed(42); // reproducible aunque sea "realista"
@@ -61,40 +73,21 @@ export async function seedDevelopment(db: Database): Promise<void> {
 
   void clerk; // disponible para escenarios de cobro presencial.
 
-  // Histórico de sorteos.
-  await db.insert(lotteryHistory).values(
-    Array.from({ length: 60 }, (_, i) => ({
-      game: faker.helpers.arrayElement(GAMES),
-      drawNumber: 10_000 + i,
-      winningNumbers: [faker.number.int({ min: 0, max: 99 })],
-      drawTimestamp: faker.date.recent({ days: 90 }),
-    })),
-  );
+  // Histórico de sorteos REAL (Data/raw/*.json), mapeado por siteGameId.
+  const draws = loadHistoricalDraws();
+  for (let i = 0; i < draws.length; i += INSERT_BATCH) {
+    await db.insert(lotteryHistory).values(draws.slice(i, i + INSERT_BATCH));
+  }
+  console.log(`  · ${draws.length} sorteos históricos cargados.`);
 
-  // Patrones de primer nivel.
-  const patterns = await db
-    .insert(gamePatterns)
-    .values([
-      {
-        patternType: "frio_caliente",
-        game: "diaria",
-        targetNumbers: [24, 8, 17],
-        metadata: { window: "30d", appearancePct: 0.62 },
-      },
-      {
-        patternType: "numerologia_suenos",
-        game: "diaria",
-        targetNumbers: [24],
-        metadata: { sueno: "fuego", mapping: "tradicional_hn" },
-      },
-    ])
-    .returning();
-
-  // Meta-patrón cruzado (premium).
-  await db.insert(metaPatterns).values({
-    parentPatternIds: patterns.map((p) => p.id),
-    description:
-      "Coincidencia psico-estadística: número caliente (24) que coincide con sueño 'fuego'.",
-    crossData: { confidenceScore: "94.2%", targetNumbers: [24, 8] },
-  });
+  // Calcular patrones reales para los 13 juegos con el motor estadístico.
+  let totalPatterns = 0;
+  let totalMeta = 0;
+  for (const game of ALL_GAMES) {
+    const result = await computePatternsForGame(db, game, []);
+    totalPatterns += result.patternsCreated;
+    totalMeta += result.metaPatternsCreated;
+    console.log(`  · ${game}: ${result.patternsCreated} patrones, ${result.metaPatternsCreated} meta-patrones`);
+  }
+  console.log(`  · Total: ${totalPatterns} patrones + ${totalMeta} meta-patrones`);
 }
