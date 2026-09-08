@@ -180,6 +180,7 @@ const GAMES = [
               <h2 class="font-semibold text-slate-800">Seleccionados</h2>
               <span id="sel-count" class="text-xs font-medium text-brand">0/7</span>
             </div>
+            <div id="sel-coverage" class="mb-2 hidden"></div>
             <div id="chips-list" class="min-h-[120px] space-y-2">
               <!-- Se rellena con JS -->
             </div>
@@ -315,6 +316,7 @@ const GAMES = [
     const chipsEmpty = document.getElementById("chips-empty") as HTMLElement | null;
     const catalogCount = document.getElementById("catalog-count") as HTMLElement | null;
     const selCount = document.getElementById("sel-count") as HTMLElement | null;
+    const selCoverage = document.getElementById("sel-coverage") as HTMLElement | null;
     const patternName = document.getElementById("pattern-name") as HTMLInputElement | null;
     const btnSave = document.getElementById("btn-save") as HTMLButtonElement | null;
     const btnEvalSel = document.getElementById("btn-eval-sel") as HTMLButtonElement | null;
@@ -346,6 +348,41 @@ const GAMES = [
       if (btnSave) btnSave.disabled = n === 0;
       if (btnEvalSel) btnEvalSel.disabled = n === 0;
       if (selCount) selCount.textContent = `${n}/7`;
+      updateCoverage();
+    }
+
+    // ── Margen de previsión de la combinación (cobertura sobre 100 números) ──
+    let coverageTimer = null;
+    async function updateCoverage() {
+      if (!selCoverage) return;
+      const feats = [...selectedFeatures];
+      if (feats.length === 0) { selCoverage.classList.add("hidden"); return; }
+      selCoverage.classList.remove("hidden");
+      selCoverage.innerHTML = '<span class="text-xs text-slate-400">Midiendo margen…</span>';
+      clearTimeout(coverageTimer);
+      coverageTimer = setTimeout(async () => {
+        try {
+          const res = await fetch(`${API_BASE}/api/v1/features/${currentGame}/coverage`, {
+            method: "POST", headers: headers(true),
+            body: JSON.stringify({ features: feats }),
+          });
+          const data = await res.json();
+          if (!data.success) return;
+          const d = data.data;
+          const cls = d.coveragePct >= 80 ? "bg-red-100 text-red-700"
+            : d.coveragePct >= 50 ? "bg-amber-100 text-amber-700"
+            : d.coveragePct >= 20 ? "bg-yellow-100 text-yellow-700"
+            : "bg-emerald-100 text-emerald-700";
+          selCoverage.innerHTML = `
+            <div class="rounded-lg border p-2 ${d.coveragePct >= 50 ? "border-red-200 bg-red-50" : "border-teal-200 bg-teal-50"}">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-medium text-slate-700">Margen de previsión</span>
+                <span class="rounded-full px-2 py-0.5 text-[10px] font-semibold ${cls}">cubre ${d.coveredCount}/100 (${d.coveragePct}%)</span>
+              </div>
+              <p class="mt-1 text-[11px] text-slate-500">${d.verdict}</p>
+            </div>`;
+        } catch { selCoverage.innerHTML = ""; }
+      }, 250);
     }
 
     // Panel izquierdo: TODOS los patrones como filas compactas.

@@ -496,20 +496,8 @@ featuresRoutes.get("/:game/guide", async (c) => {
     return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
 
   const db = c.get("db");
-  const cached = await db
-    .select()
-    .from(numberStates)
-    .where(eq(numberStates.game, game))
-    .orderBy(numberStates.number);
-
-  type FeatRow = { features: Record<string, boolean> };
-  let rows: FeatRow[];
-  if (cached.length === 100) {
-    rows = cached as unknown as FeatRow[];
-  } else {
-    const states = await _computeForGame(db, game);
-    rows = states.map((s) => ({ features: s.features as unknown as Record<string, boolean> }));
-  }
+  const rows = await _loadFeatureRows(db, game);
+  const evaluated = rows.length > 0 ? rows.length : 100;
 
   const coverage: Record<string, number> = {};
   for (const r of rows) {
@@ -518,16 +506,10 @@ featuresRoutes.get("/:game/guide", async (c) => {
       if (feats[code]) coverage[code] = (coverage[code] ?? 0) + 1;
     }
   }
-  const evaluated = rows.length > 0 ? rows.length : 100;
 
   const guide = ALL_FEATURES.map((code) => {
     const count = coverage[code] ?? 0;
     const pct = Math.round((count / evaluated) * 100);
-    // Veredicto según selectividad sobre 100 números.
-    let verdict = "selectivo";
-    if (pct >= 80) verdict = "poco informativo: cubre casi todos los números";
-    else if (pct >= 50) verdict = "baja selectividad: activo en la mayoría";
-    else if (pct >= 20) verdict = "selectividad media";
     return {
       code,
       label: FEATURE_LABELS[code],
@@ -540,11 +522,47 @@ featuresRoutes.get("/:game/guide", async (c) => {
       example: FEATURE_GUIDE[code].example,
       coverageCount: count,
       coveragePct: pct,
-      verdict,
+      verdict: _verdictForPct(pct),
     };
   });
 
   return c.json({ success: true, data: { game, evaluated, patterns: guide } });
+});
+
+// POST /api/v1/features/:game/coverage — margen de previsión de una COMBINACIÓN:
+// cuántos de los 100 números cumplen hoy TODOS los patrones seleccionados.
+// Body: { features: FeatureCode[] (1-7) }
+featuresRoutes.post("/:game/coverage", async (c) => {
+  const game = c.req.param("game") as GameType;
+  if (!ALL_GAME_TYPES.has(game))
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: `Juego inválido: "${game}".` } }, 400);
+
+  const body = (await c.req.json().catch(() => null)) as { features?: string[] } | null;
+  const features = (body?.features ?? []).filter((f) => ALL_FEATURES.includes(f as FeatureCode));
+  if (features.length === 0)
+    return c.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Se requiere al menos una característica." } }, 400);
+
+  const db = c.get("db");
+  const rows = await _loadFeatureRows(db, game);
+  const evaluated = rows.length > 0 ? rows.length : 100;
+
+  const feats = new Set(features as FeatureCode[]);
+  let count = 0;
+  for (const r of rows) {
+    if (features.every((f) => r.features[f])) count++;
+  }
+  const pct = Math.round((count / evaluated) * 100);
+
+  return c.json({
+    success: true,
+    data: {
+      game,
+      features: features as FeatureCode[],
+      coveredCount: count,
+      coveragePct: pct,
+      verdict: _verdictForPct(pct),
+    },
+  });
 });
 
 // POST /api/v1/features/:game/refresh — recalcula y persiste (llamado por ingest)
@@ -559,6 +577,28 @@ featuresRoutes.post("/:game/refresh", async (c) => {
 });
 
 // ─── helpers ────────────────────────────────────────────────────────────────
+
+type FeatRow = { features: Record<string, boolean> };
+
+/** Carga las features de los 100 números de un juego (cache o cálculo en vivo). */
+async function _loadFeatureRows(db: Database, game: GameType): Promise<FeatRow[]> {
+  const cached = await db
+    .select()
+    .from(numberStates)
+    .where(eq(numberStates.game, game))
+    .orderBy(numberStates.number);
+  if (cached.length === 100) return cached as unknown as FeatRow[];
+  const states = await _computeForGame(db, game);
+  return states.map((s) => ({ features: s.features as unknown as Record<string, boolean> }));
+}
+
+/** Veredicto de selectividad según el % de números cubiertos. */
+function _verdictForPct(pct: number): string {
+  if (pct >= 80) return "poco informativo: cubre casi todos los números";
+  if (pct >= 50) return "baja selectividad: activo en la mayoría";
+  if (pct >= 20) return "selectividad media";
+  return "selectivo";
+}
 
 async function _computeForGame(db: Database, game: GameType) {
   // Familia completa (todas las jornadas del mismo tipo) para patrones inter-jornada.
