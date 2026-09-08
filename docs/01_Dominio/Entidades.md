@@ -108,14 +108,40 @@ Combinación de patrones del [[04_Modulos/Patrones|constructor personal]] guarda
 - Restricción `UNIQUE(userId, name)`.
 - CRUD en `/api/v1/saved-patterns` (requiere auth).
 
+## AppSetting (`app_settings`)
+Ajustes clave→valor de la aplicación, configurables desde **Admin** (migración `0007`).
+- Clave `plans` → `{ showPaidPlan: boolean, paidLabel, paidAmountHnl, trialDays }`.
+- `showPaidPlan` controla el **tiempo de gracia**: si `false`, el plan de pago se oculta en `/premium` (solo trial).
+
+## PaymentReceipt (`payment_receipts`)
+Recibo de pago compartido por el usuario (plan pagado no-Stripe) (migración `0007`).
+
+| Campo | Tipo | Notas |
+|---|---|---|
+| `id` | uuid | PK |
+| `userId` | uuid | FK → User |
+| `email` | text | correo del usuario |
+| `name` | text? | nombre mostrado |
+| `method` | text | `cash` \| `bank` \| `transfer` (def. cash) |
+| `amount` | integer? | en Lempiras |
+| `reference` | text? | Nº de recibo/comprobante |
+| `note` | text? | nota opcional |
+| `status` | text | `pending` \| `confirmed` \| `rejected` (def. pending); índice |
+| `createdAt` | timestamp | def. ahora |
+
+- Al crearse, el sistema **notifica por email a `soporte@oged-solutions.com`** (Brevo).
+- `confirm` crea una [[#Subscription|Subscription]] `cash_presencial` de 30 días.
+
 ## Mapa de relaciones (resumen)
 - `User 1—N Subscription` (titular) y `User 1—N Subscription` (registrador presencial).
 - `LotteryDraw` alimenta el cálculo de `GamePattern` (no hay FK formal: el cálculo es analítico).
 - `MetaPattern N—M GamePattern` vía `parentPatternIds`.
 - `IngestionEvent N—1 DrawSource` (opcional, `sourceId`).
 - `User 1—N UserFavorite` (números guardados) y `User 1—N UserSavedPattern` (combinaciones del constructor).
+- `User 1—N PaymentReceipt` (recibos de pago compartidos).
 
 ## Historial de cambios
+- 2026-09-05: añadidos `app_settings` y `payment_receipts` (migración `0007_boring_talos`).
 - 2026-09-05: añadidos `UserFavorite.position` y `UserSavedPattern` (migración `0006_overrated_peter_parker`).
 - 2026-09-05: añadidos `payment_method.trial`, entidades `DrawSource` e `IngestionEvent` (migración `0005_ingestion_events`).
 - 2026-06-25: **modelo rediseñado a los datos reales.** `game_type` pasa de 4 a 13 juegos. `LotteryDraw`/`lottery_history`: fuera `drawNumber`/`winningNumbers`/`drawTimestamp`; entran `sessionId` (único, idempotencia), `numbers` (text[]), `signs` (text[]), `drawDate`. Migración `0001_redesign_lottery_history`. Ver [[02_Arquitectura/adr/0005-ingestion-github-actions-webshare|ADR-0005]].

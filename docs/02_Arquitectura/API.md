@@ -123,6 +123,30 @@ Lista eventos de ingestión para el panel admin. Ver [[04_Modulos/Admin_Logs|mó
 - **Respuesta `200`:** `{ "success": true, "data": [{ "id", "level", "message", "game", "meta", "createdAt", "sourceId", "sourceName" }] }` ordenado por `createdAt` desc.
 - **Errores:** `401 UNAUTHENTICATED`, `403 FORBIDDEN`.
 
+## GET /api/v1/settings/plans
+Visibilidad de planes (tiempo de gracia). Código: `apps/backend-hono/src/routes/settings.ts`.
+- **Acceso:** público.
+- **Respuesta `200`:** `{ "success": true, "data": { showPaidPlan: boolean, trialDays: number, paid: { label, amount, currency } } }`.
+
+## POST /api/v1/payments/receipt
+El usuario comparte su recibo de pago (plan pagado en efectivo/banca). Código: `apps/backend-hono/src/payments/receipts.ts`.
+- **Acceso:** `requireAuth`.
+- **Request body:** `{ "method": "cash"|"bank"|"transfer", "reference": string (obligatorio), "amount"?: number, "note"?: string }`.
+- **Comportamiento:** guarda en `payment_receipts` (`status=pending`) y **notifica por email a `soporte@oged-solutions.com`** (Brevo, best-effort).
+- **Respuesta `201`:** `{ "success": true, "data": { id, status } }`.
+
+## GET /api/v1/admin/settings/plans · PATCH /api/v1/admin/settings/plans
+Lee / cambia la configuración de planes (admin). `PATCH` body `{ showPaidPlan?: boolean, paidLabel?, paidAmountHnl?, trialDays? }`.
+
+## GET /api/v1/admin/receipts
+Lista recibos de pago compartidos (admin). `status`: `pending | confirmed | rejected`.
+
+## PATCH /api/v1/admin/receipts/:id/confirm
+Confirma el recibo y **activa el plan** (suscripción `cash_presencial` de 30 días). Requiere admin.
+
+## PATCH /api/v1/admin/receipts/:id/reject
+Rechaza el recibo.
+
 ## GET /api/v1/history
 Historial de sorteos. Ver [[04_Modulos/Frontend|Frontend]]. Código: `apps/backend-hono/src/routes/history.ts`.
 - **Acceso:** público.
@@ -194,6 +218,7 @@ Elimina la combinación del usuario.
 - **Acceso:** `requireAuth`. **Respuestas:** `200`; `404 NOT_FOUND`.
 
 ## Historial de cambios
+- 2026-09-05: documentados `/settings/plans`, `POST /payments/receipt` y `admin/settings/plans` + `admin/receipts` (recibos de pago con notificación a soporte).
 - 2026-09-05: documentado `POST /api/v1/features/:game/coverage` (margen de previsión de una combinación).
 - 2026-09-05: documentado `POST /api/v1/features/:game/analytics`; nota de que `top-combos` descarta clasificaciones repetidas.
 - 2026-09-05: `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION` si se combinan patrones de la misma clasificación (`category`). `/catalog` expone `category` y `scope`.
