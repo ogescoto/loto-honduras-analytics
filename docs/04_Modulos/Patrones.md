@@ -57,8 +57,8 @@ Lógica de cálculo en `apps/backend-hono/src/patterns/`:
 - Se recalcula en background tras cada ingestión (`ingest.ts` → `ctx.waitUntil(computePatternsForGame(...))`).
 
 ### Clasificación excluyente por tipo de cálculo
-Cada patrón tiene una **`category`** (tipo de cálculo): `decena`, `docena`, `terminacion`, `paridad`, `multiplicidad`, `anatomia`, `complemento`, `recencia`, `frecuencia`, `ecos`, `desequilibrio`, `imaginario`, `jornada` o `none`.
-**No se puede combinar dos patrones de la misma categoría** (ej. dos `decena`), para evitar que una combinación redoble el mismo criterio. `findExclusiveConflict()` valida esto y las rutas `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION`. El constructor de `/premium` muestra la categoría como badge y marca "ocupada" las de la misma clase ya seleccionada. `/catalog` expone `category` y `scope`, y `/configuracion` la muestra en "Cómo está hecho".
+Cada patrón tiene una **`category`** (tipo de cálculo): `rango` (decenas y docenas comparten clasificación — ambas agrupan por rango numérico), `terminacion`, `paridad`, `multiplicidad`, `anatomia`, `complemento`, `recencia`, `frecuencia`, `ecos`, `desequilibrio`, `imaginario`, `jornada` o `none`.
+**No se puede combinar dos patrones de la misma categoría** (ej. dos `rango`, incluyendo una `decena` con una `docena` — son el mismo criterio de agrupación), para evitar que una combinación redoble el mismo criterio. `findExclusiveConflict()` valida esto y las rutas `/filter`, `/hits` y `/saved-patterns` devuelven `400 INCOMPATIBLE_COMBINATION`. El constructor de `/premium` muestra la categoría como badge y marca "ocupada" las de la misma clase ya seleccionada. `/catalog` expone `category` y `scope`, y `/configuracion` la muestra en "Cómo está hecho".
 - **`top-combos` también descarta combinaciones con clasificación repetida** (`hasDuplicatedCategory`) para que el porcentaje no se infle por redundancia (ej. dos `decena`), aunque los patrones sean de distintas bloques/ventanas.
 
 ## Entidades principales
@@ -83,6 +83,7 @@ Cada patrón tiene una **`category`** (tipo de cálculo): `decena`, `docena`, `t
 - Falta el **disparador programado** independiente que ejecute `computePatternsForGame` periódicamente (hoy se recalcula en background tras cada ingestión).
 
 ## Historial de cambios
+- 2026-09-05: **decena y docena unificadas** en la clasificación `rango` (mismo criterio de agrupación por rango); no se combinan entre sí.
 - 2026-09-05: `top-combos` **descarta combinaciones con clasificación repetida** (evita % inflado).
 - 2026-09-05: **clasificación excluyente** por tipo de cálculo (`category` + `findExclusiveConflict`) — no se combinan dos de la misma clase; `INCOMPATIBLE_COMBINATION`.
 - 2026-09-05: detalle "cómo está hecho" por patrón y **alcance familia vs juego** (`FEATURE_META` en `/config` y en `/configuracion`).
